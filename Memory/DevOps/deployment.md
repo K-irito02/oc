@@ -1,6 +1,6 @@
 # 部署与运维记忆
 
-> 最后更新: 2026-02-27
+> 最后更新: 2026-02-28
 
 ## 开发环境
 
@@ -12,6 +12,8 @@
 | 前端开发 | 5173 | Vite 开发服务器（可能自动切换到5174） |
 | PostgreSQL | 5433 | Docker 容器（映射 5433→5432） |
 | Redis | 6380 | Docker 容器（映射 6380→6379） |
+| MinIO | 9000 | 对象存储服务 |
+| MinIO Console | 9001 | 对象存储管理界面 |
 
 ### 本地环境版本
 
@@ -43,12 +45,14 @@ docker ps  # 确认 qt-dev-postgres 和 qt-dev-redis 运行中
 仅启动依赖服务，应用在 IDE 中运行：
 - **postgres**: PostgreSQL 15-alpine, 端口 5433（映射 5433→5432）, 数据卷持久化, 自动执行 init.sql
 - **redis**: Redis 7-alpine, 端口 6380（映射 6380→6379）, appendonly, maxmemory 128mb
+- **minio**: MinIO Latest, 端口 9000（映射 9000→9000）, 端口 9001（映射 9001→9001）, 对象存储服务
 
 ### 生产环境 (`docker-compose.yml`)
 
 全栈部署：
 - **postgres**: PostgreSQL 15-alpine
 - **redis**: Redis 7-alpine
+- **minio**: MinIO Latest
 - **backend**: Spring Boot 多阶段构建 (Dockerfile)
 - **frontend**: React 构建 + Nginx (Dockerfile in qt-platform-web)
 
@@ -112,6 +116,13 @@ GITHUB_REDIRECT_URI=http://localhost:5173/oauth/github/callback
 # Storage
 UPLOAD_PATH=./uploads
 MAX_FILE_SIZE=1073741824
+
+# MinIO
+MINIO_ENDPOINT=http://localhost:9000
+MINIO_ACCESS_KEY=minioadmin
+MINIO_SECRET_KEY=minioadmin
+MINIO_BUCKET_PRODUCTS=qt-products
+MINIO_BUCKET_AVATARS=qt-avatars
 ```
 
 ## Nginx 配置
@@ -120,6 +131,40 @@ MAX_FILE_SIZE=1073741824
 - 静态资源: 前端 build 产物
 - SSL 终止（生产环境）
 - 限流配置
+
+## Git 仓库管理
+
+### 仓库分离策略
+
+#### 1. 项目环境状态仓库 (E:\oc)
+- **仓库路径**: `E:/oc/`
+- **远程地址**: `https://github.com/K-irito02/oc.git`
+- **主要用途**: 保存 AI 配置、规则、技能、工作流和项目记忆
+- **分支策略**: 简化的单分支或双分支模式
+- **文件大小**: 优化后约 2.64MB
+
+#### 2. 项目代码仓库 (E:\oc\qt-platform)
+- **仓库路径**: `E:/oc/qt-platform/`
+- **主要用途**: 保存前后端代码、数据库脚本、部署配置
+- **分支策略**: 完整的 GitFlow 工作流
+
+### Git 配置优化
+
+#### 代理环境配置
+```bash
+# 推荐配置（解决 HTTP 408 超时问题）
+git config --global http.version HTTP/1.1
+git config --global http.postBuffer 524288000
+git config --global http.lowSpeedLimit 0
+git config --global http.lowSpeedTime 999999
+```
+
+#### 大文件清理
+```bash
+# 从历史中移除大文件
+git filter-branch --force --index-filter 'git rm --cached --ignore-unmatch "大文件路径"' --prune-empty --tag-name-filter cat -- --all
+git gc --aggressive --prune=now
+```
 
 ## 目标部署平台
 
