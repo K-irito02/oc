@@ -51,6 +51,17 @@ Front-end testing/**/*.mp4
 Front-end testing/**/*.avi
 Front-end testing/**/*.mov
 Front-end testing/**/*.mkv
+Front-end testing/**/*.exe
+Front-end testing/**/*.zip
+Front-end testing/**/*.tar.gz
+Front-end testing/**/*.rar
+Front-end testing/**/*.7z
+Front-end testing/**/*.jpeg
+Front-end testing/**/*.jpg
+Front-end testing/**/*.png
+Front-end testing/**/*.gif
+Front-end testing/**/*.bmp
+Front-end testing/**/*.webp
 
 # Maven
 .mvn/
