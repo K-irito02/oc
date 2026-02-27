@@ -1,6 +1,9 @@
 ---
-alwaysApply: true
+description: 前端代码规范
+scope: project
+trigger: always_on
 ---
+
 # 前端代码规范
 
 ## 代码规范
@@ -114,3 +117,10 @@ alwaysApply: true
 - 集成测试关键用户流程
 - 快照测试 UI 组件
 - 可访问性测试
+
+## 环境配置
+
+- **开发端口**: 5173（可能自动切换到5174）
+- **后端API**: http://localhost:8081/api/v1
+- **构建工具**: Vite 5.x
+- **代理配置**: Vite代理 /api → http://localhost:8081

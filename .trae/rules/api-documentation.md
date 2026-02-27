@@ -1,6 +1,9 @@
 ---
-alwaysApply: true
+description: API 文档规范
+scope: project
+trigger: always_on
 ---
+
 # API 文档规范
 
 ## 文档生成
@@ -13,7 +16,7 @@ alwaysApply: true
 
 ## 访问地址
 
-- **开发环境**: `/swagger-ui.html`
+- **开发环境**: `http://localhost:8081/swagger-ui.html`
 - **测试环境**: `/swagger-ui.html`
 - **生产环境**: 关闭 Swagger UI
 
@@ -145,8 +148,8 @@ springdoc:
 
 ### 导出地址
 
-- OpenAPI JSON: `/v3/api-docs`
-- OpenAPI YAML: `/v3/api-docs.yaml`
+- OpenAPI JSON: `http://localhost:8081/v3/api-docs`
+- OpenAPI YAML: `http://localhost:8081/v3/api-docs.yaml`
 
 ## 最佳实践
 

@@ -1,6 +1,9 @@
 ---
-alwaysApply: true
+description: 后端代码规范
+scope: project
+trigger: always_on
 ---
+
 # 后端代码规范
 
 ## 静态分析
@@ -74,5 +77,12 @@ alwaysApply: true
 
 - 数据库查询避免 N+1 问题
 - 合理使用缓存 @Cacheable
-- 异步处理使用 @Async
+- 异步处理使用 @Async（阶段一替代消息队列）
 - 避免在循环中进行数据库操作
+
+## 环境配置
+
+- **开发端口**: 8081（避免与Apache httpd 8080冲突）
+- **数据库**: PostgreSQL 15.x (Docker映射端口5433→5432)
+- **缓存**: Redis 7.x (Docker映射端口6380→6379)
+- **邮件服务**: QQ邮箱SMTP配置

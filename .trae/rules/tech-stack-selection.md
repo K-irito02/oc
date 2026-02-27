@@ -1,6 +1,9 @@
 ---
-alwaysApply: true
+description: 技术栈选型规范
+scope: project
+trigger: always_on
 ---
+
 # 技术栈选型规范
 
 ## 阶段一技术栈
@@ -22,8 +25,8 @@ alwaysApply: true
 
 | 层次 | 技术选型 | 版本 | 说明 |
 |------|---------|------|------|
-| **后端框架** | Spring Boot | 3.2.x | Java 17 LTS |
-| **ORM** | MyBatis-Plus + Spring Data JPA | 混合 | 复杂 SQL 用 MyBatis，简单 CRUD 用 JPA |
+| **后端框架** | Spring Boot | 3.2.12 | Java 17 LTS |
+| **ORM** | MyBatis-Plus | 3.5.x | 复杂 SQL 用 MyBatis，简单 CRUD 用 MyBatis-Plus |
 | **安全** | Spring Security | 6.2.x | JWT + RBAC |
 | **API 文档** | SpringDoc OpenAPI | 2.x | Swagger UI 自动生成 |
 | **校验** | Bean Validation (Hibernate Validator) | 3.x | 参数校验 |
@@ -35,11 +38,23 @@ alwaysApply: true
 |------|---------|------|------|
 | **主数据库** | PostgreSQL | 15.x | JSONB + 全文检索 + 表分区 |
 | **缓存** | Redis | 7.x | 单机模式（MVP 阶段） |
+| **对象存储** | MinIO | Latest | 图片/视频/文件存储 |
 | **容器化** | Docker + Docker Compose | — | 本地开发 + 生产部署 |
 | **反向代理** | Nginx | alpine | SSL 终止 + 静态资源 + 限流 |
 | **CI/CD** | GitHub Actions | — | 自动构建/测试/部署 |
 | **监控** | Spring Boot Actuator + Prometheus + Grafana | — | 基础指标采集 |
 | **日志** | Logback + JSON 格式 | — | 阶段一用文件日志，阶段二接入 ELK |
+
+### 开发环境端口
+
+| 服务 | 端口 | 映射 | 说明 |
+|------|------|------|------|
+| **后端 API** | 8081 | — | Spring Boot 应用 |
+| **前端开发** | 5173 | — | Vite 开发服务器（可能自动切换到5174） |
+| **PostgreSQL** | 5433 | 5433→5432 | Docker 映射端口 |
+| **Redis** | 6380 | 6380→6379 | Docker 映射端口 |
+| **MinIO** | 9000 | 9000→9000 | 对象存储服务 |
+| **MinIO Console** | 9001 | 9001→9001 | 对象存储管理界面 |
 
 ## 技术选型原则
 

@@ -1,30 +1,37 @@
 ---
-alwaysApply: true
+description: 开发环境搭建说明
+scope: project
+trigger: always_on
 ---
+
 # 开发环境搭建说明
 
 ## 软件安装清单
 
 | 软件 | 版本 | 安装方式 | 用途 |
 |------|------|---------|------|
-| **JDK** | OpenJDK 21 (Temurin) | [adoptium.net](https://adoptium.net) | 后端运行环境 |
+| **JDK** | OpenJDK 17.0.15 (Temurin) | [adoptium.net](https://adoptium.net) | 后端运行环境 |
 | **Node.js** | 22.x LTS | nvm-windows 管理 | 前端运行环境 |
 | **Docker Desktop** | Latest | 官网安装，启用 WSL2 | 容器化开发 |
+| **Postman** | Latest | 官网安装 | API 调试 |
+| **MinIO** | Latest | 官网安装 | 对象存储服务 |
 | **Git** | Latest | 官网安装 | 版本控制 |
 | **IntelliJ IDEA** | Ultimate (推荐) | JetBrains | 后端 IDE |
-| **Postman** | Latest | 官网安装 | API 调试 |
 
 ## 端口配置
 
 | 服务 | 端口 | 说明 |
 |------|------|------|
 | **后端 API** | 8081 | Spring Boot 应用 |
-| **前端开发** | 5173 | Vite 开发服务器 |
-| **PostgreSQL** | 5432 | 数据库服务 |
-| **Redis** | 6379 | 缓存服务 |
+| **前端开发** | 5173 | Vite 开发服务器（可能自动切换到5174） |
+| **PostgreSQL** | 5433 | 数据库服务（Docker映射：5433→5432） |
+| **Redis** | 6380 | 缓存服务（Docker映射：6380→6379） |
+| **MinIO** | 9000 | 对象存储服务 |
+| **MinIO Console** | 9001 | 对象存储管理界面 |
 | **Nginx** | 80 | 反向代理（生产） |
 
 > **注意**: 本机 Apache httpd 占用 8080 端口，后端改用 8081
+> **Docker端口映射**: PostgreSQL 5433→5432, Redis 6380→6379
 
 ## 开发工具配置
 

@@ -2,8 +2,10 @@
 name: qt-platform-manager
 description: |
   Qt Platform 项目自动化管理技能 - 统一管理开发环境启动、停止和状态检查
-  包括 Docker 依赖服务 (PostgreSQL + Redis)、Spring Boot 后端服务、Vite 前端开发服务器
+  包括 Docker 依赖服务 (PostgreSQL + Redis + MinIO)、Spring Boot 后端服务、Vite 前端开发服务器
   支持智能端口检测、自动编译判断和故障排查
+version: 1.1.0
+last_updated: 2026-02-28
 ---
 
 # Qt Platform 项目管理技能
@@ -13,7 +15,7 @@ description: |
 ## 概述
 
 本技能用于管理 Qt Platform 项目的启动和停止，包括：
-- Docker 依赖服务 (PostgreSQL + Redis)
+- Docker 依赖服务 (PostgreSQL + Redis + MinIO)
 - Spring Boot 后端服务
 - Vite 前端开发服务器
 
@@ -53,11 +55,12 @@ docker compose -f docker-compose.dev.yml up -d
 Start-Sleep -Seconds 5; docker compose -f docker-compose.dev.yml ps
 ```
 
-确认 `qt-dev-postgres` 和 `qt-dev-redis` 状态为 healthy。
+确认 `qt-dev-postgres`、`qt-dev-redis` 和 `qt-dev-minio` 状态为 healthy。
 
 **服务信息：**
 - PostgreSQL: localhost:5433, 用户 qt_user, 密码 3143285505
 - Redis: localhost:6380, 密码 3143285505
+- MinIO: localhost:9000 (API), localhost:9001 (Console)
 
 ### 3. 检查种子数据
 
@@ -118,7 +121,22 @@ java -jar qt-platform-app\target\qt-platform-app-1.0.0-SNAPSHOT.jar --spring.pro
 - 如果已运行，跳过
 
 ```powershell
-npm run dev
+$frontendRunning = $false
+try {
+    $status5173 = curl.exe -s -o NUL -w "%{http_code}" http://localhost:5173 2>$null
+    if ($status5173 -eq "200") { $frontendRunning = $true }
+} catch { }
+if (-not $frontendRunning) {
+    try {
+        $status5174 = curl.exe -s -o NUL -w "%{http_code}" http://localhost:5174 2>$null
+        if ($status5174 -eq "200") { $frontendRunning = $true }
+    } catch { }
+}
+if (-not $frontendRunning) {
+    npm run dev
+} else {
+    Write-Output "前端服务已在运行"
+}
 ```
 
 工作目录：`e:\oc\qt-platform\qt-platform-web`
@@ -193,6 +211,8 @@ docker compose -f docker-compose.dev.yml stop
 | Swagger UI | 8081/swagger-ui.html | API 文档 |
 | PostgreSQL | 5433 | 数据库 |
 | Redis | 6380 | 缓存 |
+| MinIO API | 9000 | 对象存储服务 |
+| MinIO Console | 9001 | 对象存储管理界面 |
 
 ## 测试账号
 
@@ -211,6 +231,7 @@ docker compose -f docker-compose.dev.yml stop
    - 前端 5173 被占用: 自动切换到 5174
    - 后端 8081 被占用: 检查是否有其他 Java 进程
    - PostgreSQL 5433 被占用: 停止本地 PostgreSQL 服务
+   - MinIO 9000-9001 被占用: 停止冲突服务
 
 3. **数据库连接失败**
    - 检查 Docker 容器是否正常运行: `docker compose ps`
@@ -225,6 +246,11 @@ docker compose -f docker-compose.dev.yml stop
    - 检查 Java 版本（需要 JDK 17+）
    - 清理 Maven 缓存: `mvn clean`
    - 检查依赖版本冲突
+
+6. **文件下载失败 (HTTP 400)**
+   - 检查文件存储类型（支持 LOCAL 和 MINIO）
+   - 确认文件记录存在: `SELECT * FROM file_records WHERE id = ?`
+   - 检查文件路径是否正确
 
 ### 日志查看
 - **后端日志**: 控制台输出或日志文件
@@ -257,3 +283,4 @@ docker compose -f docker-compose.dev.yml stop
    - 后端端口 8081 固定（避免与 Apache httpd 8080 冲突）
    - PostgreSQL 端口 5433（Docker映射 5433→5432）
    - Redis 端口 6380（Docker映射 6380→6379）
+   - MinIO 端口 9000-9001（Docker直接映射）
