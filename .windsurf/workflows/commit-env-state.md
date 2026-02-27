@@ -30,12 +30,14 @@ git status --short
 
 如果没有任何变更，提示用户"没有需要提交的更改"并结束。
 
-### 3. 查看变更详情
+### 3. 查看变更详情（可选）
 
 // turbo
 ```powershell
 git diff --stat
 ```
+
+> **注意**: 可能会看到 LF/CRLF 警告，这是 Windows 环境正常现象，不影响提交。
 
 ### 4. 添加所有变更文件
 
@@ -84,10 +86,12 @@ git commit -m "docs: 更新架构文档"
 git push origin main
 ```
 
-如果是首次推送或远程仓库未设置，使用：
+> **首次推送时**: 浏览器会弹出 GitHub 认证页面，完成认证后自动继续。
+
+如果远程仓库未设置，使用：
 
 ```powershell
-git remote add origin https://github.com/K-irito02/oc-env-state.git
+git remote add origin https://github.com/K-irito02/oc.git
 git push -u origin main
 ```
 
@@ -96,6 +100,18 @@ git push -u origin main
 // turbo
 ```powershell
 git log --oneline -3
+```
+
+---
+
+## 实际提交示例
+
+以下是 2026-02-28 的实际提交记录：
+
+```
+c5b225b config: 添加Git提交工作流、更新技能和规则文件
+8ca12f4 docs: 更新Git分支策略和部署配置
+6c2a5d2 feat: 初始化开发环境配置仓库
 ```
 
 ---
@@ -156,7 +172,7 @@ Thumbs.db
 ### 添加远程仓库
 
 ```powershell
-git remote add origin https://github.com/K-irito02/oc-env-state.git
+git remote add origin https://github.com/K-irito02/oc.git
 ```
 
 ### 配置 GitHub 认证
@@ -190,7 +206,28 @@ git checkout main
 
 ## 常见问题
 
-### 1. 推送被拒绝
+### 1. GitHub Push Protection 拒绝
+
+如果提交中包含敏感信息（如 API 密钥、令牌），GitHub 会拒绝推送：
+
+```
+remote: error: GH013: Repository rule violations found
+remote: - Push cannot contain secrets
+```
+
+**解决方案：**
+```powershell
+# 撤销提交但保留更改
+git reset --soft HEAD~1
+
+# 修改文件移除敏感信息
+# 重新添加和提交
+git add .
+git commit -m "config: 提交描述"
+git push origin main
+```
+
+### 2. 推送被拒绝（远程有更新）
 
 ```powershell
 # 拉取远程更新后重新推送
@@ -198,7 +235,7 @@ git pull origin main --rebase
 git push origin main
 ```
 
-### 2. 文件过大
+### 3. 文件过大
 
 检查是否有大文件未被 .gitignore 排除：
 
@@ -206,7 +243,7 @@ git push origin main
 git ls-files --other --ignored --exclude-standard | head -20
 ```
 
-### 3. 认证失败
+### 4. 认证失败
 
 重新配置认证：
 
