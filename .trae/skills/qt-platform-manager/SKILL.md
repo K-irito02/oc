@@ -1,10 +1,11 @@
 ---
-name: project-manager
+name: qt-platform-manager
 description: |
-  This skill is used to manage the startup and shutdown of Qt Platform projects, including:
-  Docker dependency services (PostgreSQL + Redis)
-  Spring Boot backend services
-  Vite frontend development server
+  Qt Platform 项目自动化管理技能 - 统一管理开发环境启动、停止和状态检查
+  包括 Docker 依赖服务 (PostgreSQL + Redis + MinIO)、Spring Boot 后端服务、Vite 前端开发服务器
+  支持智能端口检测、自动编译判断和故障排查
+version: 1.1.0
+last_updated: 2026-02-28
 ---
 
 # Qt Platform 项目管理技能
@@ -14,7 +15,7 @@ description: |
 ## 概述
 
 本技能用于管理 Qt Platform 项目的启动和停止，包括：
-- Docker 依赖服务 (PostgreSQL + Redis)
+- Docker 依赖服务 (PostgreSQL + Redis + MinIO)
 - Spring Boot 后端服务
 - Vite 前端开发服务器
 
@@ -54,11 +55,12 @@ docker compose -f docker-compose.dev.yml up -d
 Start-Sleep -Seconds 5; docker compose -f docker-compose.dev.yml ps
 ```
 
-确认 `qt-dev-postgres` 和 `qt-dev-redis` 状态为 healthy。
+确认 `qt-dev-postgres`、`qt-dev-redis` 和 `qt-dev-minio` 状态为 healthy。
 
 **服务信息：**
 - PostgreSQL: localhost:5433, 用户 qt_user, 密码 3143285505
 - Redis: localhost:6380, 密码 3143285505
+- MinIO: localhost:9000 (API), localhost:9001 (Console)
 
 ### 3. 检查种子数据
 
@@ -115,10 +117,26 @@ java -jar qt-platform-app\target\qt-platform-app-1.0.0-SNAPSHOT.jar --spring.pro
 
 **判断是否需要启动：**
 - 检查 localhost:5173 是否已有服务运行
+- 检查 localhost:5174 是否已有服务运行（备用端口）
 - 如果已运行，跳过
 
 ```powershell
-npm run dev
+$frontendRunning = $false
+try {
+    $status5173 = curl.exe -s -o NUL -w "%{http_code}" http://localhost:5173 2>$null
+    if ($status5173 -eq "200") { $frontendRunning = $true }
+} catch { }
+if (-not $frontendRunning) {
+    try {
+        $status5174 = curl.exe -s -o NUL -w "%{http_code}" http://localhost:5174 2>$null
+        if ($status5174 -eq "200") { $frontendRunning = $true }
+    } catch { }
+}
+if (-not $frontendRunning) {
+    npm run dev
+} else {
+    Write-Output "前端服务已在运行"
+}
 ```
 
 工作目录：`e:\oc\qt-platform\qt-platform-web`
@@ -126,7 +144,7 @@ npm run dev
 以非阻塞方式运行，等待约 5 秒确认启动成功（看到 `VITE ready`）。
 
 **前端信息：**
-- 前端地址: http://localhost:5173
+- 前端地址: http://localhost:5173（如果端口被占用会自动切换到5174）
 
 ### 8. 验证全链路
 
@@ -139,7 +157,13 @@ curl.exe -s -o NUL -w "%{http_code}" http://localhost:8081/api/v1/categories
 
 // turbo
 ```powershell
-curl.exe -s -o NUL -w "%{http_code}" http://localhost:5173
+$frontendPort = 5173
+$frontendStatus = curl.exe -s -o NUL -w "%{http_code}" http://localhost:$frontendPort 2>$null
+if ($frontendStatus -ne "200") {
+    $frontendPort = 5174
+    $frontendStatus = curl.exe -s -o NUL -w "%{http_code}" http://localhost:$frontendPort 2>$null
+}
+Write-Output "前端端口: $frontendPort, 状态码: $frontendStatus"
 ```
 
 返回 `200` 表示前端正常。
@@ -182,16 +206,56 @@ docker compose -f docker-compose.dev.yml stop
 
 | 服务 | 端口 | 说明 |
 |------|------|------|
-| 前端 | 5173 | Vite 开发服务器 |
+| 前端 | 5173（可能自动切换到5174） | Vite 开发服务器 |
 | 后端 API | 8081 | Spring Boot |
 | Swagger UI | 8081/swagger-ui.html | API 文档 |
 | PostgreSQL | 5433 | 数据库 |
 | Redis | 6380 | 缓存 |
+| MinIO API | 9000 | 对象存储服务 |
+| MinIO Console | 9001 | 对象存储管理界面 |
 
 ## 测试账号
 
 - 管理员: admin@qtplatform.com / Admin@123456
-- 普通用户: user1@example.com / User@123456
+- 普通用户: zhangsan@example.com / Test@123456
+
+## 故障排查
+
+### 常见问题
+
+1. **Docker Desktop 未启动**
+   - 错误: `Cannot connect to the Docker daemon`
+   - 解决: 手动启动 Docker Desktop 后重试
+
+2. **端口占用**
+   - 前端 5173 被占用: 自动切换到 5174
+   - 后端 8081 被占用: 检查是否有其他 Java 进程
+   - PostgreSQL 5433 被占用: 停止本地 PostgreSQL 服务
+   - MinIO 9000-9001 被占用: 停止冲突服务
+
+3. **数据库连接失败**
+   - 检查 Docker 容器是否正常运行: `docker compose ps`
+   - 检查数据库密码是否正确
+   - 重新导入种子数据
+
+4. **前端编译错误**
+   - 删除 node_modules 重新安装: `rm -rf node_modules && npm install`
+   - 检查 TypeScript 类型错误: `npm run type-check`
+
+5. **后端编译失败**
+   - 检查 Java 版本（需要 JDK 17+）
+   - 清理 Maven 缓存: `mvn clean`
+   - 检查依赖版本冲突
+
+6. **文件下载失败 (HTTP 400)**
+   - 检查文件存储类型（支持 LOCAL 和 MINIO）
+   - 确认文件记录存在: `SELECT * FROM file_records WHERE id = ?`
+   - 检查文件路径是否正确
+
+### 日志查看
+- **后端日志**: 控制台输出或日志文件
+- **前端日志**: Vite 开发服务器控制台
+- **Docker 日志**: `docker compose logs -f`
 
 ---
 
@@ -206,9 +270,17 @@ docker compose -f docker-compose.dev.yml stop
 2. **前端代码改动** (`.tsx`, `.ts`, `.css`, `.json` 文件)
    - Vite HMR 自动热更新，无需重启
    - 修改 `package.json` 需要重新安装依赖: `npm install`
+   - 修改 `vite.config.ts` 需要重启前端服务
 
 3. **数据库改动** (`.sql` 文件)
    - 需要执行 SQL 脚本或重新导入种子数据
 
 4. **配置文件改动** (`application.yml`, `vite.config.ts`)
    - 需要重启对应服务
+
+5. **端口冲突处理**
+   - 前端端口 5173 被占用时自动切换到 5174
+   - 后端端口 8081 固定（避免与 Apache httpd 8080 冲突）
+   - PostgreSQL 端口 5433（Docker映射 5433→5432）
+   - Redis 端口 6380（Docker映射 6380→6379）
+   - MinIO 端口 9000-9001（Docker直接映射）

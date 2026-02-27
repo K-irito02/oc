@@ -80,6 +80,20 @@ trigger: always_on
 - 异步处理使用 @Async（阶段一替代消息队列）
 - 避免在循环中进行数据库操作
 
+## MyBatis-Plus 配置
+
+- **分页插件**: 必须在 `MybatisPlusConfig` 中启用 `PaginationInnerInterceptor`
+  ```java
+  @Bean
+  public MybatisPlusInterceptor mybatisPlusInterceptor() {
+      MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+      interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.POSTGRE_SQL));
+      return interceptor;
+  }
+  ```
+- **依赖要求**: 需要 `mybatis-plus-jsqlparser` 依赖支持分页
+- **注意**: 不启用分页插件会导致 `selectPage` 返回的 `total` 始终为 0
+
 ## 环境配置
 
 - **开发端口**: 8081（避免与Apache httpd 8080冲突）
