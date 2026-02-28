@@ -1,6 +1,6 @@
 # 前端页面清单
 
-> 最后更新: 2026-02-28
+> 最后更新: 2026-03-01
 
 ## 前台页面（9 个）
 
@@ -8,6 +8,15 @@
 - Hero Section: 玻璃拟态大卡片 + 动态背景
 - 特性卡片：GlassCard 展示平台亮点
 - 精选产品：Grid 布局展示
+- **留言板组件** (`components/home/FeedbackSection.tsx`)：
+  - 双栏布局：留言表单 + 留言列表
+  - 留言数量显示（包含回复）
+  - 排序功能：时间/点赞/回复数
+  - 回复展开/收缩：每次5条
+  - 点赞功能
+  - 1分钟评论频率限制
+  - 滚动区域隔离
+  - 国际化支持
 
 ### Products (`pages/Products/index.tsx`)
 - 分类过滤侧栏
@@ -64,7 +73,7 @@
 ### NotFound (`pages/NotFound/index.tsx`)
 - 404 玻璃拟态页面
 
-## 后台页面（6 个）
+## 后台页面（7 个）
 
 ### Dashboard (`pages/Admin/Dashboard/index.tsx`)
 - 统计卡片（用户数/产品数/下载量/评论数）
@@ -84,6 +93,12 @@
 - 评论列表（分页 + 状态过滤）
 - 评论审核（通过/拒绝/隐藏）
 - 评论删除
+
+### Feedbacks (`pages/Admin/Feedbacks/index.tsx`) ✨新增
+- 留言列表（分页 + 状态过滤 + 关键词搜索）
+- 留言状态管理（发布/隐藏/待审核）
+- 留言删除
+- 留言详情查看
 
 ### Categories (`pages/Admin/Categories/index.tsx`)
 - 分类树形列表

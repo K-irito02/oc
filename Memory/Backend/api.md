@@ -1,6 +1,6 @@
 # 后端 API 接口清单
 
-> 最后更新: 2026-02-27
+> 最后更新: 2026-03-01
 
 ## 基础路径
 
@@ -74,6 +74,18 @@
 | GET | `/notifications/unread-count` | 未读计数 | 是 |
 | PUT | `/notifications/{id}/read` | 标记已读 | 是 |
 | PUT | `/notifications/read-all` | 全部已读 | 是 |
+
+### 留言 API (`/api/v1/feedbacks`)
+
+| 方法 | 路径 | 说明 | 认证 |
+|------|------|------|------|
+| GET | `/feedbacks` | 公开留言列表（支持排序：时间/点赞/回复数） | 否 |
+| POST | `/feedbacks` | 创建留言/回复 | 是 |
+| POST | `/feedbacks/{id}/like` | 点赞留言 | 是 |
+| DELETE | `/feedbacks/{id}/like` | 取消点赞 | 是 |
+| GET | `/feedbacks/admin` | 管理后台留言列表 | ADMIN |
+| PUT | `/feedbacks/admin/{id}/status` | 更新留言状态 | ADMIN |
+| DELETE | `/feedbacks/admin/{id}` | 删除留言 | ADMIN |
 
 ### 文件 API (`/api/v1/files`)
 
