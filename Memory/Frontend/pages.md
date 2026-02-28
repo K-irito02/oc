@@ -120,3 +120,22 @@
 ### System (`pages/Admin/System/index.tsx`)
 - 系统配置 key-value 编辑
 - 审计日志查看
+
+---
+
+## 代码规范状态（2026-03-01）
+
+### ✅ ESLint 规范检查
+- **配置**: `eslint.config.js` (Flat Config 格式)
+- **规则集**: `@eslint/js` + `typescript-eslint` + `react-hooks` + `react-refresh`
+- **检查结果**: 0 错误 0 警告 ✅
+
+### 🔧 修复内容
+- **类型定义**: 为所有 API 响应定义明确接口，替换 `any` 类型
+- **React Hooks**: 使用 `useCallback` 包装函数，正确处理依赖数组
+- **错误处理**: 统一使用 `error: unknown` 类型，类型断言处理错误信息
+- **变量声明**: 使用 `const` 替代 `let`（不重新赋值时）
+
+### 📋 规则文件
+- **更新**: `.windsurf/rules/frontend-code-standards.md`
+- **新增内容**: ESLint 实际配置说明、关键规则表格、最佳实践代码示例
