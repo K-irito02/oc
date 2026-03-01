@@ -1,6 +1,6 @@
 # 后端 API 接口清单
 
-> 最后更新: 2026-03-01
+> 最后更新: 2026-03-02
 
 ## 基础路径
 
@@ -17,7 +17,7 @@
 | POST | `/auth/register` | 邮箱注册 | 否 |
 | POST | `/auth/logout` | 登出 | 是 |
 | POST | `/auth/refresh` | 刷新 Token | 否 |
-| POST | `/auth/send-code` | 发送邮箱验证码 | 否 |
+| POST | `/auth/send-code` | 发送邮箱验证码（HTML模板） | 否 |
 | POST | `/auth/reset-password` | 重置密码 | 否 |
 | PUT | `/auth/change-password` | 修改密码 | 是 |
 | POST | `/auth/send-change-email-code` | 发送修改邮箱验证码 | 是 |
@@ -100,6 +100,7 @@
 |------|------|------|------|
 | GET | `/system/theme` | 获取全局主题配置 | 否 |
 | GET | `/system/info` | 获取系统信息 | 否 |
+| GET | `/public/site-config` | 获取站点配置（含Logo、社交链接） | 否 |
 
 ### 更新检查 API (`/api/v1/updates`)
 
