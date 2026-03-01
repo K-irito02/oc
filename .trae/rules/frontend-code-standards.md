@@ -8,11 +8,83 @@ trigger: always_on
 
 ## 代码规范
 
-- **ESLint**: 使用 Airbnb 规则集
-  - 扩展配置：@typescript-eslint/recommended
-  - React Hooks 规则：react-hooks/rules-of-hooks
-  - 无障碍检查：jsx-a11y/recommended
-  - 自定义规则：项目特定规范
+- **ESLint**: 使用 typescript-eslint 推荐规则集
+  - 配置文件：`eslint.config.js` (Flat Config 格式)
+  - 扩展配置：`@eslint/js` recommended + `typescript-eslint` recommended
+  - React Hooks 规则：`eslint-plugin-react-hooks` recommended
+  - React Refresh：`eslint-plugin-react-refresh` 热更新组件导出检查
+  - ECMAScript 版本：2020
+
+### 关键 ESLint 规则
+
+| 规则 | 级别 | 说明 |
+|------|------|------|
+| `@typescript-eslint/no-explicit-any` | error | 禁止使用 `any` 类型，必须定义明确的接口/类型 |
+| `@typescript-eslint/no-unused-vars` | error | 禁止未使用的变量，catch 块可用 `_` 忽略 |
+| `react-hooks/rules-of-hooks` | error | 确保 Hooks 在顶层调用 |
+| `react-hooks/exhaustive-deps` | warn | useEffect/useCallback 依赖数组检查 |
+| `prefer-const` | error | 优先使用 const 声明不重新赋值的变量 |
+| `react-refresh/only-export-components` | warn | 组件文件只导出组件（允许常量导出） |
+
+### 类型定义最佳实践
+
+```typescript
+// ✅ 正确：定义明确的接口
+interface UserRecord {
+  id: number;
+  username: string;
+  email: string;
+  status: string;
+}
+
+interface ApiResponse<T> {
+  data: T;
+}
+
+interface PaginatedResponse<T> {
+  records: T[];
+  total: number;
+}
+
+// ✅ 正确：API 调用使用类型断言
+const res = await api.getUsers() as ApiResponse<PaginatedResponse<UserRecord>>;
+
+// ❌ 错误：使用 any 类型
+const res: any = await api.getUsers();
+```
+
+### React Hooks 依赖处理
+
+```typescript
+// ✅ 方式一：将函数包装为 useCallback 并添加到依赖数组
+const loadData = useCallback(async () => {
+  // ...
+}, [dependency1, dependency2]);
+
+useEffect(() => { loadData(); }, [loadData]);
+
+// ✅ 方式二：使用 eslint-disable 注释（函数稳定时）
+useEffect(() => {
+  loadData();
+}, [id]); // eslint-disable-line react-hooks/exhaustive-deps
+```
+
+### 错误处理最佳实践
+
+```typescript
+// ✅ 正确：不使用 catch 参数时省略
+try {
+  await api.delete(id);
+} catch { /* handled */ }
+
+// ✅ 正确：需要使用错误信息时定义类型
+try {
+  await api.submit(data);
+} catch (error: unknown) {
+  const err = error as { response?: { data?: { message?: string } } };
+  message.error(err?.response?.data?.message || 'Operation failed');
+}
+```
 
 ## 代码格式化
 
@@ -27,10 +99,10 @@ trigger: always_on
 
 - **TypeScript**: strict mode 严格模式
   - 启用所有严格检查
-  - 禁止隐式 any
-  - 禁止未使用的变量
+  - 禁止隐式 `any`（通过 ESLint `@typescript-eslint/no-explicit-any` 强制）
+  - 禁止未使用的变量（通过 ESLint `@typescript-eslint/no-unused-vars` 强制）
   - 严格的 null 检查
-  - 函数返回类型必须声明
+  - 为 API 响应定义明确的接口类型
 
 ## 提交检查
 

@@ -4,8 +4,8 @@ description: |
   Qt Platform 项目自动化管理技能 - 统一管理开发环境启动、停止和状态检查
   包括 Docker 依赖服务 (PostgreSQL + Redis + MinIO)、Spring Boot 后端服务、Vite 前端开发服务器
   支持智能端口检测、自动编译判断和故障排查
-version: 1.1.0
-last_updated: 2026-02-28
+version: 1.2.0
+last_updated: 2026-03-01
 ---
 
 # Qt Platform 项目管理技能
@@ -120,6 +120,11 @@ java -jar qt-platform-app\target\qt-platform-app-1.0.0-SNAPSHOT.jar --spring.pro
 - 检查 localhost:5174 是否已有服务运行（备用端口）
 - 如果已运行，跳过
 
+**启动流程：**
+1. 代码质量检查
+2. 重新构建前端
+3. 启动开发服务器
+
 ```powershell
 $frontendRunning = $false
 try {
@@ -133,6 +138,20 @@ if (-not $frontendRunning) {
     } catch { }
 }
 if (-not $frontendRunning) {
+    Write-Output "正在检查前端代码质量..."
+    npm run lint
+    if ($LASTEXITCODE -ne 0) {
+        Write-Warning "代码质量检查发现问题，但继续启动前端服务"
+    }
+    
+    Write-Output "正在重新构建前端..."
+    npm run build
+    if ($LASTEXITCODE -ne 0) {
+        Write-Error "前端构建失败，请检查代码错误"
+        exit 1
+    }
+    
+    Write-Output "正在启动前端开发服务器..."
     npm run dev
 } else {
     Write-Output "前端服务已在运行"
@@ -240,7 +259,9 @@ docker compose -f docker-compose.dev.yml stop
 
 4. **前端编译错误**
    - 删除 node_modules 重新安装: `rm -rf node_modules && npm install`
+   - 检查代码质量: `npm run lint`
    - 检查 TypeScript 类型错误: `npm run type-check`
+   - 检查构建问题: `npm run build`
 
 5. **后端编译失败**
    - 检查 Java 版本（需要 JDK 17+）
@@ -268,7 +289,9 @@ docker compose -f docker-compose.dev.yml stop
    - 需要重启后端
 
 2. **前端代码改动** (`.tsx`, `.ts`, `.css`, `.json` 文件)
-   - Vite HMR 自动热更新，无需重启
+   - 启动前会自动运行 `npm run lint` 检查代码质量
+   - 启动前会自动运行 `npm run build` 重新构建前端
+   - Vite HMR 自动热更新，开发时无需重启
    - 修改 `package.json` 需要重新安装依赖: `npm install`
    - 修改 `vite.config.ts` 需要重启前端服务
 
