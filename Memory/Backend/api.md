@@ -106,7 +106,7 @@
 
 | 方法 | 路径 | 说明 | 认证 |
 |------|------|------|------|
-| GET | `/updates/check` | Qt 客户端检查更新 | 否 |
+| GET | `/updates/check` | oc 客户端检查更新 | 否 |
 
 ### 下载 API (`/api/v1/downloads`)
 

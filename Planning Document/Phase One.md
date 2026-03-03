@@ -1,4 +1,4 @@
-# Qt 产品发布平台 — 阶段一：MVP 单体应用 详细设计文档
+# oc 产品发布平台 — 阶段一：MVP 单体应用 详细设计文档
 
 > 本文档从总体架构文档中提取并细化阶段一（MVP）的全部技术方案，作为 12 周开发周期的唯一执行参考。
 > 阶段二/三的内容（微服务拆分、K8s、Elasticsearch、支付系统等）不在本文档范围内。
@@ -11,11 +11,11 @@
 
 在 **12 周**内交付一个可上线运行的 MVP 版本，具备以下能力：
 
-1. 用户可以浏览、搜索、下载 Qt 软件产品
+1. 用户可以浏览、搜索、下载 oc 软件产品
 2. 用户可以注册、登录（邮箱 + GitHub OAuth）、管理个人信息
 3. 用户可以对产品进行评论和评分
 4. 管理员可以管理产品、版本、评论和用户
-5. Qt 客户端可以通过 API 检查更新并下载新版本（支持断点续传）
+5. oc 客户端可以通过 API 检查更新并下载新版本（支持断点续传）
 6. 平台具备现代化 UI 设计和中英文双语支持
 7. 系统通过 Docker 容器化部署到腾讯云 CVM
 
@@ -27,7 +27,7 @@
 | **产品** | 产品 CRUD、分类管理、产品列表（分页/筛选/排序）、产品详情、产品搜索（PostgreSQL 模糊搜索） | P0 |
 | **版本** | 版本发布、版本列表、语义化版本管理、多平台支持（Windows/Linux/macOS）、灰度发布比例 | P0 |
 | **下载** | 文件下载（本地存储）、断点续传、下载计数、SHA256 校验 | P0 |
-| **更新** | Qt 客户端更新检查 API、全量更新、增量更新（差量包）、版本回滚 | P0 |
+| **更新** | oc 客户端更新检查 API、全量更新、增量更新（差量包）、版本回滚 | P0 |
 | **评论** | 发表评论/回复、评分（1-5 星）、评论点赞、评论审核 | P1 |
 | **通知** | 站内通知（评论回复、系统公告）、通知已读标记 | P1 |
 | **后台** | 仪表盘概览、用户管理（封禁/角色）、产品审核、评论管理、分类管理、文件管理、系统配置、审计日志 | P0 |
@@ -106,7 +106,7 @@ services:
     environment:
       POSTGRES_DB: oc_platform
       POSTGRES_USER: oc_user
-      POSTGRES_PASSWORD: qt_dev_password
+      POSTGRES_PASSWORD: oc_dev_password
     ports:
       - "5432:5432"
     volumes:
@@ -345,7 +345,7 @@ spring:
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:oc_platform}
     username: ${DB_USER:oc_user}
-    password: ${DB_PASSWORD:qt_dev_password}
+    password: ${DB_PASSWORD:oc_dev_password}
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 20
@@ -1036,9 +1036,9 @@ WHERE u.username = 'admin' AND r.code = 'SUPER_ADMIN';
 
 -- 初始化系统配置
 INSERT INTO system_configs (config_key, config_value, description) VALUES
-    ('site.name',           'Qt 产品发布平台',        '站点名称'),
-    ('site.name_en',        'Qt Product Platform',   '站点英文名称'),
-    ('site.description',    'Qt 软件产品发布与分发',   '站点描述'),
+    ('site.name',           'oc 产品发布平台',        '站点名称'),
+    ('site.name_en',        'oc Product Platform',   '站点英文名称'),
+    ('site.description',    'oc 软件产品发布与分发',   '站点描述'),
     ('upload.max_file_size', '1073741824',            '最大上传文件大小（字节）'),
     ('comment.auto_approve', 'false',                 '评论是否自动通过审核'),
     ('register.enabled',     'true',                  '是否开放注册');
@@ -1183,7 +1183,7 @@ GET    /api/v1/downloads/{productId}/latest          # 下载最新版本
 HEAD   /api/v1/downloads/{productId}/{versionId}     # 获取文件信息（断点续传预检）
 ```
 
-#### 5.1.7 更新检查（供 Qt 客户端调用）
+#### 5.1.7 更新检查（供 oc 客户端调用）
 
 ```
 GET    /api/v1/updates/check                     # 检查更新
@@ -1537,23 +1537,23 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
 ```
 格式: {服务}:{模块}:{标识}
-示例: qt:user:session:{userId}
+示例: oc:user:session:{userId}
 ```
 
 | Key 模式 | 用途 | TTL | 更新策略 |
 |---------|------|-----|---------|
-| `qt:auth:session:{userId}` | Refresh Token | 7 天 | 登录时写入，登出时删除 |
-| `qt:auth:blacklist:{tokenId}` | Token 黑名单 | 2 小时 | 登出时写入 |
-| `qt:user:info:{userId}` | 用户信息缓存 | 1 小时 | 用户更新时清除 |
-| `qt:product:detail:{productId}` | 产品详情 | 30 分钟 | 产品更新时清除 |
-| `qt:product:list:{hash}` | 产品列表（查询参数哈希） | 15 分钟 | 产品变更时清除 |
-| `qt:product:featured` | 推荐产品 | 1 小时 | 定时刷新 |
-| `qt:version:latest:{productId}:{platform}` | 最新版本 | 10 分钟 | 新版本发布时清除 |
-| `qt:stats:download:{productId}` | 下载计数缓冲 | 5 分钟 | 定时批量写回 DB |
-| `qt:stats:view:{productId}` | 浏览计数缓冲 | 5 分钟 | 定时批量写回 DB |
-| `qt:limit:login:{ip}` | 登录限流 | 15 分钟 | 自动过期 |
-| `qt:limit:api:{userId}` | API 限流 | 1 小时 | 滑动窗口 |
-| `qt:verify:code:{email}:{type}` | 邮箱验证码 | 10 分钟 | 使用后删除 |
+| `oc:auth:session:{userId}` | Refresh Token | 7 天 | 登录时写入，登出时删除 |
+| `oc:auth:blacklist:{tokenId}` | Token 黑名单 | 2 小时 | 登出时写入 |
+| `oc:user:info:{userId}` | 用户信息缓存 | 1 小时 | 用户更新时清除 |
+| `oc:product:detail:{productId}` | 产品详情 | 30 分钟 | 产品更新时清除 |
+| `oc:product:list:{hash}` | 产品列表（查询参数哈希） | 15 分钟 | 产品变更时清除 |
+| `oc:product:featured` | 推荐产品 | 1 小时 | 定时刷新 |
+| `oc:version:latest:{productId}:{platform}` | 最新版本 | 10 分钟 | 新版本发布时清除 |
+| `oc:stats:download:{productId}` | 下载计数缓冲 | 5 分钟 | 定时批量写回 DB |
+| `oc:stats:view:{productId}` | 浏览计数缓冲 | 5 分钟 | 定时批量写回 DB |
+| `oc:limit:login:{ip}` | 登录限流 | 15 分钟 | 自动过期 |
+| `oc:limit:api:{userId}` | API 限流 | 1 小时 | 滑动窗口 |
+| `oc:verify:code:{email}:{type}` | 邮箱验证码 | 10 分钟 | 使用后删除 |
 
 ### 7.2 缓存更新策略（Cache-Aside）
 
@@ -1562,18 +1562,18 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
 public class ProductServiceImpl implements ProductService {
 
     // 读：先查缓存，未命中查数据库并回填
-    @Cacheable(value = "qt:product:detail", key = "#productId")
+    @Cacheable(value = "oc:product:detail", key = "#productId")
     public ProductVO getProductById(Long productId) {
         return productRepository.findByIdWithDetails(productId);
     }
 
     // 写：先更新数据库，再删除缓存（延迟双删保证一致性）
-    @CacheEvict(value = "qt:product:detail", key = "#productId")
+    @CacheEvict(value = "oc:product:detail", key = "#productId")
     @Transactional
     public void updateProduct(Long productId, UpdateProductRequest request) {
         productRepository.update(productId, request);
         CompletableFuture.delayedExecutor(500, TimeUnit.MILLISECONDS)
-            .execute(() -> cacheManager.getCache("qt:product:detail").evict(productId));
+            .execute(() -> cacheManager.getCache("oc:product:detail").evict(productId));
     }
 }
 
@@ -2099,7 +2099,7 @@ interface SEOProps {
 
 export const SEOHead: React.FC<SEOProps> = ({ title, description, keywords, image, url, type = 'website' }) => (
   <Helmet>
-    <title>{title} | Qt 产品平台</title>
+    <title>{title} | oc 产品平台</title>
     <meta name="description" content={description} />
     {keywords && <meta name="keywords" content={keywords} />}
 
@@ -2734,7 +2734,7 @@ describe('产品下载流程', () => {
 
     it('注册用户可以评论和评分', () => {
         cy.login('user@example.com', 'password');
-        cy.visit('/products/qt-studio');
+        cy.visit('/products/oc-studio');
         cy.get('[data-testid=rating-stars]').find('[data-value=5]').click();
         cy.get('[data-testid=comment-input]').type('非常好用！');
         cy.get('[data-testid=submit-comment]').click();
@@ -2884,7 +2884,7 @@ main            ← 生产环境，仅接受 release 和 hotfix 合并
 
 ## 总结
 
-本文档完整定义了 Qt 产品发布平台**阶段一（MVP）**的全部技术方案，覆盖：
+本文档完整定义了 oc 产品发布平台**阶段一（MVP）**的全部技术方案，覆盖：
 
 1. **目标与范围**：12 周交付 MVP，明确 In/Out Scope
 2. **技术栈**：React 18 + Spring Boot 3.2 + PostgreSQL 15 + Redis 7
@@ -2894,7 +2894,7 @@ main            ← 生产环境，仅接受 release 和 hotfix 合并
 6. **安全设计**：JWT 双 Token + RBAC + CORS + 限流 + XSS/SQL 注入防护
 7. **缓存策略**：Redis Key 规范 + Cache-Aside + 穿透/雪崩/击穿防护
 8. **前端架构**：现代化设计规范 + 完整路由 + 响应式 + 状态管理 + SEO + i18n
-9. **更新机制**：Qt 客户端自动更新 + 灰度发布 + 增量更新 + 断点续传
+9. **更新机制**：oc 客户端自动更新 + 灰度发布 + 增量更新 + 断点续传
 10. **部署架构**：Docker 多阶段构建 + Nginx + GitHub Actions CI/CD
 11. **测试策略**：测试金字塔（单元 → 集成 → E2E）
 12. **实施路线**：3 个里程碑，12 周从零到上线

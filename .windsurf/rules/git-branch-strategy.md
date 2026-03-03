@@ -129,7 +129,7 @@ main            ← 生产环境，仅接受 release 和 hotfix 合并
 
 ## 项目代码仓库结构
 
-### Qt Platform 项目结构
+### oc Platform 项目结构
 ```
 oc-platform/
 ├── oc-platform-web/          # 前端项目（React 18 + Vite 5 + TypeScript）

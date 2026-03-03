@@ -70,7 +70,7 @@
 3. 删除 `applyMockData` 函数（约第 452-457 行）
 4. 修改 `loadProduct` 函数，移除模拟数据相关逻辑：
    - 删除 `applyMockData` 依赖
-   - 删除 `slug === 'mock-product' || slug === 'qt-creator-ultimate'` 的判断分支
+   - 删除 `slug === 'mock-product' || slug === 'oc-creator-ultimate'` 的判断分支
    - API 失败时直接设置空状态
 
 ### 步骤 2：创建动态 Favicon Hook

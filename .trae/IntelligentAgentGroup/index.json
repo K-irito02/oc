@@ -1,5 +1,5 @@
 {
-  "name": "Qt Platform Intelligent Agent System",
+  "name": "oc Platform Intelligent Agent System",
   "version": "1.0.1",
   "description": "智能体协作系统配置汇总",
   "lastUpdated": "2026-03-03",
@@ -118,7 +118,7 @@
     ]
   },
   "projectContext": {
-    "projectName": "Qt Platform",
+    "projectName": "oc Platform",
     "projectPath": "e:/oc/oc-platform",
     "frontendPath": "e:/oc/oc-platform/oc-platform-web",
     "backendPath": "e:/oc/oc-platform",

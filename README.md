@@ -78,7 +78,7 @@ git push origin develop
 |------|------|
 | `frontend-design` | 创建生产级前端界面 |
 | `ui-ux-pro-max` | UI/UX 设计智能助手 |
-| `oc-platform-manager` | Qt Platform 项目自动化管理 |
+| `oc-platform-manager` | oc Platform 项目自动化管理 |
 | `git-commit-workflow` | Git 提交工作流 |
 | `code-reviewer` | 代码审查 |
 | `fix` | 代码修复和格式化 |
@@ -94,7 +94,7 @@ git push origin develop
 
 | 技能 | 用途 |
 |------|------|
-| `oc-platform-manager` | Qt Platform 项目自动化管理 |
+| `oc-platform-manager` | oc Platform 项目自动化管理 |
 | `git-commit-workflow` | Git 提交工作流 |
 | `ui-ux-pro-max` | UI/UX 设计智能助手 |
 | `vite-cache-components` | Vite 缓存组件和 PPR 实现 |
