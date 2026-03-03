@@ -17,7 +17,7 @@
 
 2. **实体类** ✅
    - `User.java` 已包含 `themeConfig` 字段
-   - 位置：`qt-platform-user/src/main/java/com/qtplatform/user/entity/User.java:35-36`
+   - 位置：`oc-platform-user/src/main/java/com/OcPlatform/user/entity/User.java:35-36`
 
 3. **API接口** ✅
    - `GET /api/v1/users/me/theme` - 获取用户主题配置
@@ -25,32 +25,32 @@
    - `GET /api/v1/admin/system/theme` - 获取全局主题配置（仅管理员）
    - `PUT /api/v1/admin/system/theme` - 更新全局主题配置（仅管理员）
    - 位置：
-     - `qt-platform-user/src/main/java/com/qtplatform/user/controller/UserController.java:47-60`
-     - `qt-platform-admin/src/main/java/com/qtplatform/admin/controller/AdminSystemController.java:42-71`
+     - `oc-platform-user/src/main/java/com/OcPlatform/user/controller/UserController.java:47-60`
+     - `oc-platform-admin/src/main/java/com/OcPlatform/admin/controller/AdminSystemController.java:42-71`
 
 4. **Service层** ✅
    - `getThemeConfig(userId)` - 获取用户主题配置
    - `updateThemeConfig(userId, themeConfig)` - 更新用户主题配置
-   - 位置：`qt-platform-user/src/main/java/com/qtplatform/user/service/UserService.java:88-104`
+   - 位置：`oc-platform-user/src/main/java/com/OcPlatform/user/service/UserService.java:88-104`
 
 #### 前端实现
 1. **状态管理** ✅
    - `themeSlice.ts` - Redux状态管理
    - 配置合并逻辑：User > System > Default
-   - 位置：`qt-platform-web/src/store/slices/themeSlice.ts`
+   - 位置：`oc-platform-web/src/store/slices/themeSlice.ts`
 
 2. **API调用** ✅
    - `userApi.getTheme()` - 获取用户主题
    - `userApi.updateTheme(themeConfig)` - 更新用户主题
    - `adminApi.getGlobalTheme()` - 获取全局主题
    - `adminApi.updateGlobalTheme(themeConfig)` - 更新全局主题
-   - 位置：`qt-platform-web/src/utils/api.ts:31-33, 146-148`
+   - 位置：`oc-platform-web/src/utils/api.ts:31-33, 146-148`
 
 3. **ThemeProvider** ✅
    - 自动加载系统全局配置
    - 自动加载用户个性化配置
    - 动态应用CSS变量
-   - 位置：`qt-platform-web/src/components/ThemeProvider/index.tsx`
+   - 位置：`oc-platform-web/src/components/ThemeProvider/index.tsx`
 
 ---
 
@@ -60,14 +60,14 @@
    - 支持视频背景（MP4/WebM）
    - 支持图片背景（JPG/PNG/WebP/SVG）
    - 支持overlay叠加层（宣纸纹理）
-   - 位置：`qt-platform-web/src/components/DynamicBackground/index.tsx`
+   - 位置：`oc-platform-web/src/components/DynamicBackground/index.tsx`
 
 2. **用户设置页 - 外观设置** ✅
    - 背景类型选择（图片/视频）
    - 背景文件上传
    - 背景透明度调节（0-100%）
    - 实时预览和保存
-   - 位置：`qt-platform-web/src/pages/Profile/index.tsx:191-252`
+   - 位置：`oc-platform-web/src/pages/Profile/index.tsx:191-252`
 
 ---
 
@@ -76,17 +76,17 @@
 1. **InkButton** ✅
    - 点击效果：印章动画
    - 悬停效果：墨晕扩散
-   - 位置：`qt-platform-web/src/components/Ink/Button.tsx`
+   - 位置：`oc-platform-web/src/components/Ink/Button.tsx`
 
 2. **InkCard** ✅
    - 宣纸纹理背景
    - 边缘微锯齿效果
-   - 位置：`qt-platform-web/src/components/Ink/Card.tsx`
+   - 位置：`oc-platform-web/src/components/Ink/Card.tsx`
 
 3. **InkLoader** ✅ (新增)
    - Canvas实现墨滴入水动画
    - 渐变扩散效果
-   - 位置：`qt-platform-web/src/components/Ink/Loader.tsx`
+   - 位置：`oc-platform-web/src/components/Ink/Loader.tsx`
 
 ---
 
@@ -97,17 +97,17 @@
    - 水墨风格设置（主色调/笔画宽度/字体）
    - 文件上传功能
    - 实时预览和保存
-   - 位置：`qt-platform-web/src/pages/Admin/Theme/index.tsx`
+   - 位置：`oc-platform-web/src/pages/Admin/Theme/index.tsx`
 
 2. **路由配置** ✅
    - 添加 `/admin/theme` 路由
    - 懒加载优化
-   - 位置：`qt-platform-web/src/router/index.tsx:30, 59`
+   - 位置：`oc-platform-web/src/router/index.tsx:30, 59`
 
 3. **菜单集成** ✅
    - 管理员侧边栏添加"主题管理"菜单项
    - 图标：BgColorsOutlined
-   - 位置：`qt-platform-web/src/layouts/AdminLayout.tsx:45`
+   - 位置：`oc-platform-web/src/layouts/AdminLayout.tsx:45`
 
 ---
 
@@ -189,19 +189,19 @@ npm run build
 ## 五、文件清单
 
 ### 新增文件
-1. `qt-platform-web/src/components/Ink/Loader.tsx` - InkLoader组件
-2. `qt-platform-web/src/components/Ink/InkLoader.module.css` - InkLoader样式
-3. `qt-platform-web/src/pages/Admin/Theme/index.tsx` - 管理员主题管理页面
+1. `oc-platform-web/src/components/Ink/Loader.tsx` - InkLoader组件
+2. `oc-platform-web/src/components/Ink/InkLoader.module.css` - InkLoader样式
+3. `oc-platform-web/src/pages/Admin/Theme/index.tsx` - 管理员主题管理页面
 
 ### 修改文件
-1. `qt-platform-user/src/main/java/com/qtplatform/user/controller/UserController.java` - 添加主题API
-2. `qt-platform-user/src/main/java/com/qtplatform/user/service/UserService.java` - 添加主题服务方法
-3. `qt-platform-admin/src/main/java/com/qtplatform/admin/controller/AdminSystemController.java` - 添加全局主题API
-4. `qt-platform-web/src/utils/api.ts` - 添加主题API调用
-5. `qt-platform-web/src/pages/Profile/index.tsx` - 添加外观设置Tab
-6. `qt-platform-web/src/components/ThemeProvider/index.tsx` - 添加系统配置加载
-7. `qt-platform-web/src/layouts/AdminLayout.tsx` - 添加主题管理菜单
-8. `qt-platform-web/src/router/index.tsx` - 添加主题管理路由
+1. `oc-platform-user/src/main/java/com/OcPlatform/user/controller/UserController.java` - 添加主题API
+2. `oc-platform-user/src/main/java/com/OcPlatform/user/service/UserService.java` - 添加主题服务方法
+3. `oc-platform-admin/src/main/java/com/OcPlatform/admin/controller/AdminSystemController.java` - 添加全局主题API
+4. `oc-platform-web/src/utils/api.ts` - 添加主题API调用
+5. `oc-platform-web/src/pages/Profile/index.tsx` - 添加外观设置Tab
+6. `oc-platform-web/src/components/ThemeProvider/index.tsx` - 添加系统配置加载
+7. `oc-platform-web/src/layouts/AdminLayout.tsx` - 添加主题管理菜单
+8. `oc-platform-web/src/router/index.tsx` - 添加主题管理路由
 
 ---
 

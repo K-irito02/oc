@@ -5,7 +5,7 @@
 ## 认证方案
 
 ### JWT (JSON Web Token)
-- **实现**: `com.qtplatform.common.util.JwtUtil`
+- **实现**: `com.OcPlatform.common.util.JwtUtil`
 - **Access Token**: 有效期 2 小时
 - **Refresh Token**: 有效期 7 天
 - **Claims**: userId, username, roles
@@ -77,5 +77,5 @@
 
 | 角色 | 用户名 | 密码 |
 |------|--------|------|
-| 超级管理员 | admin@qtplatform.com | Admin@123456 |
+| 超级管理员 | admin@OcPlatform.com | Admin@123456 |
 | 普通用户 | zhangsan@example.com | Test@123456 |

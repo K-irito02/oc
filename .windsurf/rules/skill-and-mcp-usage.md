@@ -23,7 +23,7 @@ trigger: always_on
 - **ui-ux-pro-max**: 用于专业UI/UX设计和设计系统生成
 - **vite-cache-components**: 用于Vite项目的缓存组件实现
 - **webapp-testing**: 用于Web应用测试
-- **qt-platform-manager**: 用于Qt平台项目管理
+- **oc-platform-manager**: 用于Qt平台项目管理，支持容器、后端和前端状态日志记录
 - **pr-creator**: 用于创建Pull Request
 - **git-commit-workflow**: 用于Git提交工作流管理
 - **find-skills**: 用于发现和安装技能

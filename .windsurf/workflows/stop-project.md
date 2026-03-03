@@ -19,7 +19,7 @@ Get-Process -Name java -ErrorAction SilentlyContinue | Stop-Process -Force 2>$nu
 docker compose -f docker-compose.dev.yml stop
 ```
 
-工作目录：`e:\oc\qt-platform`
+工作目录：`e:\oc\oc-platform`
 
 > 注意：使用 `stop` 而非 `down`，保留数据卷。如需彻底清除数据，使用 `docker compose -f docker-compose.dev.yml down -v`。
 

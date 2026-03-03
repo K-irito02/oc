@@ -73,14 +73,14 @@
 **MVP 模块化代码结构**（为未来微服务拆分做准备）：
 
 ```
-qt-platform/
-├── qt-platform-common/          # 公共模块（工具类、异常、常量）
-├── qt-platform-user/            # 用户模块（认证、权限、用户管理）
-├── qt-platform-product/         # 产品模块（软件管理、版本控制）
-├── qt-platform-comment/         # 评论模块（评论、评分）
-├── qt-platform-file/            # 文件模块（上传、下载、存储）
-├── qt-platform-admin/           # 后台管理模块
-├── qt-platform-app/             # 主应用启动模块（聚合所有模块）
+oc-platform/
+├── oc-platform-common/          # 公共模块（工具类、异常、常量）
+├── oc-platform-user/            # 用户模块（认证、权限、用户管理）
+├── oc-platform-product/         # 产品模块（软件管理、版本控制）
+├── oc-platform-comment/         # 评论模块（评论、评分）
+├── oc-platform-file/            # 文件模块（上传、下载、存储）
+├── oc-platform-admin/           # 后台管理模块
+├── oc-platform-app/             # 主应用启动模块（聚合所有模块）
 └── pom.xml                      # 父 POM
 ```
 
@@ -1113,7 +1113,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
 ### 6.1 项目结构
 
 ```
-qt-platform-web/
+oc-platform-web/
 ├── public/
 │   ├── favicon.ico
 │   ├── robots.txt
@@ -1980,7 +1980,7 @@ RUN ./mvnw package -DskipTests -B
 # ===== 阶段二：运行 =====
 FROM eclipse-temurin:17-jre-alpine
 
-LABEL maintainer="qt-platform"
+LABEL maintainer="oc-platform"
 LABEL version="1.0"
 
 # 安全：创建非 root 用户
@@ -1989,7 +1989,7 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 WORKDIR /app
 
 # 从构建阶段复制 JAR
-COPY --from=builder /app/target/qt-platform-*.jar app.jar
+COPY --from=builder /app/target/oc-platform-*.jar app.jar
 
 # 创建必要目录
 RUN mkdir -p /app/uploads /app/logs && \
@@ -2177,8 +2177,8 @@ networks:
 # 数据库
 DB_HOST=postgres
 DB_PORT=5432
-DB_NAME=qt_platform
-DB_USER=qt_user
+DB_NAME=oc_platform
+DB_USER=oc_user
 DB_PASSWORD=<替换为强密码>
 
 # Redis
@@ -2348,9 +2348,9 @@ http {
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: qt-platform-app
+  name: oc-platform-app
   labels:
-    app: qt-platform
+    app: oc-platform
     component: backend
 spec:
   replicas: 3
@@ -2361,22 +2361,22 @@ spec:
       maxUnavailable: 0
   selector:
     matchLabels:
-      app: qt-platform-app
+      app: oc-platform-app
   template:
     metadata:
       labels:
-        app: qt-platform-app
+        app: oc-platform-app
     spec:
       containers:
       - name: app
-        image: qt-platform/app:latest
+        image: oc-platform/app:latest
         ports:
         - containerPort: 8080
         envFrom:
         - secretRef:
-            name: qt-platform-secrets
+            name: oc-platform-secrets
         - configMapRef:
-            name: qt-platform-config
+            name: oc-platform-config
         resources:
           requests:
             memory: "512Mi"
@@ -2408,10 +2408,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: qt-platform-app-service
+  name: oc-platform-app-service
 spec:
   selector:
-    app: qt-platform-app
+    app: oc-platform-app
   ports:
   - protocol: TCP
     port: 80
@@ -2422,12 +2422,12 @@ spec:
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: qt-platform-app-hpa
+  name: oc-platform-app-hpa
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: qt-platform-app
+    name: oc-platform-app
   minReplicas: 2
   maxReplicas: 10
   metrics:
@@ -2470,7 +2470,7 @@ jobs:
       - name: Java Lint
         run: mvn checkstyle:check spotbugs:check
       - name: Frontend Lint
-        working-directory: qt-platform-web
+        working-directory: oc-platform-web
         run: npm ci && npm run lint && npm run type-check
 
   # ===== 测试 =====
@@ -2481,7 +2481,7 @@ jobs:
       postgres:
         image: postgres:15
         env:
-          POSTGRES_DB: qt_platform_test
+          POSTGRES_DB: oc_platform_test
           POSTGRES_USER: test
           POSTGRES_PASSWORD: test
         ports: ['5432:5432']
@@ -2497,7 +2497,7 @@ jobs:
       - name: Backend Tests
         run: mvn test -Dspring.profiles.active=test
       - name: Frontend Tests
-        working-directory: qt-platform-web
+        working-directory: oc-platform-web
         run: npm ci && npm test
 
   # ===== 构建并推送镜像 =====
@@ -2528,7 +2528,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd /opt/qt-platform
+            cd /opt/oc-platform
             docker compose pull
             docker compose up -d --remove-orphans
             docker image prune -f
@@ -2547,7 +2547,7 @@ global:
   evaluation_interval: 15s
 
 scrape_configs:
-  - job_name: 'qt-platform-app'
+  - job_name: 'oc-platform-app'
     metrics_path: '/actuator/prometheus'
     static_configs:
       - targets: ['app:8080']
@@ -2645,7 +2645,7 @@ groups:
 <configuration>
     <appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <customFields>{"service":"qt-platform","env":"prod"}</customFields>
+            <customFields>{"service":"oc-platform","env":"prod"}</customFields>
         </encoder>
     </appender>
 
@@ -2693,10 +2693,10 @@ groups:
 #!/bin/bash
 BACKUP_DIR="/backups/postgres"
 DATE=$(date +%Y%m%d_%H%M%S)
-DB_NAME="qt_platform"
+DB_NAME="oc_platform"
 
 # 全量备份
-pg_dump -Fc -h localhost -U qt_user $DB_NAME > "$BACKUP_DIR/${DB_NAME}_${DATE}.dump"
+pg_dump -Fc -h localhost -U oc_user $DB_NAME > "$BACKUP_DIR/${DB_NAME}_${DATE}.dump"
 
 # 清理超过 30 天的备份
 find $BACKUP_DIR -name "*.dump" -mtime +30 -delete
@@ -2729,7 +2729,7 @@ class ProductControllerIntegrationTest {
 
     @Container
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15-alpine")
-        .withDatabaseName("qt_platform_test")
+        .withDatabaseName("oc_platform_test")
         .withUsername("test")
         .withPassword("test");
 

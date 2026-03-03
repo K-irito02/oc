@@ -21,7 +21,7 @@
 
 ## 项目路径
 
-`qt-platform/qt-platform-web/`
+`oc-platform/oc-platform-web/`
 
 ## 目录结构
 
@@ -100,7 +100,7 @@ src/
 ## 开发命令
 
 ```bash
-cd qt-platform/qt-platform-web
+cd oc-platform/oc-platform-web
 npm install          # 安装依赖
 npm run dev          # 启动开发服务器 → http://localhost:5173（可能自动切换到5174）
 npm run build        # 构建生产版本（tsc + vite build）

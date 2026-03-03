@@ -27,8 +27,8 @@
     "webapp-testing"
   ],
   "permissions": {
-    "read": ["Memory/**", "qt-platform/**"],
-    "write": ["qt-platform/**"],
+    "read": ["Memory/**", "oc-platform/**"],
+    "write": ["oc-platform/**"],
     "execute": ["npm", "mvn", "npx"]
   },
   "collaboration": {

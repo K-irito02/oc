@@ -47,7 +47,7 @@ git add .trae/ .windsurf/ Memory/ "Planning Document/" package.json README.md
 ```
 
 **注意：** 仅添加核心配置目录，排除以下内容：
-- `qt-platform/` — 项目代码（独立仓库）
+- `oc-platform/` — 项目代码（独立仓库）
 - `node_modules/` — 依赖文件
 - `Front-end testing/` — 测试素材（大文件）
 - `package-lock.json` — 锁定文件
@@ -132,7 +132,7 @@ git branch -M main
 
 ```gitignore
 # 项目代码仓库（独立管理）
-qt-platform/
+oc-platform/
 
 # 依赖目录
 node_modules/

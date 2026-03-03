@@ -142,7 +142,7 @@ metadata:
   "to": "PROJECT_MANAGER",
   "content": {
     "reviewId": "REVIEW-001",
-    "scope": "qt-platform/qt-platform-product",
+    "scope": "oc-platform/oc-platform-product",
     "summary": {
       "total": 15,
       "critical": 2,
@@ -194,7 +194,7 @@ metadata:
   "to": "CODE_REVIEW_AGENT",
   "content": {
     "taskId": "TASK-001",
-    "scope": "qt-platform/qt-platform-product",
+    "scope": "oc-platform/oc-platform-product",
     "type": "full",
     "priority": "high"
   }

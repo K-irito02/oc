@@ -31,11 +31,11 @@
 
 ```bash
 # 启动 PostgreSQL + Redis
-cd qt-platform
+cd oc-platform
 docker compose -f docker-compose.dev.yml up -d
 
 # 验证服务
-docker ps  # 确认 qt-dev-postgres 和 qt-dev-redis 运行中
+docker ps  # 确认 oc-dev-postgres 和 oc-dev-redis 运行中
 ```
 
 ## Docker 配置
@@ -54,16 +54,16 @@ docker ps  # 确认 qt-dev-postgres 和 qt-dev-redis 运行中
 - **redis**: Redis 7-alpine
 - **minio**: MinIO Latest
 - **backend**: Spring Boot 多阶段构建 (Dockerfile)
-- **frontend**: React 构建 + Nginx (Dockerfile in qt-platform-web)
+- **frontend**: React 构建 + Nginx (Dockerfile in oc-platform-web)
 
 ### Dockerfile
 
-#### 后端 (`qt-platform-app/Dockerfile`)
+#### 后端 (`oc-platform-app/Dockerfile`)
 - 多阶段构建
 - Stage 1: Maven 构建
 - Stage 2: Eclipse Temurin 17 JRE 运行
 
-#### 前端 (qt-platform-web)
+#### 前端 (oc-platform-web)
 - Stage 1: Node 22 构建 `npm run build`
 - Stage 2: Nginx alpine 静态文件服务
 
@@ -82,14 +82,14 @@ Pipeline:
 
 ## 环境变量模板
 
-参见 `qt-platform/.env.example`:
+参见 `oc-platform/.env.example`:
 
 ```env
 # Database
 DB_HOST=localhost
 DB_PORT=5433
-DB_NAME=qt_platform
-DB_USER=qt_user
+DB_NAME=oc_platform
+DB_USER=oc_user
 DB_PASSWORD=3143285505
 
 # Redis
@@ -143,8 +143,8 @@ MINIO_BUCKET_AVATARS=qt-avatars
 - **分支策略**: 简化的单分支或双分支模式
 - **文件大小**: 优化后约 2.64MB
 
-#### 2. 项目代码仓库 (E:\oc\qt-platform)
-- **仓库路径**: `E:/oc/qt-platform/`
+#### 2. 项目代码仓库 (E:\oc\oc-platform)
+- **仓库路径**: `E:/oc/oc-platform/`
 - **主要用途**: 保存前后端代码、数据库脚本、部署配置
 - **分支策略**: 完整的 GitFlow 工作流
 

@@ -31,19 +31,19 @@ metadata:
 ## 项目结构
 
 ```
-qt-platform/
-├── qt-platform-app/          # 启动模块
-├── qt-platform-common/      # 公共模块
-├── qt-platform-user/        # 用户模块
-├── qt-platform-product/     # 产品模块
-├── qt-platform-comment/    # 评论模块
-├── qt-platform-file/       # 文件模块
-└── qt-platform-admin/       # 管理模块
+oc-platform/
+├── oc-platform-app/          # 启动模块
+├── oc-platform-common/      # 公共模块
+├── oc-platform-user/        # 用户模块
+├── oc-platform-product/     # 产品模块
+├── oc-platform-comment/    # 评论模块
+├── oc-platform-file/       # 文件模块
+└── oc-platform-admin/       # 管理模块
 ```
 
 每个模块的标准结构：
 ```
-qt-platform-xxx/
+oc-platform-xxx/
 ├── src/main/java/.../
 │   ├── controller/      # REST API控制器
 │   ├── service/        # 业务逻辑层
@@ -155,9 +155,9 @@ qt-platform-xxx/
     "taskId": "TASK-002",
     "status": "completed",
     "deliverables": [
-      "qt-platform-product/src/main/java/.../ProductController.java",
-      "qt-platform-product/src/main/java/.../ProductService.java",
-      "qt-platform-product/src/main/java/.../Product.java"
+      "oc-platform-product/src/main/java/.../ProductController.java",
+      "oc-platform-product/src/main/java/.../ProductService.java",
+      "oc-platform-product/src/main/java/.../Product.java"
     ],
     "apiEndpoints": [
       "GET /api/v1/products",
@@ -203,7 +203,7 @@ mvn clean package -DskipTests
 mvn test
 
 # 启动应用
-java -jar qt-platform-app/target/qt-platform-app-1.0.0-SNAPSHOT.jar
+java -jar oc-platform-app/target/oc-platform-app-1.0.0-SNAPSHOT.jar
 ```
 
 ## 触发方式

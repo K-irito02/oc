@@ -93,7 +93,7 @@
       "description": "负责CI/CD流水线配置、容器化、服务器部署和监控",
       "triggers": ["部署", "DevOps", "deploy", "CI/CD", "Docker", "上线"],
       "capabilities": ["ci_cd", "containerization", "deployment", "monitoring"],
-      "availableSkills": ["qt-platform-manager"],
+      "availableSkills": ["oc-platform-manager"],
       "collaboratesWith": ["PROJECT_MANAGER", "CODE_REVIEW_AGENT", "TESTING_AGENT"],
       "collaboration": {
         "canDelegate": [],
@@ -119,9 +119,9 @@
   },
   "projectContext": {
     "projectName": "Qt Platform",
-    "projectPath": "e:/oc/qt-platform",
-    "frontendPath": "e:/oc/qt-platform/qt-platform-web",
-    "backendPath": "e:/oc/qt-platform",
+    "projectPath": "e:/oc/oc-platform",
+    "frontendPath": "e:/oc/oc-platform/oc-platform-web",
+    "backendPath": "e:/oc/oc-platform",
     "technologyStack": {
       "frontend": "React 18 + TypeScript + Vite + Ant Design + Redux Toolkit",
       "backend": "Spring Boot 3.2 + Java 17 + MyBatis-Plus + PostgreSQL",

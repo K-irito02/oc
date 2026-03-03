@@ -14,9 +14,9 @@ trigger: always_on
 - **主要用途**: 保存 AI 配置、规则、技能、工作流和项目记忆
 - **分支策略**: 简化的单分支或双分支模式
 
-### 2. 项目代码仓库 (E:\oc\qt-platform)
+### 2. 项目代码仓库 (E:\oc\oc-platform)
 专门保存项目源代码的独立仓库：
-- **仓库路径**: `E:/oc/qt-platform/`
+- **仓库路径**: `E:/oc/oc-platform/`
 - **主要用途**: 保存前后端代码、数据库脚本、部署配置
 - **分支策略**: 完整的 GitFlow 工作流
 
@@ -93,7 +93,7 @@ main            ← 生产环境，仅接受 release 和 hotfix 合并
 - **依赖文件**: `node_modules/`, `.git/`, `target/`, `dist/`
 - **IDE缓存**: `.vscode/`, `.idea/` 的缓存文件
 - **系统文件**: `*.DS_Store`, `Thumbs.db`
-- **项目代码**: `qt-platform/` 目录（独立仓库管理）
+- **项目代码**: `oc-platform/` 目录（独立仓库管理）
 - **依赖锁文件**: `package-lock.json`（可重新生成）
 
 ## 分支保护
@@ -131,16 +131,16 @@ main            ← 生产环境，仅接受 release 和 hotfix 合并
 
 ### Qt Platform 项目结构
 ```
-qt-platform/
-├── qt-platform-web/          # 前端项目（React 18 + Vite 5 + TypeScript）
-├── qt-platform-user/         # 用户模块
-├── qt-platform-product/      # 产品模块
-├── qt-platform-comment/      # 评论模块
-├── qt-platform-file/         # 文件模块（MinIO 对象存储）
-├── qt-platform-notification/ # 通知模块
-├── qt-platform-admin/        # 管理后台模块
-├── qt-platform-app/           # 应用启动模块
-├── qt-platform-common/        # 公共模块（JSONB 类型处理器等）
+oc-platform/
+├── oc-platform-web/          # 前端项目（React 18 + Vite 5 + TypeScript）
+├── oc-platform-user/         # 用户模块
+├── oc-platform-product/      # 产品模块
+├── oc-platform-comment/      # 评论模块
+├── oc-platform-file/         # 文件模块（MinIO 对象存储）
+├── oc-platform-notification/ # 通知模块
+├── oc-platform-admin/        # 管理后台模块
+├── oc-platform-app/           # 应用启动模块
+├── oc-platform-common/        # 公共模块（JSONB 类型处理器等）
 ├── sql/                       # 数据库脚本
 ├── docker-compose.dev.yml    # 开发环境配置
 └── docker-compose.yml         # 生产环境配置
@@ -173,7 +173,7 @@ E:/oc/
 ├── Front-end testing/         # 前端测试素材（不同步）
 │   ├── Background material/
 │   └── PFP/
-├── qt-platform/              # 项目代码仓库（独立管理）
+├── oc-platform/              # 项目代码仓库（独立管理）
 ├── node_modules/             # Node.js 依赖（不同步）
 ├── package.json              # 根包配置（同步）
 └── package-lock.json         # 依赖锁定文件（不同步）

@@ -19,15 +19,15 @@
 
 ## 项目路径
 
-`qt-platform/`（Maven 多模块项目）
+`oc-platform/`（Maven 多模块项目）
 
 ## 模块结构
 
 ```
-qt-platform/
+oc-platform/
 ├── pom.xml                        # 父 POM（Spring Boot 3.2.12）
-├── qt-platform-common/            # 公共模块
-│   └── src/main/java/com/qtplatform/common/
+├── oc-platform-common/            # 公共模块
+│   └── src/main/java/com/OcPlatform/common/
 │       ├── config/                # RedisConfig, JacksonConfig, AsyncConfig, MyBatisPlusConfig
 │       ├── constant/              # RedisKeys 等常量
 │       ├── entity/                # SystemConfig, FileRecord, AuditLog 等公共实体
@@ -37,8 +37,8 @@ qt-platform/
 │       ├── util/                  # JwtUtil, FileUtil, SemanticVersion, IpUtil
 │       └── validation/            # 自定义校验注解
 │
-├── qt-platform-user/              # 用户模块
-│   └── src/main/java/com/qtplatform/user/
+├── oc-platform-user/              # 用户模块
+│   └── src/main/java/com/OcPlatform/user/
 │       ├── controller/            # AuthController, OAuthController, UserController
 │       ├── service/               # AuthService, OAuthService, UserService, EmailService
 │       ├── repository/            # UserMapper, RoleMapper, UserRoleMapper, OAuthBindingMapper, EmailVerificationMapper
@@ -47,41 +47,41 @@ qt-platform/
 │       ├── vo/                    # UserProfileVO
 │       └── security/              # SecurityConfig, JwtAuthenticationFilter, JwtAuthenticationEntryPoint, JwtAccessDeniedHandler
 │
-├── qt-platform-product/           # 产品模块
-│   └── src/main/java/com/qtplatform/product/
+├── oc-platform-product/           # 产品模块
+│   └── src/main/java/com/OcPlatform/product/
 │       ├── controller/            # ProductController, VersionController, CategoryController, DownloadController, UpdateController
 │       ├── service/               # ProductService, VersionService, CategoryService, DownloadService, UpdateService
 │       ├── repository/            # ProductMapper, ProductVersionMapper, CategoryMapper, DeltaUpdateMapper, DownloadRecordMapper
 │       ├── entity/                # Product, ProductVersion, Category, DeltaUpdate, DownloadRecord
 │       └── dto/                   # ProductVO, VersionVO, CategoryVO 等
 │
-├── qt-platform-comment/           # 评论模块
-│   └── src/main/java/com/qtplatform/comment/
+├── oc-platform-comment/           # 评论模块
+│   └── src/main/java/com/OcPlatform/comment/
 │       ├── controller/            # CommentController
 │       ├── service/               # CommentService
 │       ├── repository/            # CommentMapper, CommentLikeMapper
 │       ├── entity/                # ProductComment, CommentLike
 │       └── dto/                   # CommentVO 等
 │
-├── qt-platform-file/              # 文件模块
-│   └── src/main/java/com/qtplatform/file/
+├── oc-platform-file/              # 文件模块
+│   └── src/main/java/com/OcPlatform/file/
 │       ├── controller/            # FileController
 │       ├── service/               # FileStorageService, ChecksumService
 │       ├── entity/                # (使用 common 模块的 FileRecord)
 │       └── config/                # StorageConfig
 │
-├── qt-platform-admin/             # 后台管理模块
-│   └── src/main/java/com/qtplatform/admin/
+├── oc-platform-admin/             # 后台管理模块
+│   └── src/main/java/com/OcPlatform/admin/
 │       ├── controller/            # AdminDashboardController, AdminUserController, AdminProductController,
 │       │                          # AdminCommentController, AdminCategoryController, AdminFileController,
 │       │                          # AdminStatsController, AdminSystemController
 │       ├── service/               # 管理服务
 │       └── vo/                    # 管理视图对象
 │
-└── qt-platform-app/               # 主应用启动模块
+└── oc-platform-app/               # 主应用启动模块
     ├── Dockerfile                 # 多阶段构建
     └── src/main/
-        ├── java/.../QtPlatformApplication.java
+        ├── java/.../OcPlatformApplication.java
         └── resources/
             ├── application.yml        # 主配置
             ├── application-dev.yml    # 开发环境（show-sql=true, swagger=true）
@@ -94,7 +94,7 @@ qt-platform/
 | 配置项 | 值 | 说明 |
 |--------|------|------|
 | 服务端口 | 8081 | 本机 8080 被 Apache httpd 占用 |
-| 数据库 | qt_platform / qt_user | PostgreSQL 15（Docker映射5433→5432） |
+| 数据库 | oc_platform / oc_user | PostgreSQL 15（Docker映射5433→5432） |
 | Redis | localhost:6379 | 单机模式（Docker映射6380→6379） |
 | JWT 有效期 | access=2h, refresh=7d | |
 | 文件上传路径 | ./uploads | 本地存储 |
@@ -104,27 +104,27 @@ qt-platform/
 
 ## 包命名规范
 
-- 基础包: `com.qtplatform`
-- 模块包: `com.qtplatform.{module}` (user/product/comment/file/admin/common)
+- 基础包: `com.OcPlatform`
+- 模块包: `com.OcPlatform.{module}` (user/product/comment/file/admin/common)
 
 ## 构建命令
 
 ```bash
-cd qt-platform
+cd oc-platform
 # 编译全部模块
 ./mvnw clean package -DskipTests
 
 # 启动应用（开发环境）
-cd qt-platform-app
+cd oc-platform-app
 ../mvnw spring-boot:run -Dspring-boot.run.profiles=dev
 
 # 单独编译某模块
-./mvnw clean package -pl qt-platform-user -am
+./mvnw clean package -pl oc-platform-user -am
 ```
 
 ## 环境变量
 
-参见 `qt-platform/.env.example`:
+参见 `oc-platform/.env.example`:
 - `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`
 - `REDIS_HOST`, `REDIS_PORT`, `REDIS_PASSWORD`
 - `JWT_SECRET`, `JWT_ACCESS_EXPIRATION`, `JWT_REFRESH_EXPIRATION`

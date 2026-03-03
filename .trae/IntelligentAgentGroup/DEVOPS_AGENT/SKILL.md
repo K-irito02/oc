@@ -73,17 +73,17 @@ metadata:
 #### 后端构建
 
 ```bash
-cd qt-platform
+cd oc-platform
 mvn clean package -DskipTests
 
 # 构建Docker镜像
-docker build -t qt-platform-app:latest .
+docker build -t oc-platform-app:latest .
 ```
 
 #### 前端构建
 
 ```bash
-cd qt-platform-web
+cd oc-platform-web
 npm run build
 ```
 
@@ -99,9 +99,9 @@ services:
   postgres:
     image: postgres:15
     environment:
-      POSTGRES_USER: qt_user
+      POSTGRES_USER: oc_user
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: qt_platform
+      POSTGRES_DB: oc_platform
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -117,7 +117,7 @@ services:
       MINIO_ROOT_PASSWORD: minioadmin
 
   backend:
-    image: qt-platform-app:latest
+    image: oc-platform-app:latest
     ports:
       - "8081:8081"
     environment:
@@ -176,8 +176,8 @@ docker-compose logs -f backend
     "version": "v1.0.0",
     "duration": "5m 30s",
     "endpoints": [
-      "https://api.qtplatform.com",
-      "https://qtplatform.com"
+      "https://api.OcPlatform.com",
+      "https://OcPlatform.com"
     ],
     "checks": [
       {"name": "健康检查", "status": "OK"},
@@ -215,7 +215,7 @@ jobs:
       - name: Build with Maven
         run: mvn clean package -DskipTests
       - name: Build Docker image
-        run: docker build -t qt-platform-app:${{ github.sha }} .
+        run: docker build -t oc-platform-app:${{ github.sha }} .
 
   build-frontend:
     runs-on: ubuntu-latest
@@ -252,7 +252,7 @@ jobs:
   "content": {
     "requirement": "需要后端构建产物",
     "version": "1.0.0-SNAPSHOT",
-    "artifact": "qt-platform-app-1.0.0-SNAPSHOT.jar"
+    "artifact": "oc-platform-app-1.0.0-SNAPSHOT.jar"
   }
 }
 ```
@@ -275,8 +275,8 @@ jobs:
 ### 开发环境
 
 ```bash
-# 使用 qt-platform-manager 技能启动
-qt-platform-manager: start
+# 使用 oc-platform-manager 技能启动
+oc-platform-manager: start
 ```
 
 ### 生产环境
@@ -284,7 +284,7 @@ qt-platform-manager: start
 - 数据库: 云数据库 (如阿里云RDS)
 - Redis: 云缓存 (如阿里云Redis)
 - 存储: 对象存储 (如阿里云OSS)
-- 域名: qtplatform.com
+- 域名: OcPlatform.com
 
 ## 触发方式
 
@@ -297,4 +297,4 @@ qt-platform-manager: start
 
 ## 相关技能
 
-- `qt-platform-manager` - 项目管理（启动/停止服务）
+- `oc-platform-manager` - 项目管理（启动/停止服务）

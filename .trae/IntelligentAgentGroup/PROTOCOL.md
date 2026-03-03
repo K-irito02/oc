@@ -94,8 +94,8 @@
     "dependencies": []
   },
   "context": {
-    "projectPath": "e:/oc/qt-platform",
-    "frontendPath": "e:/oc/qt-platform/qt-platform-web"
+    "projectPath": "e:/oc/oc-platform",
+    "frontendPath": "e:/oc/oc-platform/oc-platform-web"
   }
 }
 ```

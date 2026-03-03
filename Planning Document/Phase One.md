@@ -102,10 +102,10 @@ version: '3.8'
 services:
   postgres:
     image: postgres:15-alpine
-    container_name: qt-dev-postgres
+    container_name: oc-dev-postgres
     environment:
-      POSTGRES_DB: qt_platform
-      POSTGRES_USER: qt_user
+      POSTGRES_DB: oc_platform
+      POSTGRES_USER: oc_user
       POSTGRES_PASSWORD: qt_dev_password
     ports:
       - "5432:5432"
@@ -113,14 +113,14 @@ services:
       - postgres_dev_data:/var/lib/postgresql/data
       - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U qt_user"]
+      test: ["CMD-SHELL", "pg_isready -U oc_user"]
       interval: 10s
       timeout: 5s
       retries: 5
 
   redis:
     image: redis:7-alpine
-    container_name: qt-dev-redis
+    container_name: oc-dev-redis
     command: redis-server --appendonly yes --maxmemory 128mb --maxmemory-policy allkeys-lru
     ports:
       - "6379:6379"
@@ -176,8 +176,8 @@ volumes:
 为未来微服务拆分做准备，阶段一采用模块化单体架构：
 
 ```
-qt-platform/
-├── qt-platform-common/          # 公共模块
+oc-platform/
+├── oc-platform-common/          # 公共模块
 │   ├── src/main/java/.../common/
 │   │   ├── exception/           # 全局异常定义与处理
 │   │   │   ├── BusinessException.java
@@ -199,7 +199,7 @@ qt-platform/
 │   │   └── validation/          # 自定义校验注解
 │   └── pom.xml
 │
-├── qt-platform-user/            # 用户模块
+├── oc-platform-user/            # 用户模块
 │   ├── src/main/java/.../user/
 │   │   ├── controller/
 │   │   │   ├── AuthController.java
@@ -222,7 +222,7 @@ qt-platform/
 │   │       └── SecurityService.java
 │   └── pom.xml
 │
-├── qt-platform-product/         # 产品模块
+├── oc-platform-product/         # 产品模块
 │   ├── src/main/java/.../product/
 │   │   ├── controller/
 │   │   │   ├── ProductController.java
@@ -237,7 +237,7 @@ qt-platform/
 │   │   └── vo/
 │   └── pom.xml
 │
-├── qt-platform-comment/         # 评论模块
+├── oc-platform-comment/         # 评论模块
 │   ├── src/main/java/.../comment/
 │   │   ├── controller/
 │   │   │   └── CommentController.java
@@ -247,7 +247,7 @@ qt-platform/
 │   │   └── dto/
 │   └── pom.xml
 │
-├── qt-platform-file/            # 文件模块
+├── oc-platform-file/            # 文件模块
 │   ├── src/main/java/.../file/
 │   │   ├── controller/
 │   │   │   └── FileController.java
@@ -259,7 +259,7 @@ qt-platform/
 │   │       └── StorageConfig.java
 │   └── pom.xml
 │
-├── qt-platform-admin/           # 后台管理模块
+├── oc-platform-admin/           # 后台管理模块
 │   ├── src/main/java/.../admin/
 │   │   ├── controller/
 │   │   │   ├── AdminDashboardController.java
@@ -274,9 +274,9 @@ qt-platform/
 │   │   └── vo/
 │   └── pom.xml
 │
-├── qt-platform-app/             # 主应用启动模块（聚合所有模块）
+├── oc-platform-app/             # 主应用启动模块（聚合所有模块）
 │   ├── src/main/java/.../
-│   │   └── QtPlatformApplication.java
+│   │   └── OcPlatformApplication.java
 │   ├── src/main/resources/
 │   │   ├── application.yml           # 主配置
 │   │   ├── application-dev.yml       # 开发环境
@@ -284,7 +284,7 @@ qt-platform/
 │   │   └── logback-spring.xml        # 日志配置
 │   └── pom.xml
 │
-├── qt-platform-web/             # 前端项目（独立目录）
+├── oc-platform-web/             # 前端项目（独立目录）
 │   └── ...
 │
 ├── sql/                         # 数据库脚本
@@ -312,7 +312,7 @@ qt-platform/
 ### 3.3 Spring Boot 主配置文件
 
 ```yaml
-# qt-platform-app/src/main/resources/application.yml
+# oc-platform-app/src/main/resources/application.yml
 server:
   port: 8080
   servlet:
@@ -323,7 +323,7 @@ server:
 
 spring:
   application:
-    name: qt-platform
+    name: oc-platform
   profiles:
     active: dev
 
@@ -343,8 +343,8 @@ spring:
 
   # 数据库
   datasource:
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:qt_platform}
-    username: ${DB_USER:qt_user}
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:oc_platform}
+    username: ${DB_USER:oc_user}
     password: ${DB_PASSWORD:qt_dev_password}
     driver-class-name: org.postgresql.Driver
     hikari:
@@ -394,7 +394,7 @@ spring:
 # MyBatis-Plus
 mybatis-plus:
   mapper-locations: classpath*:mapper/**/*.xml
-  type-aliases-package: com.qtplatform.*.entity
+  type-aliases-package: com.OcPlatform.*.entity
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false
@@ -472,12 +472,12 @@ rate-limit:
 logging:
   level:
     root: INFO
-    com.qtplatform: DEBUG
+    com.OcPlatform: DEBUG
     org.springframework.security: WARN
 ```
 
 ```yaml
-# qt-platform-app/src/main/resources/application-dev.yml
+# oc-platform-app/src/main/resources/application-dev.yml
 spring:
   jpa:
     show-sql: true
@@ -491,12 +491,12 @@ springdoc:
 
 logging:
   level:
-    com.qtplatform: DEBUG
+    com.OcPlatform: DEBUG
     org.hibernate.SQL: DEBUG
 ```
 
 ```yaml
-# qt-platform-app/src/main/resources/application-prod.yml
+# oc-platform-app/src/main/resources/application-prod.yml
 spring:
   jpa:
     show-sql: false
@@ -510,7 +510,7 @@ springdoc:
 logging:
   level:
     root: WARN
-    com.qtplatform: INFO
+    com.OcPlatform: INFO
 ```
 
 ---
@@ -1026,7 +1026,7 @@ WHERE r.code = 'USER' AND p.code IN ('PRODUCT:READ', 'COMMENT:CREATE');
 
 -- 初始化超级管理员账号（密码: Admin@123456，BCrypt hash）
 INSERT INTO users (username, email, password_hash, nickname, status, email_verified) VALUES
-    ('admin', 'admin@qtplatform.com',
+    ('admin', 'admin@OcPlatform.com',
      '$2a$12$LJ3m4ys0Z9Xqf3RVx7FvXOQF4qBv5L5HZ5Wd6mN8aX3V2S6P0KJi',
      '超级管理员', 'ACTIVE', TRUE);
 
@@ -1602,7 +1602,7 @@ public class CacheWarmer implements ApplicationRunner {
 ### 8.1 前端项目结构
 
 ```
-qt-platform-web/
+oc-platform-web/
 ├── public/
 │   ├── favicon.ico
 │   ├── robots.txt
@@ -2160,7 +2160,7 @@ RUN ./mvnw package -DskipTests -B
 # ===== 阶段二：运行 =====
 FROM eclipse-temurin:17-jre-alpine
 
-LABEL maintainer="qt-platform"
+LABEL maintainer="oc-platform"
 LABEL version="1.0"
 
 # 安全：创建非 root 用户
@@ -2168,7 +2168,7 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
 WORKDIR /app
 
-COPY --from=builder /app/target/qt-platform-*.jar app.jar
+COPY --from=builder /app/target/oc-platform-*.jar app.jar
 
 RUN mkdir -p /app/uploads /app/logs && \
     chown -R appuser:appgroup /app
@@ -2333,8 +2333,8 @@ networks:
 # 数据库
 DB_HOST=postgres
 DB_PORT=5432
-DB_NAME=qt_platform
-DB_USER=qt_user
+DB_NAME=oc_platform
+DB_USER=oc_user
 DB_PASSWORD=<替换为强密码>
 
 # Redis
@@ -2511,7 +2511,7 @@ jobs:
       - name: Java Lint
         run: mvn checkstyle:check spotbugs:check
       - name: Frontend Lint
-        working-directory: qt-platform-web
+        working-directory: oc-platform-web
         run: npm ci && npm run lint && npm run type-check
 
   test:
@@ -2521,7 +2521,7 @@ jobs:
       postgres:
         image: postgres:15
         env:
-          POSTGRES_DB: qt_platform_test
+          POSTGRES_DB: oc_platform_test
           POSTGRES_USER: test
           POSTGRES_PASSWORD: test
         ports: ['5432:5432']
@@ -2537,7 +2537,7 @@ jobs:
       - name: Backend Tests
         run: mvn test -Dspring.profiles.active=test
       - name: Frontend Tests
-        working-directory: qt-platform-web
+        working-directory: oc-platform-web
         run: npm ci && npm test
 
   build:
@@ -2566,7 +2566,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd /opt/qt-platform
+            cd /opt/oc-platform
             docker compose pull
             docker compose up -d --remove-orphans
             docker image prune -f
@@ -2584,7 +2584,7 @@ global:
   scrape_interval: 15s
 
 scrape_configs:
-  - job_name: 'qt-platform-app'
+  - job_name: 'oc-platform-app'
     metrics_path: '/actuator/prometheus'
     static_configs:
       - targets: ['app:8080']
@@ -2627,7 +2627,7 @@ groups:
 <configuration>
     <appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <customFields>{"service":"qt-platform","env":"prod"}</customFields>
+            <customFields>{"service":"oc-platform","env":"prod"}</customFields>
         </encoder>
     </appender>
 
@@ -2663,9 +2663,9 @@ groups:
 # PostgreSQL 自动备份脚本（crontab: 0 2 * * *）
 BACKUP_DIR="/backups/postgres"
 DATE=$(date +%Y%m%d_%H%M%S)
-DB_NAME="qt_platform"
+DB_NAME="oc_platform"
 
-pg_dump -Fc -h localhost -U qt_user $DB_NAME > "$BACKUP_DIR/${DB_NAME}_${DATE}.dump"
+pg_dump -Fc -h localhost -U oc_user $DB_NAME > "$BACKUP_DIR/${DB_NAME}_${DATE}.dump"
 find $BACKUP_DIR -name "*.dump" -mtime +30 -delete
 ```
 
@@ -2692,7 +2692,7 @@ class ProductControllerIntegrationTest {
 
     @Container
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15-alpine")
-        .withDatabaseName("qt_platform_test")
+        .withDatabaseName("oc_platform_test")
         .withUsername("test")
         .withPassword("test");
 

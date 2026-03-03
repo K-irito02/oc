@@ -167,7 +167,7 @@
 3. **重新运行构建检查**：
    ```powershell
    # 前端
-   cd qt-platform-web
+   cd oc-platform-web
    npm run build
    
    # 后端
@@ -187,13 +187,13 @@
 **解决方案：**
 1. **运行代码格式化**：
    ```powershell
-   cd qt-platform-web
+   cd oc-platform-web
    npm run format
    ```
 
 2. **修复 ESLint 错误**：
    ```powershell
-   cd qt-platform-web
+   cd oc-platform-web
    npm run lint
    # 根据错误信息修复代码
    ```

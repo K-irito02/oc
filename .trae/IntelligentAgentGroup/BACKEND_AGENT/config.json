@@ -27,8 +27,8 @@
     "code-reviewer"
   ],
   "permissions": {
-    "read": ["Memory/**", ".", "qt-platform/**"],
-    "write": ["qt-platform/**"],
+    "read": ["Memory/**", ".", "oc-platform/**"],
+    "write": ["oc-platform/**"],
     "execute": ["mvn", "java", "docker"]
   },
   "collaboration": {

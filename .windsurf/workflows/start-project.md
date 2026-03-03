@@ -21,7 +21,7 @@ docker info >$null 2>&1; if ($LASTEXITCODE -ne 0) { Write-Error "Docker Desktop 
 docker compose -f docker-compose.dev.yml up -d
 ```
 
-工作目录：`e:\oc\qt-platform`
+工作目录：`e:\oc\oc-platform`
 
 等待服务变为 healthy：
 
@@ -30,26 +30,26 @@ docker compose -f docker-compose.dev.yml up -d
 Start-Sleep -Seconds 5; docker compose -f docker-compose.dev.yml ps
 ```
 
-确认两个服务（qt-dev-postgres、qt-dev-redis）状态为 healthy。
+确认两个服务（oc-dev-postgres、oc-dev-redis）状态为 healthy。
 
 服务信息：
-- **PostgreSQL**: localhost:5433, 用户 qt_user, 密码 3143285505, 数据库 qt_platform
+- **PostgreSQL**: localhost:5433, 用户 oc_user, 密码 3143285505, 数据库 oc_platform
 - **Redis**: localhost:6380, 密码 3143285505
 
 ## 3. 检查是否需要导入种子数据
 
 // turbo
 ```powershell
-$count = docker exec qt-dev-postgres psql -U qt_user -d qt_platform -t -c "SELECT count(*) FROM categories;" 2>$null; if ([int]$count.Trim() -eq 0) { Write-Output "NEED_SEED" } else { Write-Output "SEED_EXISTS: $($count.Trim()) categories" }
+$count = docker exec oc-dev-postgres psql -U oc_user -d oc_platform -t -c "SELECT count(*) FROM categories;" 2>$null; if ([int]$count.Trim() -eq 0) { Write-Output "NEED_SEED" } else { Write-Output "SEED_EXISTS: $($count.Trim()) categories" }
 ```
 
 如果输出 `NEED_SEED`，执行种子数据导入：
 
 ```powershell
-Get-Content sql/seed.sql | docker exec -i qt-dev-postgres psql -U qt_user -d qt_platform
+Get-Content sql/seed.sql | docker exec -i oc-dev-postgres psql -U oc_user -d oc_platform
 ```
 
-工作目录：`e:\oc\qt-platform`
+工作目录：`e:\oc\oc-platform`
 
 ## 4. 停止已有的 Java 进程（避免端口冲突）
 
@@ -61,22 +61,22 @@ Get-Process -Name java -ErrorAction SilentlyContinue | Stop-Process -Force 2>$nu
 
 // turbo
 ```powershell
-mvn clean package -DskipTests -pl qt-platform-app -am -q
+mvn clean package -DskipTests -pl oc-platform-app -am -q
 ```
 
-工作目录：`e:\oc\qt-platform`
+工作目录：`e:\oc\oc-platform`
 
 编译约需 30-60 秒，无输出表示成功。
 
 ## 6. 启动后端（后台运行）
 
 ```powershell
-java -jar qt-platform-app\target\qt-platform-app-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev
+java -jar oc-platform-app\target\oc-platform-app-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev
 ```
 
-工作目录：`e:\oc\qt-platform`
+工作目录：`e:\oc\oc-platform`
 
-此命令以非阻塞方式运行，等待约 10 秒后检查日志确认启动成功（看到 `Started QtPlatformApplication`）。
+此命令以非阻塞方式运行，等待约 10 秒后检查日志确认启动成功（看到 `Started OcPlatformApplication`）。
 
 后端信息：
 - **API 地址**: http://localhost:8081
@@ -88,7 +88,7 @@ java -jar qt-platform-app\target\qt-platform-app-1.0.0-SNAPSHOT.jar --spring.pro
 npm run dev
 ```
 
-工作目录：`e:\oc\qt-platform\qt-platform-web`
+工作目录：`e:\oc\oc-platform\oc-platform-web`
 
 此命令以非阻塞方式运行，等待约 5 秒后确认启动成功（看到 `VITE ready`）。
 
@@ -120,7 +120,7 @@ curl.exe -s -o NUL -w "%{http_code}" http://localhost:5173
 | 前端 | http://localhost:5173 | Vite 开发服务器 |
 | 后端 API | http://localhost:8081 | Spring Boot |
 | Swagger UI | http://localhost:8081/swagger-ui.html | API 文档 |
-| PostgreSQL | localhost:5433 | 用户 qt_user / 密码 3143285505 |
+| PostgreSQL | localhost:5433 | 用户 oc_user / 密码 3143285505 |
 | Redis | localhost:6380 | 密码 3143285505 |
 
-管理员登录：admin@qtplatform.com / Admin@123456
+管理员登录：admin@OcPlatform.com / Admin@123456

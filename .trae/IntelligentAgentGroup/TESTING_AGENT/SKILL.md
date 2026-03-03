@@ -122,15 +122,15 @@ test.describe('用户登录', () => {
 
 ```bash
 # 后端测试
-cd qt-platform
+cd oc-platform
 mvn test
 
 # 前端单元测试
-cd qt-platform-web
+cd oc-platform-web
 npm run test
 
 # 前端E2E测试
-cd qt-platform-web
+cd oc-platform-web
 npx playwright test
 
 # 运行所有测试
@@ -176,12 +176,12 @@ npm run test:all
 ### 测试文件位置
 
 ```
-qt-platform/
-├── qt-platform-app/
+oc-platform/
+├── oc-platform-app/
 │   └── src/test/java/.../          # 后端测试
 │
-qt-platform/
-├── qt-platform-web/
+oc-platform/
+├── oc-platform-web/
 │   └── src/
 │       ├── __tests__/              # Vitest测试
 │       └── e2e/                    # Playwright测试

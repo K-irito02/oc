@@ -4,7 +4,7 @@ description: 项目代码仓库提交工作流 — 提交前后端代码到 GitH
 
 # 项目代码仓库提交工作流
 
-> 将 E:\oc\qt-platform 目录下的项目代码提交到 GitHub 远程仓库
+> 将 E:\oc\oc-platform 目录下的项目代码提交到 GitHub 远程仓库
 
 ## 触发条件
 
@@ -19,7 +19,7 @@ description: 项目代码仓库提交工作流 — 提交前后端代码到 GitH
 
 ### 1. 切换到项目代码仓库目录
 
-工作目录：`e:\oc\qt-platform`
+工作目录：`e:\oc\oc-platform`
 
 ### 2. 检查 Git 状态
 
@@ -193,8 +193,8 @@ git branch -d hotfix/紧急修复描述
 ### 配置远程仓库
 
 ```powershell
-cd e:\oc\qt-platform
-git remote add origin https://github.com/K-irito02/qt-platform-app.git
+cd e:\oc\oc-platform
+git remote add origin https://github.com/K-irito02/oc-platform-app.git
 ```
 
 ### 配置 GitHub 认证
@@ -237,7 +237,7 @@ mvn package -DskipTests -q
 ### 前端检查
 
 ```powershell
-cd qt-platform-web
+cd oc-platform-web
 
 # TypeScript 类型检查
 npx tsc --noEmit
@@ -250,7 +250,7 @@ npm run build
 
 ```powershell
 # 前端 ESLint
-cd qt-platform-web
+cd oc-platform-web
 npm run lint
 
 # 前端格式化
@@ -307,7 +307,7 @@ git log --graph --oneline --all
 
 ### 快速提交脚本
 
-创建 `e:\oc\qt-platform\scripts\quick-commit.ps1`：
+创建 `e:\oc\oc-platform\scripts\quick-commit.ps1`：
 
 ```powershell
 param(

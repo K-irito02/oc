@@ -10,11 +10,11 @@ trigger: always_on
 
 ```bash
 # 启动所有服务
-cd e:\oc\qt-platform
+cd e:\oc\oc-platform
 docker compose -f docker-compose.dev.yml up -d
-mvn clean package -DskipTests -pl qt-platform-app -am -q
-java -jar qt-platform-app\target\qt-platform-app-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev &
-cd qt-platform-web && npm run dev
+mvn clean package -DskipTests -pl oc-platform-app -am -q
+java -jar oc-platform-app\target\oc-platform-app-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev &
+cd oc-platform-web && npm run dev
 ```
 
 ## 服务访问
@@ -24,13 +24,13 @@ cd qt-platform-web && npm run dev
 | **前端应用** | http://localhost:5173 | Vite 开发服务器（可能自动切换到5174） |
 | **后端 API** | http://localhost:8081 | Spring Boot 应用 |
 | **Swagger UI** | http://localhost:8081/swagger-ui.html | API 文档 |
-| **PostgreSQL** | localhost:5433 | 数据库（用户：qt_user） |
+| **PostgreSQL** | localhost:5433 | 数据库（用户：oc_user） |
 | **Redis** | localhost:6380 | 缓存服务 |
 | **MinIO Console** | http://localhost:9001 | 对象存储管理界面 |
 
 ## 测试账号
 
-- **管理员**: admin@qtplatform.com / Admin@123456
+- **管理员**: admin@OcPlatform.com / Admin@123456
 - **普通用户**: user1@example.com / User@123456
 
 ## 常用命令
@@ -56,10 +56,10 @@ docker compose -f docker-compose.dev.yml logs -f
 mvn clean package -DskipTests
 
 # 编译特定模块
-mvn clean package -DskipTests -pl qt-platform-app -am
+mvn clean package -DskipTests -pl oc-platform-app -am
 
 # 运行应用
-java -jar qt-platform-app/target/qt-platform-app-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev
+java -jar oc-platform-app/target/oc-platform-app-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev
 ```
 
 ### 前端
@@ -113,7 +113,7 @@ mvn clean install -DskipTests
 ### 数据库重置
 ```bash
 # 重新导入种子数据
-Get-Content sql/seed.sql | docker exec -i qt-dev-postgres psql -U qt_user -d qt_platform
+Get-Content sql/seed.sql | docker exec -i oc-dev-postgres psql -U oc_user -d oc_platform
 ```
 
 ## IDE 配置

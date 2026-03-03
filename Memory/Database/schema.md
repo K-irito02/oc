@@ -7,8 +7,8 @@
 | 项目 | 值 |
 |------|------|
 | 数据库类型 | PostgreSQL 15.x |
-| 数据库名 | qt_platform |
-| 用户名 | qt_user |
+| 数据库名 | oc_platform |
+| 用户名 | oc_user |
 | 密码（开发） | 3143285505 |
 | 端口 | 5433（Docker映射5433→5432） |
 | 表管理方式 | SQL 脚本（JPA ddl-auto=none） |
@@ -17,8 +17,8 @@
 
 | 文件 | 路径 | 说明 |
 |------|------|------|
-| 建表脚本 | `qt-platform/sql/init.sql` | 全部表结构 + 索引 + 触发器 + 初始化数据 |
-| 种子数据 | `qt-platform/sql/seed.sql` | 测试数据（5用户 + 6分类 + 8产品 + 版本 + 评论） |
+| 建表脚本 | `oc-platform/sql/init.sql` | 全部表结构 + 索引 + 触发器 + 初始化数据 |
+| 种子数据 | `oc-platform/sql/seed.sql` | 测试数据（5用户 + 6分类 + 8产品 + 版本 + 评论） |
 
 ## 表清单（28 张）
 

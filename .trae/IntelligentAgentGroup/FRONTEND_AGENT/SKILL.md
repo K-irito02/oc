@@ -41,7 +41,7 @@ metadata:
 ## 项目结构
 
 ```
-qt-platform/qt-platform-web/
+oc-platform/oc-platform-web/
 ├── src/
 │   ├── api/              # API 请求封装
 │   ├── assets/           # 静态资源

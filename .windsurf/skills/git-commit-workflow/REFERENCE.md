@@ -370,7 +370,7 @@ param(
 )
 
 # 切换到项目代码仓库目录
-Set-Location "e:\oc\qt-platform"
+Set-Location "e:\oc\oc-platform"
 
 # 检查 Git 状态
 Write-Host "🔍 检查 Git 状态..." -ForegroundColor Cyan
@@ -383,7 +383,7 @@ git diff --stat
 # 前端检查
 if ($LintCheck) {
     Write-Host "🔧 前端代码规范检查..." -ForegroundColor Cyan
-    Set-Location "qt-platform-web"
+    Set-Location "oc-platform-web"
     npm run lint
     if ($LASTEXITCODE -ne 0) {
         Write-Host "❌ 代码规范检查失败！" -ForegroundColor Red
@@ -395,7 +395,7 @@ if ($LintCheck) {
 # 构建检查
 if ($BuildCheck) {
     Write-Host "🏗️  构建检查..." -ForegroundColor Cyan
-    Set-Location "qt-platform-web"
+    Set-Location "oc-platform-web"
     npm run build
     if ($LASTEXITCODE -ne 0) {
         Write-Host "❌ 构建检查失败！" -ForegroundColor Red

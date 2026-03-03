@@ -1,20 +1,20 @@
 ---
-name: qt-platform-manager
+name: oc-platform-manager
 description: |
-  Qt Platform 项目自动化管理技能 - 统一管理开发环境启动、停止和状态检查
+  OC Platform 项目自动化管理技能 - 统一管理开发环境启动、停止和状态检查
   包括 Docker 依赖服务 (PostgreSQL + Redis + MinIO)、Spring Boot 后端服务、Vite 前端开发服务器
   支持智能端口检测、自动编译判断和故障排查
 version: 1.1.0
 last_updated: 2026-02-28
 ---
 
-# Qt Platform 项目管理技能
+# OC Platform 项目管理技能
 
 > 自动化检查/执行项目依赖、后端/前端构建及运行
 
 ## 概述
 
-本技能用于管理 Qt Platform 项目的启动和停止，包括：
+本技能用于管理 OC Platform 项目的启动和停止，包括：
 - Docker 依赖服务 (PostgreSQL + Redis + MinIO)
 - Spring Boot 后端服务
 - Vite 前端开发服务器
@@ -46,7 +46,7 @@ docker info >$null 2>&1; if ($LASTEXITCODE -ne 0) { Write-Error "Docker Desktop 
 docker compose -f docker-compose.dev.yml up -d
 ```
 
-工作目录：`e:\oc\qt-platform`
+工作目录：`e:\oc\oc-platform`
 
 等待服务健康检查：
 
@@ -55,10 +55,10 @@ docker compose -f docker-compose.dev.yml up -d
 Start-Sleep -Seconds 5; docker compose -f docker-compose.dev.yml ps
 ```
 
-确认 `qt-dev-postgres`、`qt-dev-redis` 和 `qt-dev-minio` 状态为 healthy。
+确认 `oc-dev-postgres`、`oc-dev-redis` 和 `oc-dev-minio` 状态为 healthy。
 
 **服务信息：**
-- PostgreSQL: localhost:5433, 用户 qt_user, 密码 3143285505
+- PostgreSQL: localhost:5433, 用户 oc_user, 密码 3143285505
 - Redis: localhost:6380, 密码 3143285505
 - MinIO: localhost:9000 (API), localhost:9001 (Console)
 
@@ -66,16 +66,16 @@ Start-Sleep -Seconds 5; docker compose -f docker-compose.dev.yml ps
 
 // turbo
 ```powershell
-$count = docker exec qt-dev-postgres psql -U qt_user -d qt_platform -t -c "SELECT count(*) FROM categories;" 2>$null; if ([int]$count.Trim() -eq 0) { Write-Output "NEED_SEED" } else { Write-Output "SEED_EXISTS: $($count.Trim()) categories" }
+$count = docker exec oc-dev-postgres psql -U oc_user -d oc_platform -t -c "SELECT count(*) FROM categories;" 2>$null; if ([int]$count.Trim() -eq 0) { Write-Output "NEED_SEED" } else { Write-Output "SEED_EXISTS: $($count.Trim()) categories" }
 ```
 
 如果输出 `NEED_SEED`，执行种子数据导入：
 
 ```powershell
-Get-Content sql/seed.sql | docker exec -i qt-dev-postgres psql -U qt_user -d qt_platform
+Get-Content sql/seed.sql | docker exec -i oc-dev-postgres psql -U oc_user -d oc_platform
 ```
 
-工作目录：`e:\oc\qt-platform`
+工作目录：`e:\oc\oc-platform`
 
 ### 4. 停止已有 Java 进程
 
@@ -86,28 +86,28 @@ Get-Process -Name java -ErrorAction SilentlyContinue | Stop-Process -Force 2>$nu
 ### 5. 编译后端（按需）
 
 **判断是否需要重新编译：**
-- 如果 `qt-platform-app/target/qt-platform-app-1.0.0-SNAPSHOT.jar` 不存在 → 需要编译
+- 如果 `oc-platform-app/target/oc-platform-app-1.0.0-SNAPSHOT.jar` 不存在 → 需要编译
 - 如果后端 Java 代码有修改（通过 git status 检查）→ 需要编译
 - 否则跳过编译
 
 // turbo
 ```powershell
-mvn clean package -DskipTests -pl qt-platform-app -am -q
+mvn clean package -DskipTests -pl oc-platform-app -am -q
 ```
 
-工作目录：`e:\oc\qt-platform`
+工作目录：`e:\oc\oc-platform`
 
 编译约需 30-60 秒。
 
 ### 6. 启动后端
 
 ```powershell
-java -jar qt-platform-app\target\qt-platform-app-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev
+java -jar oc-platform-app\target\oc-platform-app-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev
 ```
 
-工作目录：`e:\oc\qt-platform`
+工作目录：`e:\oc\oc-platform`
 
-以非阻塞方式运行，等待约 10 秒确认启动成功（看到 `Started QtPlatformApplication`）。
+以非阻塞方式运行，等待约 10 秒确认启动成功（看到 `Started OcPlatformApplication`）。
 
 **后端信息：**
 - API 地址: http://localhost:8081
@@ -139,7 +139,7 @@ if (-not $frontendRunning) {
 }
 ```
 
-工作目录：`e:\oc\qt-platform\qt-platform-web`
+工作目录：`e:\oc\oc-platform\oc-platform-web`
 
 以非阻塞方式运行，等待约 5 秒确认启动成功（看到 `VITE ready`）。
 
@@ -185,7 +185,7 @@ Get-Process -Name java -ErrorAction SilentlyContinue | Stop-Process -Force 2>$nu
 docker compose -f docker-compose.dev.yml stop
 ```
 
-工作目录：`e:\oc\qt-platform`
+工作目录：`e:\oc\oc-platform`
 
 > 注意：使用 `stop` 而非 `down`，保留数据卷。如需彻底清除数据，使用 `docker compose -f docker-compose.dev.yml down -v`。
 
@@ -216,7 +216,7 @@ docker compose -f docker-compose.dev.yml stop
 
 ## 测试账号
 
-- 管理员: admin@qtplatform.com / Admin@123456
+- 管理员: admin@OcPlatform.com / Admin@123456
 - 普通用户: zhangsan@example.com / Test@123456
 
 ## 故障排查

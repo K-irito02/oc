@@ -6,7 +6,7 @@
 
 ## 概述
 
-本仓库用于管理 Qt Platform 项目的开发环境状态，包括：
+本仓库用于管理 OC Platform 项目的开发环境状态，包括：
 - **AI 配置**: Trae/Windsurf AI 的规则、技能和工作流
 - **项目记忆**: AI 辅助开发的持久化记忆系统
 - **计划文档**: 架构设计、阶段规划等文档
@@ -34,7 +34,7 @@ E:/oc/
 │   ├── Architecture Document.md
 │   ├── Phase One.md
 │   └── 主题设计.md
-├── qt-platform/               # 项目代码仓库（独立管理）
+├── oc-platform/               # 项目代码仓库（独立管理）
 ├── package.json               # 根包配置
 └── README.md                  # 本文件
 ```
@@ -43,8 +43,8 @@ E:/oc/
 
 | 仓库 | 路径 | 用途 | GitHub |
 |------|------|------|--------|
-| **项目环境状态** | `E:/oc/` | AI 配置、记忆、文档 | [oc-env-state](https://github.com/K-irito02/oc-env-state) |
-| **项目代码** | `E:/oc/qt-platform/` | 前后端代码、数据库脚本 | [qt-platform-app](https://github.com/K-irito02/qt-platform-app) |
+| **项目环境状态** | `E:/oc/` | AI 配置、记忆、文档 | [oc-env-state](https://github.com/K-irito02/oc) |
+| **项目代码** | `E:/oc/oc-platform/` | 前后端代码、数据库脚本 | [oc-platform-app](https://github.com/K-irito02/oc-platform-app) |
 
 ## 工作流
 
@@ -64,7 +64,7 @@ git push origin main
 ```powershell
 # 使用 /commit-project-code 工作流
 # 或手动执行：
-cd e:\oc\qt-platform
+cd e:\oc\oc-platform
 git add .
 git commit -m "feat: 功能描述"
 git push origin develop
@@ -78,7 +78,7 @@ git push origin develop
 |------|------|
 | `frontend-design` | 创建生产级前端界面 |
 | `ui-ux-pro-max` | UI/UX 设计智能助手 |
-| `qt-platform-manager` | Qt Platform 项目自动化管理 |
+| `oc-platform-manager` | Qt Platform 项目自动化管理 |
 | `git-commit-workflow` | Git 提交工作流 |
 | `code-reviewer` | 代码审查 |
 | `fix` | 代码修复和格式化 |
@@ -94,7 +94,7 @@ git push origin develop
 
 | 技能 | 用途 |
 |------|------|
-| `qt-platform-manager` | Qt Platform 项目自动化管理 |
+| `oc-platform-manager` | Qt Platform 项目自动化管理 |
 | `git-commit-workflow` | Git 提交工作流 |
 | `ui-ux-pro-max` | UI/UX 设计智能助手 |
 | `vite-cache-components` | Vite 缓存组件和 PPR 实现 |
@@ -113,7 +113,7 @@ git push origin develop
 
 以下文件/目录不纳入版本控制：
 
-- `qt-platform/` — 项目代码（独立仓库管理）
+- `oc-platform/` — 项目代码（独立仓库管理）
 - `node_modules/` — 依赖文件
 - `Front-end testing/` — 测试素材（大文件）
 - `package-lock.json` — 锁定文件
@@ -131,7 +131,7 @@ cd e:\oc
 ### 2. 克隆项目代码
 
 ```powershell
-git clone https://github.com/K-irito02/qt-platform-app.git e:\oc\qt-platform
+git clone https://github.com/K-irito02/oc-platform-app.git e:\oc\oc-platform
 ```
 
 ### 3. 启动开发环境
@@ -139,11 +139,11 @@ git clone https://github.com/K-irito02/qt-platform-app.git e:\oc\qt-platform
 使用 `/start-project` 工作流或手动执行：
 
 ```powershell
-cd e:\oc\qt-platform
+cd e:\oc\oc-platform
 docker compose -f docker-compose.dev.yml up -d
-mvn clean package -DskipTests -pl qt-platform-app -am -q
-java -jar qt-platform-app\target\qt-platform-app-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev
-cd qt-platform-web && npm run dev
+mvn clean package -DskipTests -pl oc-platform-app -am -q
+java -jar oc-platform-app\target\oc-platform-app-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev
+cd oc-platform-web && npm run dev
 ```
 
 ## 服务端口
@@ -158,7 +158,7 @@ cd qt-platform-web && npm run dev
 
 ## 测试账号
 
-- **管理员**: admin@qtplatform.com / Admin@123456
+- **管理员**: admin@ocplatform.com / Admin@123456
 - **普通用户**: zhangsan@example.com / Test@123456
 
 ---

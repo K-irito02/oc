@@ -24,11 +24,11 @@
     "search"
   ],
   "availableSkills": [
-    "qt-platform-manager"
+    "oc-platform-manager"
   ],
   "permissions": {
-    "read": ["Memory/**", "qt-platform/**"],
-    "write": ["qt-platform/**"],
+    "read": ["Memory/**", "oc-platform/**"],
+    "write": ["oc-platform/**"],
     "execute": ["docker", "mvn", "npm", "kubectl"]
   },
   "collaboration": {

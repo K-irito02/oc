@@ -32,8 +32,8 @@
     "vite-cache-components"
   ],
   "permissions": {
-    "read": ["Memory/**", ".", "qt-platform/**"],
-    "write": ["qt-platform/qt-platformtrae/**/qt-platform-web-web/**"],
+    "read": ["Memory/**", ".", "oc-platform/**"],
+    "write": ["oc-platform/oc-platformtrae/**/oc-platform-web-web/**"],
     "execute": ["npm", "node"]
   },
   "collaboration": {

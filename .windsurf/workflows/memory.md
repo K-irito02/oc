@@ -151,8 +151,8 @@ YYYY-MM-DD_HHmm_<简短描述>.md
 
 | 序号 | 命令 | 工作目录 | 结果 |
 |------|------|----------|------|
-| 1 | `npm install xxx` | `qt-platform-web/` | ✅ 成功 |
-| 2 | `mvn clean compile` | `qt-platform/` | ❌ 失败 (原因) |
+| 1 | `npm install xxx` | `oc-platform-web/` | ✅ 成功 |
+| 2 | `mvn clean compile` | `oc-platform/` | ❌ 失败 (原因) |
 
 ### 文件修改
 

@@ -26,7 +26,7 @@
     "frontend-code-review"
   ],
   "permissions": {
-    "read": ["Memory/**", "qt-platform/**"],
+    "read": ["Memory/**", "oc-platform/**"],
     "write": [],
     "execute": ["git", "npm", "mvn"]
   },

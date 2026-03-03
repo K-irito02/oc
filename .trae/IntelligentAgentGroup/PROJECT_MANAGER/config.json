@@ -32,7 +32,7 @@
     "webapp-testing"
   ],
   "permissions": {
-    "read": ["Memory/**", ".trae/**", ".windsurf/**", "qt-platform/**"],
+    "read": ["Memory/**", ".trae/**", ".windsurf/**", "oc-platform/**"],
     "write": ["Memory/WorkLogs/**"],
     "execute": ["git", "npm", "docker"]
   },

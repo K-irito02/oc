@@ -29,13 +29,13 @@
 
 - Affected specs: 产品管理功能
 - Affected code:
-  - `qt-platform-product/service/ProductService.java`
-  - `qt-platform-admin/controller/AdminProductController.java`
-  - `qt-platform-common/response/ErrorCode.java`
-  - `qt-platform-web/pages/Admin/Products/index.tsx`
-  - `qt-platform-web/pages/Admin/Products/ProductEdit.tsx`
-  - `qt-platform-web/locales/zh-CN.json`
-  - `qt-platform-web/locales/en-US.json`
+  - `oc-platform-product/service/ProductService.java`
+  - `oc-platform-admin/controller/AdminProductController.java`
+  - `oc-platform-common/response/ErrorCode.java`
+  - `oc-platform-web/pages/Admin/Products/index.tsx`
+  - `oc-platform-web/pages/Admin/Products/ProductEdit.tsx`
+  - `oc-platform-web/locales/zh-CN.json`
+  - `oc-platform-web/locales/en-US.json`
 
 ## ADDED Requirements
 

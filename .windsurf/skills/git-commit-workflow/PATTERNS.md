@@ -43,7 +43,7 @@ git log --oneline -3
 
 ```gitignore
 # 项目代码仓库（独立管理）
-qt-platform/
+oc-platform/
 
 # 依赖目录
 node_modules/
@@ -86,7 +86,7 @@ Thumbs.db
 
 ```powershell
 # 1. 切换到项目代码仓库目录
-cd e:\oc\qt-platform
+cd e:\oc\oc-platform
 
 # 2. 检查 Git 状态
 git status --short
@@ -239,7 +239,7 @@ git log --oneline -3
 ### 3.2 项目代码仓库快速提交脚本
 
 ```powershell
-# e:\oc\qt-platform\scripts\quick-commit.ps1
+# e:\oc\oc-platform\scripts\quick-commit.ps1
 param(
     [Parameter(Mandatory=$true)]
     [string]$Type,
@@ -249,7 +249,7 @@ param(
 )
 
 # 切换到项目代码仓库目录
-cd e:\oc\qt-platform
+cd e:\oc\oc-platform
 
 # 检查 Git 状态
 Write-Host "🔍 检查 Git 状态..." -ForegroundColor Cyan
@@ -287,7 +287,7 @@ mvn package -DskipTests -q
 
 **前端检查**：
 ```powershell
-cd qt-platform-web
+cd oc-platform-web
 
 # TypeScript 类型检查
 npx tsc --noEmit

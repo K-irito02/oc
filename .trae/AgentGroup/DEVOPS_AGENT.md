@@ -13,4 +13,4 @@ DEVOPS_AGENT
 - 需要监控应用状态时
 
 ## 可用 Skills
-- qt-platform-manager
+- oc-platform-manager
