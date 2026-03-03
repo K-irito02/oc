@@ -7,7 +7,7 @@
 ## 概述
 
 本仓库用于管理 Qt Platform 项目的开发环境状态，包括：
-- **AI 配置**: Windsurf/Trae AI 的规则、技能和工作流
+- **AI 配置**: Trae/Windsurf AI 的规则、技能和工作流
 - **项目记忆**: AI 辅助开发的持久化记忆系统
 - **计划文档**: 架构设计、阶段规划等文档
 
@@ -72,9 +72,32 @@ git push origin develop
 
 ## AI 技能
 
-| 技能 | 触发词 | 用途 |
-|------|--------|------|
-| `qt-platform-manager` | 启动项目、停止项目 | 管理开发环境服务 |
+### Trae AI 技能
+
+| 技能 | 用途 |
+|------|------|
+| `frontend-design` | 创建生产级前端界面 |
+| `ui-ux-pro-max` | UI/UX 设计智能助手 |
+| `qt-platform-manager` | Qt Platform 项目自动化管理 |
+| `git-commit-workflow` | Git 提交工作流 |
+| `code-reviewer` | 代码审查 |
+| `fix` | 代码修复和格式化 |
+| `pr-creator` | Pull Request 创建 |
+| `vite-cache-components` | Vite 缓存组件和 PPR 实现 |
+| `webapp-testing` | Web 应用测试 |
+| `update-docs` | 文档更新 |
+| `find-skills` | 技能发现和安装 |
+| `fullstack-developer` | 全栈开发助手 |
+| `frontend-code-review` | 前端代码审查 |
+
+### Windsurf AI 技能
+
+| 技能 | 用途 |
+|------|------|
+| `qt-platform-manager` | Qt Platform 项目自动化管理 |
+| `git-commit-workflow` | Git 提交工作流 |
+| `ui-ux-pro-max` | UI/UX 设计智能助手 |
+| `vite-cache-components` | Vite 缓存组件和 PPR 实现 |
 
 ## AI 工作流
 
