@@ -5,7 +5,7 @@ description: |
   包括 Docker 依赖服务 (PostgreSQL + Redis + MinIO)、Spring Boot 后端服务、Vite 前端开发服务器
   支持智能端口检测、自动编译判断和故障排查
   自动记录各服务启动和运行状态到日志文件，便于调试和问题排查
-version: 1.3.0
+version: 1.4.0
 last_updated: 2026-03-04
 ---
 
@@ -28,6 +28,16 @@ last_updated: 2026-03-04
 - `frontend-status.log` - 前端服务启动和运行状态
 
 **日志模式**: 采用**覆盖模式**，每次启动/停止项目时都会清空现有日志文件并重新记录，确保日志内容始终保持最新状态。
+
+**日志内容**:
+- Docker 服务启动/停止状态、健康检查结果
+- 后端编译、启动、API 验证结果
+- 前端代码质量检查（lint）详细输出
+- 前端构建（build）详细输出
+- 前端启动、服务验证结果
+- 完整的命令执行输出（包含在 `===== OUTPUT START/END =====` 标记之间）
+
+> ⚠️ **沙箱环境说明**: 如果在 Trae 的沙箱环境中执行，日志可能无法正确写入文件系统。建议在本地终端（非沙箱环境）中运行以确保日志正常持久化。
 
 这些日志文件用于：
 - 记录服务启动时间和状态
@@ -295,24 +305,36 @@ if (-not $frontendRunning) {
 if (-not $frontendRunning) {
     "[$timestamp] INFO: 开始启动前端服务..." | Out-File -FilePath $frontendLog -Append
     
-    # 代码质量检查
+    # 代码质量检查（记录详细输出到日志）
     "[$timestamp] INFO: 正在检查前端代码质量..." | Out-File -FilePath $frontendLog -Append
     $lintStart = Get-Date
-    npm run lint
+    $lintOutput = npm run lint 2>&1 | Out-String
+    $lintExitCode = $LASTEXITCODE
     
-    if ($LASTEXITCODE -ne 0) {
-        "[$timestamp] WARNING: 代码质量检查发现问题，但继续启动前端服务" | Out-File -FilePath $frontendLog -Append
+    # 将 lint 输出写入日志
+    "===== LINT OUTPUT START =====" | Out-File -FilePath $frontendLog -Append
+    $lintOutput | Out-File -FilePath $frontendLog -Append
+    "===== LINT OUTPUT END =====" | Out-File -FilePath $frontendLog -Append
+    
+    if ($lintExitCode -ne 0) {
+        "[$timestamp] WARNING: 代码质量检查发现问题（但继续启动）" | Out-File -FilePath $frontendLog -Append
     } else {
         $lintDuration = (Get-Date) - $lintStart
         "[$timestamp] INFO: 代码质量检查通过，耗时: $([math]::Round($lintDuration.TotalSeconds, 2))秒" | Out-File -FilePath $frontendLog -Append
     }
     
-    # 重新构建前端
+    # 重新构建前端（记录详细输出到日志）
     "[$timestamp] INFO: 正在重新构建前端..." | Out-File -FilePath $frontendLog -Append
     $buildStart = Get-Date
-    npm run build
+    $buildOutput = npm run build 2>&1 | Out-String
+    $buildExitCode = $LASTEXITCODE
     
-    if ($LASTEXITCODE -ne 0) {
+    # 将构建输出写入日志
+    "===== BUILD OUTPUT START =====" | Out-File -FilePath $frontendLog -Append
+    $buildOutput | Out-File -FilePath $frontendLog -Append
+    "===== BUILD OUTPUT END =====" | Out-File -FilePath $frontendLog -Append
+    
+    if ($buildExitCode -ne 0) {
         "[$timestamp] ERROR: 前端构建失败，请检查代码错误" | Out-File -FilePath $frontendLog -Append
         exit 1
     } else {
