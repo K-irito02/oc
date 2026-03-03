@@ -1,6 +1,8 @@
 {
   "disabledSkills": [
-    "cache-components",
-    "update-docs"
+    "update-docs",
+    "frontend-code-review",
+    "fullstack-developer",
+    "cache-components"
   ]
 }

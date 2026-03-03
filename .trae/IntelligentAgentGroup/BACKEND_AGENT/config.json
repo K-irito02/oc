@@ -1,0 +1,42 @@
+{
+  "name": "BACKEND_AGENT",
+  "displayName": "后端智能体",
+  "version": "1.0.0",
+  "description": "负责后端API开发、业务逻辑实现、数据库设计和优化",
+  "language": "zh-CN",
+  "triggers": [
+    "后端开发",
+    "后端智能体",
+    "backend",
+    "API开发",
+    "Java开发",
+    "Spring Boot"
+  ],
+  "capabilities": [
+    "api_development",
+    "business_logic",
+    "database_design",
+    "security",
+    "performance_optimization"
+  ],
+  "mcp": [
+    "filesystem",
+    "search"
+  ],
+  "availableSkills": [
+    "code-reviewer"
+  ],
+  "permissions": {
+    "read": ["Memory/**", ".", "qt-platform/**"],
+    "write": ["qt-platform/**"],
+    "execute": ["mvn", "java", "docker"]
+  },
+  "collaboration": {
+    "canDelegate": [],
+    "receivesFrom": ["PROJECT_MANAGER", "FRONTEND_AGENT"],
+    "communicatesVia": "message_queue",
+    "providesTo": ["FRONTEND_AGENT", "TESTING_AGENT", "CODE_REVIEW_AGENT", "PROJECT_MANAGER"]
+  },
+  "outputFormat": "markdown",
+  "priority": 2
+}

@@ -1,0 +1,48 @@
+{
+  "name": "FRONTEND_AGENT",
+  "displayName": "前端智能体",
+  "version": "1.0.0",
+  "description": "负责前端UI开发、组件实现、页面路由和前端测试",
+  "language": "zh-CN",
+  "triggers": [
+    "前端开发",
+    "前端智能体",
+    "frontend",
+    "UI开发",
+    "页面开发",
+    "组件开发",
+    "React"
+  ],
+  "capabilities": [
+    "ui_development",
+    "component_design",
+    "state_management",
+    "api_integration",
+    "responsive_design",
+    "performance_optimization"
+  ],
+  "mcp": [
+    "filesystem",
+    "search"
+  ],
+  "availableSkills": [
+    "frontend-design",
+    "frontend-code-review",
+    "cache-components",
+    "vite-cache-components"
+  ],
+  "permissions": {
+    "read": ["Memory/**", ".", "qt-platform/**"],
+    "write": ["qt-platform/qt-platformtrae/**/qt-platform-web-web/**"],
+    "execute": ["npm", "node"]
+  },
+  "collaboration": {
+    "canDelegate": [],
+    "receivesFrom": ["PROJECT_MANAGER", "BACKEND_AGENT"],
+    "communicatesVia": "message_queue",
+    "dependsOn": ["BACKEND_AGENT"],
+    "providesTo": ["CODE_REVIEW_AGENT", "TESTING_AGENT", "PROJECT_MANAGER"]
+  },
+  "outputFormat": "markdown",
+  "priority": 2
+}

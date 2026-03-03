@@ -23,6 +23,7 @@
 - 排序选项（最新/下载量/评分/名称）
 - 关键词搜索
 - 产品卡片网格
+- **状态过滤**：仅显示 PUBLISHED 状态的产品（2026-03-02 更新）
 
 ### ProductDetail (`pages/ProductDetail/index.tsx`)
 - Tab 页：概述 / 版本列表 / 评论
@@ -88,6 +89,13 @@
 - 产品审核（发布/下架）
 - 产品 CRUD
 - 版本发布
+
+### ProductEdit (`pages/Admin/Products/ProductEdit.tsx`)
+- **新建产品流程**：统一验证（基本信息+媒体+版本管理）、顶部创建按钮、临时版本管理
+- **版本管理**：支持发布临时版本、状态显示、操作按钮
+- **架构选择**：支持中英双语切换（2026-03-02 更新）
+- **状态管理**：DRAFT/PUBLISHED 状态切换
+- **文件上传**：支持应用程序文件上传和校验
 
 ### Comments (`pages/Admin/Comments/index.tsx`)
 - 评论列表（分页 + 状态过滤）

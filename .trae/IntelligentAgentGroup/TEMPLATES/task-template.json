@@ -1,0 +1,23 @@
+{
+  "taskId": "TASK-{number}",
+  "title": "任务标题",
+  "description": "任务详细描述",
+  "type": "feature | bugfix | refactor | documentation",
+  "priority": "high | medium | low",
+  "status": "pending | assigned | in_progress | blocked | completed | failed",
+  "assignee": "AGENT_NAME",
+  "requester": "USER | AGENT_NAME",
+  "createdAt": "2026-03-03T10:00:00Z",
+  "deadline": "2026-03-05T18:00:00Z",
+  "estimatedHours": 8,
+  "dependencies": [],
+  "requirements": [],
+  "deliverables": [],
+  "statusHistory": [
+    {
+      "status": "pending",
+      "timestamp": "2026-03-03T10:00:00Z",
+      "updatedBy": "PROJECT_MANAGER"
+    }
+  ]
+}

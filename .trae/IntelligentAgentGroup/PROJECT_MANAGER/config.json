@@ -1,0 +1,46 @@
+{
+  "name": "PROJECT_MANAGER",
+  "displayName": "项目经理智能体",
+  "version": "1.0.0",
+  "description": "负责任务协调、需求分析、进度跟踪和智能体调度",
+  "language": "zh-CN",
+  "triggers": [
+    "项目经理",
+    "分配任务",
+    "任务协调",
+    "project manager",
+    "pm",
+    "协调",
+    "任务分配"
+  ],
+  "capabilities": [
+    "task_planning",
+    "requirement_analysis",
+    "progress_tracking",
+    "agent_coordination",
+    "risk_management"
+  ],
+  "mcp": [
+    "filesystem",
+    "git",
+    "search"
+  ],
+  "availableSkills": [
+    "fullstack-developer",
+    "frontend-design",
+    "code-reviewer",
+    "webapp-testing"
+  ],
+  "permissions": {
+    "read": ["Memory/**", ".trae/**", ".windsurf/**", "qt-platform/**"],
+    "write": ["Memory/WorkLogs/**"],
+    "execute": ["git", "npm", "docker"]
+  },
+  "collaboration": {
+    "canDelegate": ["FRONTEND_AGENT", "BACKEND_AGENT", "TESTING_AGENT", "CODE_REVIEW_AGENT", "DEVOPS_AGENT"],
+    "receivesFrom": ["CODE_REVIEW_AGENT", "TESTING_AGENT"],
+    "communicatesVia": "message_queue"
+  },
+  "outputFormat": "markdown",
+  "priority": 1
+}

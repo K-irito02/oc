@@ -1,0 +1,160 @@
+{
+  "name": "Qt Platform Intelligent Agent System",
+  "version": "1.0.1",
+  "description": "智能体协作系统配置汇总",
+  "lastUpdated": "2026-03-03",
+  "agents": [
+    {
+      "id": "PROJECT_MANAGER",
+      "name": "项目经理智能体",
+      "displayName": "Project Manager Agent",
+      "priority": 1,
+      "description": "负责任务协调、需求分析、进度跟踪和智能体调度",
+      "triggers": ["项目经理", "分配任务", "任务协调", "project manager", "pm"],
+      "capabilities": ["task_planning", "requirement_analysis", "progress_tracking", "agent_coordination"],
+      "availableSkills": ["fullstack-developer", "frontend-design", "code-reviewer", "webapp-testing"],
+      "collaboratesWith": ["FRONTEND_AGENT", "BACKEND_AGENT", "TESTING_AGENT", "CODE_REVIEW_AGENT", "DEVOPS_AGENT"],
+      "collaboration": {
+        "canDelegate": ["FRONTEND_AGENT", "BACKEND_AGENT", "TESTING_AGENT", "CODE_REVIEW_AGENT", "DEVOPS_AGENT"],
+        "receivesFrom": ["CODE_REVIEW_AGENT", "TESTING_AGENT", "DEVOPS_AGENT"],
+        "providesTo": []
+      }
+    },
+    {
+      "id": "FRONTEND_AGENT",
+      "name": "前端智能体",
+      "displayName": "Frontend Agent",
+      "priority": 2,
+      "description": "负责前端UI开发、组件实现、页面路由和前端测试",
+      "triggers": ["前端开发", "前端智能体", "frontend", "UI开发", "页面开发", "组件开发"],
+      "capabilities": ["ui_development", "component_design", "state_management", "api_integration"],
+      "availableSkills": ["frontend-design", "frontend-code-review", "cache-components", "vite-cache-components"],
+      "collaboratesWith": ["PROJECT_MANAGER", "BACKEND_AGENT", "CODE_REVIEW_AGENT", "TESTING_AGENT"],
+      "collaboration": {
+        "canDelegate": [],
+        "receivesFrom": ["PROJECT_MANAGER", "BACKEND_AGENT"],
+        "providesTo": ["CODE_REVIEW_AGENT", "TESTING_AGENT", "PROJECT_MANAGER"],
+        "dependsOn": ["BACKEND_AGENT"]
+      }
+    },
+    {
+      "id": "BACKEND_AGENT",
+      "name": "后端智能体",
+      "displayName": "Backend Agent",
+      "priority": 2,
+      "description": "负责后端API开发、业务逻辑实现、数据库设计和优化",
+      "triggers": ["后端开发", "后端智能体", "backend", "API开发", "Java开发", "Spring Boot"],
+      "capabilities": ["api_development", "business_logic", "database_design", "security"],
+      "availableSkills": ["code-reviewer"],
+      "collaboratesWith": ["PROJECT_MANAGER", "FRONTEND_AGENT", "TESTING_AGENT", "CODE_REVIEW_AGENT"],
+      "collaboration": {
+        "canDelegate": [],
+        "receivesFrom": ["PROJECT_MANAGER", "FRONTEND_AGENT"],
+        "providesTo": ["FRONTEND_AGENT", "TESTING_AGENT", "CODE_REVIEW_AGENT", "PROJECT_MANAGER"]
+      }
+    },
+    {
+      "id": "TESTING_AGENT",
+      "name": "测试智能体",
+      "displayName": "Testing Agent",
+      "priority": 3,
+      "description": "负责单元测试、集成测试和E2E测试的编写与执行",
+      "triggers": ["测试", "测试智能体", "testing", "单元测试", "集成测试", "E2E测试"],
+      "capabilities": ["unit_testing", "integration_testing", "e2e_testing", "test_automation"],
+      "availableSkills": ["webapp-testing"],
+      "collaboratesWith": ["PROJECT_MANAGER", "BACKEND_AGENT", "FRONTEND_AGENT", "CODE_REVIEW_AGENT", "DEVOPS_AGENT"],
+      "collaboration": {
+        "canDelegate": [],
+        "receivesFrom": ["PROJECT_MANAGER", "BACKEND_AGENT", "FRONTEND_AGENT", "CODE_REVIEW_AGENT"],
+        "providesTo": ["PROJECT_MANAGER", "CODE_REVIEW_AGENT", "DEVOPS_AGENT"]
+      }
+    },
+    {
+      "id": "CODE_REVIEW_AGENT",
+      "name": "代码审查智能体",
+      "displayName": "Code Review Agent",
+      "priority": 3,
+      "description": "负责代码质量检查、安全审查和规范遵循审查",
+      "triggers": ["代码审查", "审查代码", "code review", "代码检查", "CR"],
+      "capabilities": ["code_quality_check", "security_review", "best_practices_check"],
+      "availableSkills": ["code-reviewer", "frontend-code-review"],
+      "collaboratesWith": ["PROJECT_MANAGER", "FRONTEND_AGENT", "BACKEND_AGENT", "TESTING_AGENT", "DEVOPS_AGENT"],
+      "collaboration": {
+        "canDelegate": [],
+        "receivesFrom": ["PROJECT_MANAGER", "FRONTEND_AGENT", "BACKEND_AGENT", "TESTING_AGENT"],
+        "providesTo": ["PROJECT_MANAGER", "DEVOPS_AGENT", "TESTING_AGENT"]
+      }
+    },
+    {
+      "id": "DEVOPS_AGENT",
+      "name": "部署/DevOps智能体",
+      "displayName": "DevOps Agent",
+      "priority": 4,
+      "description": "负责CI/CD流水线配置、容器化、服务器部署和监控",
+      "triggers": ["部署", "DevOps", "deploy", "CI/CD", "Docker", "上线"],
+      "capabilities": ["ci_cd", "containerization", "deployment", "monitoring"],
+      "availableSkills": ["qt-platform-manager"],
+      "collaboratesWith": ["PROJECT_MANAGER", "CODE_REVIEW_AGENT", "TESTING_AGENT"],
+      "collaboration": {
+        "canDelegate": [],
+        "receivesFrom": ["PROJECT_MANAGER", "CODE_REVIEW_AGENT", "TESTING_AGENT"],
+        "providesTo": ["PROJECT_MANAGER"],
+        "requires": ["BACKEND_AGENT", "FRONTEND_AGENT"]
+      }
+    }
+  ],
+  "protocol": {
+    "version": "1.0.0",
+    "messageFormat": "JSON",
+    "documentation": "PROTOCOL.md"
+  },
+  "workflows": {
+    "documentation": "WORKFLOWS.md",
+    "available": [
+      "feature_development",
+      "bug_fix",
+      "code_review",
+      "deployment"
+    ]
+  },
+  "projectContext": {
+    "projectName": "Qt Platform",
+    "projectPath": "e:/oc/qt-platform",
+    "frontendPath": "e:/oc/qt-platform/qt-platform-web",
+    "backendPath": "e:/oc/qt-platform",
+    "technologyStack": {
+      "frontend": "React 18 + TypeScript + Vite + Ant Design + Redux Toolkit",
+      "backend": "Spring Boot 3.2 + Java 17 + MyBatis-Plus + PostgreSQL",
+      "infrastructure": "Docker + PostgreSQL + Redis + MinIO"
+    }
+  },
+  "collaborationMatrix": {
+    "description": "智能体协作关系矩阵",
+    "matrix": {
+      "PROJECT_MANAGER": {
+        "delegatesTo": ["FRONTEND_AGENT", "BACKEND_AGENT", "TESTING_AGENT", "CODE_REVIEW_AGENT", "DEVOPS_AGENT"],
+        "receivesFrom": ["CODE_REVIEW_AGENT", "TESTING_AGENT", "DEVOPS_AGENT"]
+      },
+      "FRONTEND_AGENT": {
+        "receivesFrom": ["PROJECT_MANAGER", "BACKEND_AGENT"],
+        "providesTo": ["CODE_REVIEW_AGENT", "TESTING_AGENT", "PROJECT_MANAGER"]
+      },
+      "BACKEND_AGENT": {
+        "receivesFrom": ["PROJECT_MANAGER", "FRONTEND_AGENT"],
+        "providesTo": ["FRONTEND_AGENT", "TESTING_AGENT", "CODE_REVIEW_AGENT", "PROJECT_MANAGER"]
+      },
+      "TESTING_AGENT": {
+        "receivesFrom": ["PROJECT_MANAGER", "BACKEND_AGENT", "FRONTEND_AGENT", "CODE_REVIEW_AGENT"],
+        "providesTo": ["PROJECT_MANAGER", "CODE_REVIEW_AGENT", "DEVOPS_AGENT"]
+      },
+      "CODE_REVIEW_AGENT": {
+        "receivesFrom": ["PROJECT_MANAGER", "FRONTEND_AGENT", "BACKEND_AGENT", "TESTING_AGENT"],
+        "providesTo": ["PROJECT_MANAGER", "DEVOPS_AGENT", "TESTING_AGENT"]
+      },
+      "DEVOPS_AGENT": {
+        "receivesFrom": ["PROJECT_MANAGER", "CODE_REVIEW_AGENT", "TESTING_AGENT"],
+        "providesTo": ["PROJECT_MANAGER"]
+      }
+    }
+  }
+}

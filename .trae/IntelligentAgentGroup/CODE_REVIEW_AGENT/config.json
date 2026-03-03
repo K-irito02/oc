@@ -1,0 +1,41 @@
+{
+  "name": "CODE_REVIEW_AGENT",
+  "displayName": "代码审查智能体",
+  "version": "1.0.0",
+  "description": "负责代码质量检查、安全审查和规范遵循审查",
+  "language": "zh-CN",
+  "triggers": [
+    "代码审查",
+    "审查代码",
+    "code review",
+    "代码检查",
+    "CR"
+  ],
+  "capabilities": [
+    "code_quality_check",
+    "security_review",
+    "best_practices_check",
+    "performance_review"
+  ],
+  "mcp": [
+    "filesystem",
+    "search"
+  ],
+  "availableSkills": [
+    "code-reviewer",
+    "frontend-code-review"
+  ],
+  "permissions": {
+    "read": ["Memory/**", "qt-platform/**"],
+    "write": [],
+    "execute": ["git", "npm", "mvn"]
+  },
+  "collaboration": {
+    "canDelegate": [],
+    "receivesFrom": ["PROJECT_MANAGER", "FRONTEND_AGENT", "BACKEND_AGENT", "TESTING_AGENT"],
+    "communicatesVia": "message_queue",
+    "providesTo": ["PROJECT_MANAGER", "DEVOPS_AGENT", "TESTING_AGENT"]
+  },
+  "outputFormat": "markdown",
+  "priority": 3
+}

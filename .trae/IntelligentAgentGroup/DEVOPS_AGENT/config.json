@@ -1,0 +1,43 @@
+{
+  "name": "DEVOPS_AGENT",
+  "displayName": "部署/DevOps智能体",
+  "version": "1.0.0",
+  "description": "负责CI/CD流水线配置、容器化、服务器部署和监控",
+  "language": "zh-CN",
+  "triggers": [
+    "部署",
+    "DevOps",
+    "deploy",
+    "CI/CD",
+    "Docker",
+    "上线"
+  ],
+  "capabilities": [
+    "ci_cd",
+    "containerization",
+    "deployment",
+    "monitoring",
+    "infrastructure"
+  ],
+  "mcp": [
+    "filesystem",
+    "search"
+  ],
+  "availableSkills": [
+    "qt-platform-manager"
+  ],
+  "permissions": {
+    "read": ["Memory/**", "qt-platform/**"],
+    "write": ["qt-platform/**"],
+    "execute": ["docker", "mvn", "npm", "kubectl"]
+  },
+  "collaboration": {
+    "canDelegate": [],
+    "receivesFrom": ["PROJECT_MANAGER", "CODE_REVIEW_AGENT", "TESTING_AGENT"],
+    "communicatesVia": "message_queue",
+    "providesTo": ["PROJECT_MANAGER"],
+    "requires": ["BACKEND_AGENT", "FRONTEND_AGENT"]
+  },
+  "outputFormat": "markdown",
+  "priority": 4
+}

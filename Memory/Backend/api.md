@@ -41,7 +41,7 @@
 
 | 方法 | 路径 | 说明 | 认证 |
 |------|------|------|------|
-| GET | `/products` | 产品列表（分页/筛选/排序） | 否 |
+| GET | `/products` | 产品列表（仅PUBLISHED状态，分页/筛选/排序） | 否 |
 | GET | `/products/featured` | 推荐产品 | 否 |
 | GET | `/products/search` | 搜索产品 | 否 |
 | GET | `/products/{slug}` | 产品详情 | 否 |

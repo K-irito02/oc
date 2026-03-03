@@ -1,0 +1,18 @@
+{
+  "messageId": "MSG-{number}",
+  "timestamp": "2026-03-03T10:00:00Z",
+  "type": "TASK | NOTIFICATION | REQUEST | RESPONSE | TASK_COMPLETE | ERROR",
+  "from": "AGENT_NAME",
+  "to": "AGENT_NAME | ALL",
+  "priority": "high | medium | low",
+  "content": {
+    "taskId": "TASK-{number}",
+    "title": "消息标题",
+    "description": "消息详细描述",
+    "data": {}
+  },
+  "context": {
+    "projectPath": "e:/oc/qt-platform",
+    "environment": "development"
+  }
+}
