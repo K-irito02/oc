@@ -1,6 +1,7 @@
 ---
 name: vite-cache-components
-description: 为使用 Vite 构建的 React 项目提供缓存组件和部分预渲染 (Partial Prerendering, PPR) 功能的实现方案
+description: |
+ 为使用 Vite 构建的 React 项目提供缓存组件和部分预渲染 (Partial Prerendering, PPR) 功能的实现方案
 ---
 
 # Vite 缓存组件与部分预渲染 (PPR) 技能
