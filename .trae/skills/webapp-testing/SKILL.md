@@ -1,6 +1,7 @@
 ---
 name: webapp-testing
-description: Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.
+description: |
+ Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.
 license: Complete terms in LICENSE.txt
 ---
 
@@ -8,10 +9,131 @@ license: Complete terms in LICENSE.txt
 
 To test local web applications, write native Python Playwright scripts.
 
-**Helper Scripts Available**:
-- `scripts/with_server.py` - Manages server lifecycle (supports multiple servers)
+## Helper Scripts Available
 
-**Always run scripts with `--help` first** to see usage. DO NOT read the source until you try running the script first and find that a customized solution is abslutely necessary. These scripts can be very large and thus pollute your context window. They exist to be called directly as black-box scripts rather than ingested into your context window.
+| Script | Description |
+|--------|-------------|
+| `scripts/check_environment.py` | 检测并安装 Playwright 和浏览器 |
+| `scripts/test_manager.py` | 管理测试目录、执行和清理 |
+| `scripts/base_test.py` | 测试基类，封装常用操作 |
+| `scripts/with_server.py` | 管理服务器生命周期 |
+
+**Always run scripts with `--help` first** to see usage. DO NOT read the source until you try running the script first and find that a customized solution is absolutely necessary.
+
+## Quick Start
+
+### 1. 环境准备
+
+在开始测试之前，确保测试环境已就绪：
+
+```bash
+# 检测并自动安装环境
+python scripts/check_environment.py --install
+
+# 仅检测环境状态
+python scripts/check_environment.py --check-only
+```
+
+### 2. 初始化测试目录
+
+```bash
+# 创建测试输出目录结构
+python scripts/test_manager.py init
+```
+
+测试目录结构：
+```
+E:\oc\test-output\
+├── screenshots/          # 截图目录
+│   ├── success/          # 成功测试截图
+│   └── failed/           # 失败测试截图
+├── scripts/              # 测试脚本存档
+│   ├── success/          # 成功的测试脚本
+│   └── failed/           # 失败的测试脚本
+└── reports/              # 测试报告 (JSON)
+```
+
+### 3. 编写测试脚本
+
+使用 `BaseTest` 基类编写测试：
+
+```python
+from scripts.base_test import BaseTest
+
+def test_login():
+    test = BaseTest("login_test")
+    try:
+        test.setup()
+        
+        # 导航到前端页面
+        test.goto_frontend("/login")
+        test.screenshot("login_page")
+        
+        # 使用测试账号登录
+        if test.login(account_name="admin"):
+            test.screenshot("after_login")
+            test.mark_success()
+        else:
+            test.mark_failed("登录失败")
+            
+    except Exception as e:
+        test.mark_failed(str(e))
+    finally:
+        test.teardown()
+
+if __name__ == "__main__":
+    test_login()
+```
+
+## Test Configuration
+
+测试配置位于 `config/test_config.py`，包含：
+
+### 测试账号
+
+| 账号名 | 邮箱 | 密码 | 角色 |
+|--------|------|------|------|
+| admin | admin@ocplatform.com | Admin@123456 | 超级管理员 |
+| zhangsan | zhangsan@example.com | Test@123456 | 普通用户 |
+| lisi | lisi@example.com | Test@123456 | 普通用户 |
+| wangwu | wangwu@example.com | Test@123456 | VIP用户 |
+
+在代码中使用：
+```python
+from config.test_config import TestConfig
+
+# 获取管理员账号
+admin = TestConfig.get_admin_account()
+
+# 获取指定账号
+user = TestConfig.get_account("zhangsan")
+
+# 获取所有普通用户账号
+users = TestConfig.get_accounts_by_role("USER")
+```
+
+### URL 配置
+
+```python
+# 前端 URL
+TestConfig.FRONTEND_URL  # http://localhost:5173
+
+# 后端 API URL
+TestConfig.API_BASE_URL  # http://localhost:8081/api/v1
+```
+
+### 路径配置
+
+```python
+# 测试输出目录
+TestConfig.TEST_OUTPUT_DIR      # E:\oc\test-output
+
+# 测试素材目录
+TestConfig.TEST_MATERIALS_DIR   # E:\oc\Front-end testing
+
+# 获取素材文件路径
+TestConfig.get_test_material_path("test_image.png")
+```
 
 ## Decision Tree: Choosing Your Approach
 
@@ -75,6 +197,43 @@ with sync_playwright() as p:
 
 3. **Execute actions** using discovered selectors
 
+## Test Manager Commands
+
+```bash
+# 初始化测试目录
+python scripts/test_manager.py init
+
+# 运行测试脚本
+python scripts/test_manager.py run --script path/to/test.py
+
+# 列出测试结果
+python scripts/test_manager.py list
+
+# 仅列出成功的测试
+python scripts/test_manager.py list --success-only
+
+# 清理失败的测试文件
+python scripts/test_manager.py cleanup
+```
+
+## Cleanup Rules
+
+测试结束后，系统会自动处理测试文件：
+
+1. **成功的测试**：
+   - Python 脚本保存到 `test-output/scripts/success/`
+   - 截图保存到 `test-output/screenshots/success/`
+
+2. **失败的测试**：
+   - Python 脚本保存到 `test-output/scripts/failed/`
+   - 截图保存到 `test-output/screenshots/failed/`
+   - 运行 `cleanup` 命令可删除所有失败文件
+
+```bash
+# 清理所有失败的测试文件
+python scripts/test_manager.py cleanup
+```
+
 ## Common Pitfall
 
 ❌ **Don't** inspect the DOM before waiting for `networkidle` on dynamic apps
@@ -82,15 +241,24 @@ with sync_playwright() as p:
 
 ## Best Practices
 
-- **Use bundled scripts as black boxes** - To accomplish a task, consider whether one of the scripts available in `scripts/` can help. These scripts handle common, complex workflows reliably without cluttering the context window. Use `--help` to see usage, then invoke directly. 
-- Use `sync_playwright()` for synchronous scripts
-- Always close the browser when done
-- Use descriptive selectors: `text=`, `role=`, CSS selectors, or IDs
-- Add appropriate waits: `page.wait_for_selector()` or `page.wait_for_timeout()`
+- **Use bundled scripts as black boxes** - To accomplish a task, consider whether one of the scripts available in `scripts/` can help. These scripts handle common, complex workflows reliably without cluttering the context window. Use `--help` to see usage, then invoke directly.
+- **Always check environment first** - Run `check_environment.py` before starting tests
+- **Use `BaseTest` class** - It handles setup, teardown, and result tracking automatically
+- **Use `sync_playwright()` for synchronous scripts**
+- **Always close the browser when done**
+- **Use descriptive selectors**: `text=`, `role=`, CSS selectors, or IDs
+- **Add appropriate waits**: `page.wait_for_selector()` or `page.wait_for_timeout()`
+- **Take screenshots for debugging** - Use `test.screenshot()` to capture state
 
 ## Reference Files
 
+- **config/test_config.py** - 测试配置（账号、URL、路径）
+- **scripts/check_environment.py** - 环境检测和安装
+- **scripts/test_manager.py** - 测试管理工具
+- **scripts/base_test.py** - 测试基类
 - **examples/** - Examples showing common patterns:
   - `element_discovery.py` - Discovering buttons, links, and inputs on a page
   - `static_html_automation.py` - Using file:// URLs for local HTML
   - `console_logging.py` - Capturing console logs during automation
+  - `login_test.py` - Login functionality testing
+  - `super_admin_protection_test.py` - Super admin protection feature testing
