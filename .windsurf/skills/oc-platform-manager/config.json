@@ -55,7 +55,7 @@
     },
     "testAccounts": {
       "admin": {
-        "email": "admin@OcPlatform.com",
+        "email": "admin@ocplatform.com",
         "password": "Admin@123456"
       },
       "user": {

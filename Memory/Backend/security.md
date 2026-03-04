@@ -77,5 +77,5 @@
 
 | 角色 | 用户名 | 密码 |
 |------|--------|------|
-| 超级管理员 | admin@OcPlatform.com | Admin@123456 |
+| 超级管理员 | admin@ocplatform.com | Admin@123456 |
 | 普通用户 | zhangsan@example.com | Test@123456 |

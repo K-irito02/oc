@@ -123,4 +123,4 @@ curl.exe -s -o NUL -w "%{http_code}" http://localhost:5173
 | PostgreSQL | localhost:5433 | 用户 oc_user / 密码 3143285505 |
 | Redis | localhost:6380 | 密码 3143285505 |
 
-管理员登录：admin@OcPlatform.com / Admin@123456
+管理员登录：admin@ocplatform.com / Admin@123456

@@ -1,10 +1,10 @@
 ---
 name: oc-platform-manager
 description: |
-  OC Platform 项目自动化管理技能 - 统一管理开发环境启动、停止和状态检查
-  包括 Docker 依赖服务 (PostgreSQL + Redis + MinIO)、Spring Boot 后端服务、Vite 前端开发服务器
-  支持智能端口检测、自动编译判断和故障排查
-  自动记录各服务启动和运行状态到日志文件，便于调试和问题排查
+ OC Platform 项目自动化管理技能 - 统一管理开发环境启动、停止和状态检查
+ 包括 Docker 依赖服务 (PostgreSQL + Redis + MinIO)、Spring Boot 后端服务、Vite 前端开发服务器
+ 支持智能端口检测、自动编译判断和故障排查
+ 自动记录各服务启动和运行状态到日志文件，便于调试和问题排查
 version: 1.4.0
 last_updated: 2026-03-04
 ---
@@ -594,7 +594,7 @@ Write-Output "项目停止状态已记录到: e:/oc/logs/"
 
 ## 测试账号
 
-- 管理员: admin@OcPlatform.com / Admin@123456
+- 管理员: admin@ocplatform.com / Admin@123456
 - 普通用户: zhangsan@example.com / Test@123456
 
 ## 故障排查

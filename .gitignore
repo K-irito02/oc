@@ -24,11 +24,13 @@ build/
 *.war
 *.ear
 
-# 日志和临时文件
+# 日志、测试和临时文件
 *.log
 *.tmp
 *.cache
 *.bak
+test-output/
+log/
 
 # 环境配置
 .env
