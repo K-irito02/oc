@@ -30,7 +30,7 @@ cd oc-platform-web && npm run dev
 
 ## 测试账号
 
-- **管理员**: admin@OcPlatform.com / Admin@123456
+- **管理员**: admin@ocplatform.com / Admin@123456
 - **普通用户**: user1@example.com / User@123456
 
 ## 常用命令
