@@ -42,14 +42,11 @@ class TestManager:
     
     def create_test_directories(self) -> Dict[str, Path]:
         self._ensure_directories()
+        
         return {
             "output": self.config.TEST_OUTPUT_DIR,
             "screenshots": self.config.SCREENSHOTS_DIR,
-            "success_screenshots": self.config.SUCCESS_SCREENSHOTS_DIR,
-            "failed_screenshots": self.config.FAILED_SCREENSHOTS_DIR,
             "scripts": self.config.SCRIPTS_DIR,
-            "success_scripts": self.config.SUCCESS_SCRIPTS_DIR,
-            "failed_scripts": self.config.FAILED_SCRIPTS_DIR,
             "reports": self.config.REPORTS_DIR,
         }
     
@@ -57,11 +54,11 @@ class TestManager:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         return f"{prefix}_{timestamp}"
     
-    def save_screenshot(self, screenshot_path: Path, success: bool = True) -> Path:
+    def save_screenshot(self, screenshot_path: Path) -> Path:
         if not screenshot_path.exists():
             raise FileNotFoundError(f"截图文件不存在: {screenshot_path}")
         
-        target_dir = self.config.SUCCESS_SCREENSHOTS_DIR if success else self.config.FAILED_SCREENSHOTS_DIR
+        target_dir = self.config.SCREENSHOTS_DIR
         target_path = target_dir / screenshot_path.name
         
         if screenshot_path != target_path:
@@ -69,41 +66,19 @@ class TestManager:
         
         return target_path
     
-    def save_script(self, script_path: Path, success: bool = True) -> Path:
+    def save_script(self, script_path: Path) -> Path:
         if not script_path.exists():
             raise FileNotFoundError(f"脚本文件不存在: {script_path}")
         
-        target_dir = self.config.SUCCESS_SCRIPTS_DIR if success else self.config.FAILED_SCRIPTS_DIR
+        target_dir = self.config.SCRIPTS_DIR
         target_path = target_dir / script_path.name
         
         if script_path != target_path:
             shutil.copy2(script_path, target_path)
         
-        return target_path
-    
-    def cleanup_failed_files(self) -> Dict[str, List[str]]:
-        cleaned = {
-            "scripts": [],
-            "screenshots": []
-        }
-        
-        for file_path in self.config.FAILED_SCRIPTS_DIR.glob("*.py"):
-            try:
-                file_path.unlink()
-                cleaned["scripts"].append(str(file_path))
-            except Exception as e:
-                print(f"删除失败脚本失败: {file_path}, 错误: {e}")
-        
-        for file_path in self.config.FAILED_SCREENSHOTS_DIR.glob("*.png"):
-            try:
-                file_path.unlink()
-                cleaned["screenshots"].append(str(file_path))
-            except Exception as e:
-                print(f"删除失败截图失败: {file_path}, 错误: {e}")
-        
-        return cleaned
-    
-    def save_test_report(self, result: TestResult) -> Path:
+        return sorted(results, key=lambda x: x.get("start_time", ""), reverse=True)
+
+def main():
         report_path = self.config.get_report_path(result.test_name)
         
         with open(report_path, 'w', encoding='utf-8') as f:
@@ -191,7 +166,7 @@ class TestManager:
 def main():
     import argparse
     parser = argparse.ArgumentParser(description="测试管理工具")
-    parser.add_argument("command", choices=["init", "cleanup", "list", "run"],
+    parser.add_argument("command", choices=["init", "list", "run"],
                         help="要执行的命令")
     parser.add_argument("--script", type=str, help="要运行的测试脚本路径")
     parser.add_argument("--timeout", type=int, default=300, help="测试超时时间(秒)")
@@ -206,12 +181,6 @@ def main():
         print("测试目录已创建:")
         for name, path in dirs.items():
             print(f"  {name}: {path}")
-    
-    elif args.command == "cleanup":
-        cleaned = manager.cleanup_failed_files()
-        print("清理完成:")
-        print(f"  删除脚本: {len(cleaned['scripts'])} 个")
-        print(f"  删除截图: {len(cleaned['screenshots'])} 个")
     
     elif args.command == "list":
         results = manager.list_test_results(success_only=args.success_only)
@@ -235,7 +204,6 @@ def main():
         
         result = manager.run_test_script(script_path, timeout=args.timeout)
         sys.exit(0 if result.success else 1)
-
 
 if __name__ == "__main__":
     main()

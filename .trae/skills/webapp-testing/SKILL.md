@@ -1,8 +1,10 @@
 ---
 name: webapp-testing
 description: |
- Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.
+  Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.
 license: Complete terms in LICENSE.txt
+version: 1.6.0
+last_updated: 2026-03-04
 ---
 
 # Web Application Testing
@@ -45,11 +47,7 @@ python scripts/test_manager.py init
 ```
 E:\oc\test-output\
 ├── screenshots/          # 截图目录
-│   ├── success/          # 成功测试截图
-│   └── failed/           # 失败测试截图
 ├── scripts/              # 测试脚本存档
-│   ├── success/          # 成功的测试脚本
-│   └── failed/           # 失败的测试脚本
 └── reports/              # 测试报告 (JSON)
 ```
 
@@ -220,19 +218,14 @@ python scripts/test_manager.py cleanup
 
 测试结束后，系统会自动处理测试文件：
 
-1. **成功的测试**：
-   - Python 脚本保存到 `test-output/scripts/success/`
-   - 截图保存到 `test-output/screenshots/success/`
+1. **测试结果记录**：
+   - Python 脚本保存到 `test-output/scripts/`
+   - 截图保存到 `test-output/screenshots/`
+   - 测试报告保存到 `test-output/reports/`
 
-2. **失败的测试**：
-   - Python 脚本保存到 `test-output/scripts/failed/`
-   - 截图保存到 `test-output/screenshots/failed/`
-   - 运行 `cleanup` 命令可删除所有失败文件
-
-```bash
-# 清理所有失败的测试文件
-python scripts/test_manager.py cleanup
-```
+2. **清理功能**：
+   - 使用 `python scripts/test_manager.py list` 查看所有测试结果
+   - 测试结果包含成功/失败状态信息
 
 ## Common Pitfall
 

@@ -1,6 +1,7 @@
 ---
 name: fix
-description: Use when you have lint errors, formatting issues, or before committing code to ensure it passes CI.
+description: |
+ Use when you have lint errors, formatting issues, or before committing code to ensure it passes CI.
 ---
 
 # Fix Lint and Formatting

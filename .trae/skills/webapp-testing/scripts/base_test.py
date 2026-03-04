@@ -287,7 +287,7 @@ class BaseTest:
         for screenshot in self._screenshots:
             path = Path(screenshot)
             if path.exists():
-                manager.save_screenshot(path, success=self._success)
+                manager.save_screenshot(path)
 
 
 class SimpleTest(BaseTest):

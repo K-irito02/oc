@@ -26,11 +26,7 @@ class TestConfig:
     
     TEST_OUTPUT_DIR = BASE_DIR / "test-output"
     SCREENSHOTS_DIR = TEST_OUTPUT_DIR / "screenshots"
-    SUCCESS_SCREENSHOTS_DIR = SCREENSHOTS_DIR / "success"
-    FAILED_SCREENSHOTS_DIR = SCREENSHOTS_DIR / "failed"
     SCRIPTS_DIR = TEST_OUTPUT_DIR / "scripts"
-    SUCCESS_SCRIPTS_DIR = SCRIPTS_DIR / "success"
-    FAILED_SCRIPTS_DIR = SCRIPTS_DIR / "failed"
     REPORTS_DIR = TEST_OUTPUT_DIR / "reports"
     
     TEST_MATERIALS_DIR = BASE_DIR / "Front-end testing"
@@ -115,24 +111,18 @@ class TestConfig:
         for directory in [
             cls.TEST_OUTPUT_DIR,
             cls.SCREENSHOTS_DIR,
-            cls.SUCCESS_SCREENSHOTS_DIR,
-            cls.FAILED_SCREENSHOTS_DIR,
             cls.SCRIPTS_DIR,
-            cls.SUCCESS_SCRIPTS_DIR,
-            cls.FAILED_SCRIPTS_DIR,
             cls.REPORTS_DIR,
         ]:
             directory.mkdir(parents=True, exist_ok=True)
     
     @classmethod
-    def get_screenshot_path(cls, name: str, success: bool = True) -> Path:
-        directory = cls.SUCCESS_SCREENSHOTS_DIR if success else cls.FAILED_SCREENSHOTS_DIR
-        return directory / f"{name}.png"
+    def get_screenshot_path(cls, name: str) -> Path:
+        return cls.SCREENSHOTS_DIR / f"{name}.png"
     
     @classmethod
-    def get_script_path(cls, name: str, success: bool = True) -> Path:
-        directory = cls.SUCCESS_SCRIPTS_DIR if success else cls.FAILED_SCRIPTS_DIR
-        return directory / f"{name}.py"
+    def get_script_path(cls, name: str) -> Path:
+        return cls.SCRIPTS_DIR / f"{name}.py"
     
     @classmethod
     def get_report_path(cls, name: str) -> Path:
