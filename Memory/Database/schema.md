@@ -37,8 +37,8 @@
 | 表名 | 说明 | 关键字段 |
 |------|------|---------|
 | `categories` | 产品分类 | id, name, name_en, slug (UNIQUE), parent_id, sort_order |
-| `products` | 产品表 | id, name, slug (UNIQUE), category_id, developer_id, status, screenshots(JSONB), tags(TEXT[]) |
-| `product_versions` | 产品版本 | id, product_id, version_number, platform(WINDOWS/LINUX/MACOS/ANDROID/IOS/WEB/CROSS_PLATFORM), architecture(x86/x64/arm64), file_path, checksum_sha256, rollout_percentage |
+| `products` | 产品表 | id, name, slug (UNIQUE), category_id, developer_id, status, screenshots(JSONB), tags(TEXT[]), display_versions(JSONB) |
+| `product_versions` | 产品版本 | id, product_id, version_number, platform(WINDOWS/LINUX/MACOS/ANDROID/IOS/WEB/CROSS_PLATFORM), architecture(x86/x64/arm64), file_path, checksum_sha256, rollout_percentage, show_on_detail, release_notes, release_notes_en |
 | `delta_updates` | 增量更新包 | from_version_id, to_version_id, platform, architecture |
 
 ### 评论相关（2 张）

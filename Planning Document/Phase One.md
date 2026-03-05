@@ -1026,7 +1026,7 @@ WHERE r.code = 'USER' AND p.code IN ('PRODUCT:READ', 'COMMENT:CREATE');
 
 -- 初始化超级管理员账号（密码: Admin@123456，BCrypt hash）
 INSERT INTO users (username, email, password_hash, nickname, status, email_verified) VALUES
-    ('admin', 'admin@OcPlatform.com',
+    ('admin', 'admin@ocplatform.com',
      '$2a$12$LJ3m4ys0Z9Xqf3RVx7FvXOQF4qBv5L5HZ5Wd6mN8aX3V2S6P0KJi',
      '超级管理员', 'ACTIVE', TRUE);
 

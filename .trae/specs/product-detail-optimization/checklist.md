@@ -1,0 +1,10 @@
+- [x] 数据库迁移脚本执行成功，products 表包含 developer_name 和 latest_version 字段
+- [x] Product.java 实体类包含 developerName 和 latestVersion 字段
+- [x] ProductVO.java 包含 developerName 和 latestVersionStr 字段
+- [x] 管理后台产品创建/编辑支持开发者名称字段
+- [x] 管理后台产品搜索支持开发者名称
+- [x] 产品详情页删除体验评分统计区块
+- [x] 产品详情页版本信息显示最新版本
+- [x] 产品详情页开发者名称正确显示
+- [x] 首页精选推荐产品评分与详情页一致
+- [x] 国际化文件包含开发者名称相关翻译（中英文）

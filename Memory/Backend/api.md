@@ -128,8 +128,10 @@
 | PUT | `/admin/products/{id}` | 更新产品 |
 | DELETE | `/admin/products/{id}` | 删除产品 |
 | PUT | `/admin/products/{id}/audit` | 产品审核 |
+| PUT | `/admin/products/{id}/display-version` | 设置展示版本（按平台+架构） |
 | POST | `/admin/products/{productId}/versions` | 创建版本 |
 | PUT | `/admin/products/versions/{versionId}/publish` | 发布版本 |
+| PUT | `/admin/products/versions/{versionId}/show-on-detail` | 更新版本显示状态 |
 | GET | `/admin/comments` | 评论列表 |
 | PUT | `/admin/comments/{id}/audit` | 评论审核 |
 | DELETE | `/admin/comments/{id}` | 删除评论 |
