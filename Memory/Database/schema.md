@@ -1,6 +1,6 @@
 # 数据库结构记忆
 
-> 最后更新: 2026-03-05
+> 最后更新: 2026-03-06
 
 ## 数据库信息
 
@@ -37,7 +37,7 @@
 | 表名 | 说明 | 关键字段 |
 |------|------|---------|
 | `categories` | 产品分类 | id, name, name_en, slug (UNIQUE), parent_id, sort_order |
-| `products` | 产品表 | id, name, slug (UNIQUE), category_id, developer_id, status, screenshots(JSONB), tags(TEXT[]), display_versions(JSONB) |
+| `products` | 产品表 | id, name, slug (UNIQUE), category_id, developer_id, developer_name, status, screenshots(JSONB), tags(TEXT[]), display_versions(JSONB), latest_version, experience_rating_average, experience_rating_count, experience_rating_distribution(JSONB) |
 | `product_versions` | 产品版本 | id, product_id, version_number, platform(WINDOWS/LINUX/MACOS/ANDROID/IOS/WEB/CROSS_PLATFORM), architecture(x86/x64/arm64), file_path, checksum_sha256, rollout_percentage, show_on_detail, release_notes, release_notes_en |
 | `delta_updates` | 增量更新包 | from_version_id, to_version_id, platform, architecture |
 
@@ -84,6 +84,18 @@
 | `system.maintenance.message_en` | 维护说明（英文） | `The system is under maintenance. Please try again later.` |
 | `system.maintenance.estimated_time` | 预计恢复时间 | 空 |
 
+### 备案配置 ✨新增 (2026-03-06)
+| config_key | 说明 | 默认值 |
+|------------|------|--------|
+| `footer.icp` | ICP备案号 | 空 |
+| `footer.beian` | 公安备案号 | 空 |
+| `footer.police_icon_url` | 公安备案图标URL | 空 |
+
+### 平台架构配置 ✨新增 (2026-03-06)
+| config_key | 说明 |
+|------------|------|
+| `platform_config` | 平台和架构配置（JSONB：platforms、architectures、allowCustomPlatform、allowCustomArchitecture）|
+
 ## 关键索引
 
 - `idx_users_email`, `idx_users_status`, `idx_users_created_at`
@@ -108,12 +120,9 @@ ANONYMOUS, USER, VIP, ADMIN, SUPER_ADMIN
 ### 权限（17 个）
 PRODUCT:READ/CREATE/UPDATE/DELETE/AUDIT, VERSION:CREATE/ROLLBACK, COMMENT:CREATE/DELETE/AUDIT, USER:READ/UPDATE/BAN, ORDER:READ/REFUND, SYSTEM:CONFIG, STATS:VIEW
 
-### 种子数据 (seed.sql)
-- 5 个测试用户（含 admin）
-- 6 个产品分类
-- 8 个产品
-- 多个版本记录
-- 多条评论
+### 种子数据
+- 种子数据文件已删除，仅保留 init.sql 中的初始化数据
+- 超级管理员: KirLab (3143285505@qq.com)
 
 ## PostgreSQL 特性使用
 
