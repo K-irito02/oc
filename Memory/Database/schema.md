@@ -1,6 +1,6 @@
 # 数据库结构记忆
 
-> 最后更新: 2026-03-02
+> 最后更新: 2026-03-05
 
 ## 数据库信息
 
@@ -71,6 +71,18 @@
 | `file_records` | 文件管理 | original_name, stored_name, file_path, storage_type(LOCAL/COS) |
 | `audit_logs` | 审计日志 | user_id, action, target_type, target_id, detail(JSONB) |
 | `i18n_messages` | 多语言内容 | language_code, message_key (UNIQUE组合), message_value |
+
+## 系统配置项 (`system_configs`)
+
+### 维护模式配置 ✨新增 (2026-03-05)
+| config_key | 说明 | 默认值 |
+|------------|------|--------|
+| `system.maintenance.enabled` | 维护模式开关 | `false` |
+| `system.maintenance.title` | 维护标题（中文） | `系统维护中` |
+| `system.maintenance.title_en` | 维护标题（英文） | `Under Maintenance` |
+| `system.maintenance.message` | 维护说明（中文） | `系统正在进行升级维护，请稍后再试。` |
+| `system.maintenance.message_en` | 维护说明（英文） | `The system is under maintenance. Please try again later.` |
+| `system.maintenance.estimated_time` | 预计恢复时间 | 空 |
 
 ## 关键索引
 

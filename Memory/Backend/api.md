@@ -101,6 +101,7 @@
 | GET | `/system/theme` | 获取全局主题配置 | 否 |
 | GET | `/system/info` | 获取系统信息 | 否 |
 | GET | `/public/site-config` | 获取站点配置（含Logo、社交链接） | 否 |
+| GET | `/public/system/maintenance` | 获取维护模式状态 | 否 |
 
 ### 更新检查 API (`/api/v1/updates`)
 
@@ -140,6 +141,8 @@
 | DELETE | `/admin/products/categories/{id}` | 删除分类 |
 | GET | `/admin/system/configs` | 系统配置列表 |
 | PUT | `/admin/system/configs/{key}` | 更新系统配置 |
+| GET | `/admin/system/maintenance` | 获取维护模式配置 |
+| PUT | `/admin/system/maintenance` | 更新维护模式配置 |
 | GET | `/admin/audit-logs` | 审计日志 |
 
 ## 统一响应格式
