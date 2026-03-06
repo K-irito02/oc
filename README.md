@@ -19,7 +19,7 @@ E:/oc/
 │   ├── documents/             # 文档文件
 │   ├── rules/                 # 规则文件
 │   └── skills/                # 技能文件
-├── .windsurf/                 # Windsurf AI 配置（已弃用，保留兼容）
+├── .windsurf/                 # Windsurf AI 配置
 │   ├── rules/                 # 开发规则文件
 │   ├── skills/                # AI 技能文件
 │   └── workflows/             # 工作流文件

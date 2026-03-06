@@ -12,25 +12,33 @@ trigger: always_on
 
 | 层次 | 技术选型 | 版本 | 说明 |
 |------|---------|------|------|
-| **前端框架** | React + TypeScript | 18.2.0+ | SPA 单页应用 |
-| **状态管理** | Redux Toolkit + RTK Query | 2.x | 含异步请求管理与自动缓存 |
-| **UI 组件库** | Ant Design | 5.x | 定制主题 |
-| **构建工具** | Vite | 5.x | 快速 HMR，开发体验好 |
-| **样式方案** | CSS Modules + Ant Design Token | — | 主题变量统一管理 |
-| **国际化** | react-i18next | 14.x | 中 / 英双语 |
-| **前端路由** | React Router | 6.x | 嵌套路由 + 懒加载 |
-| **SEO** | react-helmet-async | 2.x | Meta 标签 + 结构化数据 |
+| **前端框架** | React + TypeScript | 18.3.1 / ~5.6.2 | SPA 单页应用 |
+| **状态管理** | Redux Toolkit | 2.11.2 | 含异步请求管理与自动缓存 |
+| **UI 组件库** | Ant Design | 6.3.0 | Glassmorphism 风格定制 |
+| **构建工具** | Vite | 5.4.10 | 快速 HMR，开发体验好 |
+| **样式方案** | Tailwind CSS | 3.4.1 | 实用优先 + CSS 变量动态主题 |
+| **国际化** | react-i18next | 16.5.4 | 中 / 英双语 |
+| **前端路由** | React Router DOM | 7.13.0 | 嵌套路由 + 懒加载 |
+| **HTTP 请求** | Axios | 1.13.5 | 请求拦截 + Token 刷新 |
+| **日期处理** | Day.js | 1.11.19 | 轻量级日期库 |
+| **图标库** | Lucide React | 0.564.0 | 现代 SVG 图标 |
+| **图片裁剪** | react-easy-crop | 5.5.6 | 头像裁剪 |
+| **轮播组件** | Swiper | 12.1.2 | 触摸滑动轮播 |
 
 ### 后端技术栈
 
 | 层次 | 技术选型 | 版本 | 说明 |
 |------|---------|------|------|
 | **后端框架** | Spring Boot | 3.2.12 | Java 17 LTS |
-| **ORM** | MyBatis-Plus | 3.5.x | 复杂 SQL 用 MyBatis，简单 CRUD 用 MyBatis-Plus |
+| **ORM** | MyBatis-Plus | 3.5.9 | 复杂 SQL 用 MyBatis，简单 CRUD 用 MyBatis-Plus |
 | **安全** | Spring Security | 6.2.x | JWT + RBAC |
-| **API 文档** | SpringDoc OpenAPI | 2.x | Swagger UI 自动生成 |
-| **校验** | Bean Validation (Hibernate Validator) | 3.x | 参数校验 |
-| **邮件** | Spring Boot Mail | — | 验证码/通知邮件 |
+| **JWT** | jjwt | 0.12.6 | Token 生成与验证 |
+| **API 文档** | SpringDoc OpenAPI | 2.6.0 | Swagger UI 自动生成 |
+| **校验** | Hibernate Validator | 3.x | 参数校验 |
+| **邮件** | Spring Boot Mail | — | 验证码/通知邮件（QQ邮箱SMTP） |
+| **对象映射** | MapStruct | 1.6.3 | DTO/Entity 转换 |
+| **工具库** | Guava | 33.4.0-jre | Google 核心库 |
+| **IO 工具** | Commons IO | 2.18.0 | 文件操作 |
 
 ### 基础设施
 
@@ -42,8 +50,8 @@ trigger: always_on
 | **容器化** | Docker + Docker Compose | — | 本地开发 + 生产部署 |
 | **反向代理** | Nginx | alpine | SSL 终止 + 静态资源 + 限流 |
 | **CI/CD** | GitHub Actions | — | 自动构建/测试/部署 |
-| **监控** | Spring Boot Actuator + Prometheus + Grafana | — | 基础指标采集 |
-| **日志** | Logback + JSON 格式 | — | 阶段一用文件日志，阶段二接入 ELK |
+| **监控** | Spring Boot Actuator | — | 基础指标采集 |
+| **日志** | Logback + JSON 格式 | — | 阶段一用文件日志 |
 
 ### 开发环境端口
 
@@ -106,8 +114,8 @@ trigger: always_on
 ```json
 {
   "dependencies": {
-    "react": "^18.2.0",
-    "typescript": "^5.0.0"
+    "react": "^18.3.1",
+    "typescript": "~5.6.2"
   },
   "engines": {
     "node": ">=22.0.0",
@@ -171,3 +179,31 @@ PostgreSQL 15.x 提供 JSONB 支持和全文检索能力，满足阶段一的业
 
 ### 监控方案
 阶段一使用基础监控方案，阶段二根据需要接入完整的 APM 和日志分析系统。
+
+### Glassmorphism 主题
+前端采用玻璃拟态设计风格，使用 Tailwind CSS + CSS 变量实现动态主题切换，支持用户个性化配置。
+
+## 未来阶段规划
+
+### 阶段二：微服务架构
+
+- 微信/QQ OAuth 登录
+- 微信/支付宝支付 + 订单系统
+- VIP 会员订阅
+- Spring Cloud 微服务拆分
+- Spring Cloud Gateway API 网关
+- Nacos 注册中心
+- Elasticsearch 全文搜索
+- 腾讯云 COS 文件存储 + CDN
+- RabbitMQ 消息队列
+- Redis 哨兵模式
+- ELK 日志系统
+- SkyWalking 链路追踪
+
+### 阶段三：规模化
+
+- Kubernetes 容器编排
+- 多地域部署
+- 数据库读写分离
+- 分布式缓存集群
+- 全链路压测

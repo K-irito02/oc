@@ -1,21 +1,10 @@
 ---
-description: 开发环境快速启动指南
+description: 开发环境启动指南
 scope: project
 trigger: always_on
 ---
 
-# 开发环境快速启动指南
-
-## 一键启动
-
-```bash
-# 启动所有服务
-cd e:\oc\oc-platform
-docker compose -f docker-compose.dev.yml up -d
-mvn clean package -DskipTests -pl oc-platform-app -am -q
-java -jar oc-platform-app\target\oc-platform-app-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev &
-cd oc-platform-web && npm run dev
-```
+# 开发环境启动指南
 
 ## 服务访问
 
@@ -98,52 +87,6 @@ npm run lint
 | MinIO | 9000 | 对象存储 API |
 | MinIO Console | 9001 | 对象存储管理界面 |
 
-## 故障排查
-
-### 端口占用
-```bash
-# Windows 查看端口占用
-netstat -ano | findstr :8081
-
-# 结束进程
-taskkill /PID <PID> /F
-```
-
-### 清理环境
-```bash
-# 停止所有服务
-docker compose -f docker-compose.dev.yml down
-
-# 清理未使用的镜像
-docker system prune
-
-# 重新构建
-mvn clean install -DskipTests
-```
-
-### 数据库重置
-```bash
-# 停止并删除数据卷
-docker compose -f docker-compose.dev.yml down -v
-
-# 重新启动（init.sql 会自动执行）
-docker compose -f docker-compose.dev.yml up -d
-```
-
-## IDE 配置
-
-### IntelliJ IDEA
-- 设置 JDK 17+
-- 启用 Lombok 插件
-- 配置代码风格为 Google Java Style
-- 设置 .mvn 配置目录
-
-### VS Code
-- 安装 Java Extension Pack
-- 安装 React/TypeScript 扩展
-- 配置 ESLint 和 Prettier
-- 安装 Tailwind CSS IntelliSense
-
 ## 注意事项
 
 1. **端口冲突**: 如果 5173 被占用，Vite 会自动切换到 5174
@@ -163,15 +106,4 @@ VITE_ENABLE_MOCK=false
 
 ## 项目管理技能
 
-使用 `oc-platform-manager` 技能可以一键管理开发环境：
-
-```bash
-# 启动项目
-/start-project
-
-# 停止项目
-/stop-project
-
-# 检查状态
-/check-status
-```
+使用 `oc-platform-manager` 技能可以一键管理开发环境。

@@ -97,64 +97,6 @@ trigger: always_on
    }
    ```
 
-## 常见问题解决
-
-### 1. Maven 依赖下载慢
-
-```xml
-<!-- 在 settings.xml 中配置镜像 -->
-<mirrors>
-  <mirror>
-    <id>aliyun</id>
-    <mirrorOf>central</mirrorOf>
-    <name>Aliyun Maven Mirror</name>
-    <url>https://maven.aliyun.com/repository/central</url>
-  </mirror>
-</mirrors>
-```
-
-### 2. Node.js 依赖安装失败
-
-```bash
-# 清理 npm 缓存
-npm cache clean --force
-
-# 删除 node_modules 重新安装
-rm -rf node_modules package-lock.json
-npm install
-```
-
-### 3. Docker 容器启动失败
-
-```bash
-# 检查 Docker 服务状态
-docker info
-
-# 重启 Docker Desktop
-# 清理未使用的容器和镜像
-docker system prune
-```
-
-### 4. 端口占用问题
-
-```bash
-# Windows 查看端口占用
-netstat -ano | findstr :8081
-
-# 结束占用进程
-taskkill /PID <PID> /F
-```
-
-### 5. Git 推送超时
-
-```bash
-# 推荐配置（解决 HTTP 408 超时问题）
-git config --global http.version HTTP/1.1
-git config --global http.postBuffer 524288000
-git config --global http.lowSpeedLimit 0
-git config --global http.lowSpeedTime 999999
-```
-
 ## 数据库管理
 
 ### 连接信息
@@ -167,20 +109,6 @@ git config --global http.lowSpeedTime 999999
 | 用户名 | oc_user |
 | 密码 | 3143285505 |
 
-### 常用操作
-
-```bash
-# 连接数据库
-docker exec -it oc-dev-postgres psql -U oc_user -d oc_platform
-
-# 重置数据库
-docker compose -f docker-compose.dev.yml down -v
-docker compose -f docker-compose.dev.yml up -d
-
-# 导入数据
-Get-Content sql/init.sql | docker exec -i oc-dev-postgres psql -U oc_user -d oc_platform
-```
-
 ## Redis 管理
 
 ### 连接信息
@@ -190,19 +118,6 @@ Get-Content sql/init.sql | docker exec -i oc-dev-postgres psql -U oc_user -d oc_
 | 主机 | localhost |
 | 端口 | 6380 |
 | 密码 | 3143285505 |
-
-### 常用操作
-
-```bash
-# 连接 Redis
-docker exec -it oc-dev-redis redis-cli -a 3143285505
-
-# 查看所有键
-KEYS *
-
-# 清空缓存
-FLUSHALL
-```
 
 ## MinIO 管理
 

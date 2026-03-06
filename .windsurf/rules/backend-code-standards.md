@@ -6,6 +6,18 @@ trigger: always_on
 
 # 后端代码规范
 
+## 技术栈版本
+
+| 技术 | 版本 | 说明 |
+|------|------|------|
+| Spring Boot | 3.2.12 | 后端框架 |
+| Java | 17 (OpenJDK 17.0.15 Temurin) | 运行环境 |
+| MyBatis-Plus | 3.5.9 | ORM 框架 |
+| Spring Security | 6.2.x | 认证授权 |
+| SpringDoc OpenAPI | 2.6.0 | API 文档 |
+| PostgreSQL | 15.x | 数据库 |
+| Redis | 7.x | 缓存 |
+
 ## 静态分析
 
 - **SonarQube**: 代码质量静态分析
@@ -94,9 +106,63 @@ trigger: always_on
 - **依赖要求**: 需要 `mybatis-plus-jsqlparser` 依赖支持分页
 - **注意**: 不启用分页插件会导致 `selectPage` 返回的 `total` 始终为 0
 
+## 模块结构
+
+```
+oc-platform/
+├── oc-platform-common/     # 公共模块（异常、响应、工具类、配置）
+├── oc-platform-user/       # 用户模块（认证、OAuth、用户管理）
+├── oc-platform-product/    # 产品模块（产品、版本、分类、下载）
+├── oc-platform-comment/    # 评论模块（评论、点赞）
+├── oc-platform-file/       # 文件模块（MinIO 存储、上传）
+├── oc-platform-admin/      # 管理后台模块
+└── oc-platform-app/        # 主应用启动模块
+```
+
+## 包命名规范
+
+- 基础包: `com.OcPlatform`
+- 模块包: `com.OcPlatform.{module}` (user/product/comment/file/admin/common)
+
 ## 环境配置
 
 - **开发端口**: 8081（避免与Apache httpd 8080冲突）
 - **数据库**: PostgreSQL 15.x (Docker映射端口5433→5432)
 - **缓存**: Redis 7.x (Docker映射端口6380→6379)
 - **邮件服务**: QQ邮箱SMTP配置
+- **对象存储**: MinIO (端口9000/9001)
+
+## 统一响应格式
+
+```java
+public class ApiResponse<T> {
+    private int code;
+    private String message;
+    private T data;
+}
+
+public class PageResponse<T> {
+    private List<T> records;
+    private long total;
+    private int page;
+    private int size;
+}
+```
+
+## 安全配置要点
+
+- JWT Access Token 有效期：2小时
+- JWT Refresh Token 有效期：7天
+- 密码加密：BCrypt (strength=12)
+- RBAC 权限：5角色17权限
+- CORS 配置：允许 localhost:5173/3000
+
+## 限流策略
+
+| 场景 | 限制 | 实现 |
+|------|------|------|
+| 登录 | 5次/分钟/IP | Redis incr + expire |
+| 注册 | 10次/小时/IP | Redis |
+| 验证码 | 1次/分钟/邮箱, 10次/小时/邮箱 | Redis |
+| 文件上传 | 50次/小时 | Redis |
+| 评论 | 60秒间隔 | Redis |

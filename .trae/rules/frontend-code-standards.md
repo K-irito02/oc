@@ -130,28 +130,6 @@ try {
   - 测试通过检查
   - 提交信息规范检查
 
-## 提交规范
-
-- **Conventional Commits**: 标准化提交信息
-  ```
-  <type>[optional scope]: <description>
-  
-  [optional body]
-  
-  [optional footer(s)]
-  ```
-  
-  **类型说明：**
-  - `feat`: 新功能
-  - `fix`: 修复 bug
-  - `docs`: 文档更新
-  - `style`: 代码格式调整
-  - `refactor`: 重构
-  - `test`: 测试相关
-  - `chore`: 构建或辅助工具变动
-  - `perf`: 性能优化
-  - `ci`: CI/CD 相关
-
 ## 组件规范
 
 1. **命名规范**
