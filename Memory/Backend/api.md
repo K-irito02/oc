@@ -1,11 +1,12 @@
 # 后端 API 接口清单
 
-> 最后更新: 2026-03-02
+> 最后更新: 2026-03-06
 
 ## 基础路径
 
 - 开发环境: `http://localhost:8081/api/v1`
 - Swagger UI: `http://localhost:8081/swagger-ui.html`
+- OpenAPI JSON: `http://localhost:8081/v3/api-docs`
 
 ## API 封装（前端 `utils/api.ts` 对应）
 
@@ -66,15 +67,6 @@
 | POST | `/comments/{id}/like` | 点赞 | 是 |
 | DELETE | `/comments/{id}/like` | 取消点赞 | 是 |
 
-### 通知 API (`/api/v1/notifications`)
-
-| 方法 | 路径 | 说明 | 认证 |
-|------|------|------|------|
-| GET | `/notifications` | 通知列表 | 是 |
-| GET | `/notifications/unread-count` | 未读计数 | 是 |
-| PUT | `/notifications/{id}/read` | 标记已读 | 是 |
-| PUT | `/notifications/read-all` | 全部已读 | 是 |
-
 ### 留言 API (`/api/v1/feedbacks`)
 
 | 方法 | 路径 | 说明 | 认证 |
@@ -107,7 +99,7 @@
 
 | 方法 | 路径 | 说明 | 认证 |
 |------|------|------|------|
-| GET | `/updates/check` | oc 客户端检查更新 | 否 |
+| GET | `/updates/check` | OC 客户端检查更新 | 否 |
 
 ### 下载 API (`/api/v1/downloads`)
 
@@ -168,3 +160,17 @@
   }
 }
 ```
+
+## 错误码
+
+| 状态码 | 说明 |
+|--------|------|
+| 200 | 成功 |
+| 400 | 请求参数错误 |
+| 401 | 未授权 |
+| 403 | 禁止访问 |
+| 404 | 资源不存在 |
+| 409 | 资源冲突 |
+| 429 | 请求频率超限 |
+| 500 | 服务器内部错误 |
+| 503 | 服务维护中 |

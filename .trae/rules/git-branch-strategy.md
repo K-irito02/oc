@@ -8,15 +8,17 @@ trigger: always_on
 
 ## 仓库分离策略
 
-### 1. 项目环境状态文件仓库 (E:\oc)
+### 1. 项目环境状态仓库 (E:\oc)
 专门保存开发环境配置和项目记忆的独立仓库：
 - **仓库路径**: `E:/oc/`
+- **远程地址**: `https://github.com/K-irito02/oc.git`
 - **主要用途**: 保存 AI 配置、规则、技能、工作流和项目记忆
 - **分支策略**: 简化的单分支或双分支模式
 
 ### 2. 项目代码仓库 (E:\oc\oc-platform)
 专门保存项目源代码的独立仓库：
 - **仓库路径**: `E:/oc/oc-platform/`
+- **远程地址**: `https://github.com/K-irito02/oc-platform-app.git`
 - **主要用途**: 保存前后端代码、数据库脚本、部署配置
 - **分支策略**: 完整的 GitFlow 工作流
 
@@ -49,7 +51,7 @@ main            ← 生产环境，仅接受 release 和 hotfix 合并
 ### 分支命名规范
 - **main**: 主分支，保存稳定的配置和记忆
 - **develop**: 开发分支，保存最新的配置变更（可选）
-- **backup/***: 备份分支，按日期命名 `backup/2026-02-28`
+- **backup/***: 备份分支，按日期命名 `backup/2026-03-06`
 
 ### 推荐策略
 - **简单场景**: 使用单分支 `main` 模式
@@ -132,18 +134,17 @@ main            ← 生产环境，仅接受 release 和 hotfix 合并
 ### oc Platform 项目结构
 ```
 oc-platform/
-├── oc-platform-web/          # 前端项目（React 18 + Vite 5 + TypeScript）
+├── oc-platform-web/          # 前端项目（React 18.3.1 + Vite 5.4 + TypeScript 5.6）
 ├── oc-platform-user/         # 用户模块
 ├── oc-platform-product/      # 产品模块
 ├── oc-platform-comment/      # 评论模块
 ├── oc-platform-file/         # 文件模块（MinIO 对象存储）
-├── oc-platform-notification/ # 通知模块
 ├── oc-platform-admin/        # 管理后台模块
-├── oc-platform-app/           # 应用启动模块
-├── oc-platform-common/        # 公共模块（JSONB 类型处理器等）
-├── sql/                       # 数据库脚本
+├── oc-platform-app/          # 应用启动模块
+├── oc-platform-common/       # 公共模块
+├── sql/                      # 数据库脚本
 ├── docker-compose.dev.yml    # 开发环境配置
-└── docker-compose.yml         # 生产环境配置
+└── docker-compose.yml        # 生产环境配置
 ```
 
 ## 项目环境状态仓库结构
@@ -153,28 +154,44 @@ oc-platform/
 E:/oc/
 ├── .trae/                     # Trae AI 配置
 │   ├── documents/            # 文档文件
-│   ├── rules/                 # 规则文件
-│   └── skills/                # 技能文件
-├── .windsurf/                 # Windsurf AI 配置
-│   ├── rules/                 # 开发规则文件
-│   ├── skills/                # AI 技能文件
-│   └── workflows/             # 工作流文件
-├── Memory/                    # 项目记忆系统
-│   ├── Backend/               # 后端记忆
-│   ├── Frontend/              # 前端记忆
-│   ├── Database/              # 数据库记忆
-│   ├── DevOps/                # 运维记忆
-│   ├── Testing/               # 测试记忆
-│   └── WorkLogs/              # 工作日志
-├── Planning Document/         # 计划文档
+│   ├── rules/                # 规则文件
+│   └── skills/               # 技能文件
+├── .windsurf/                # Windsurf AI 配置
+│   ├── rules/                # 开发规则文件
+│   ├── skills/               # AI 技能文件
+│   └── workflows/            # 工作流文件
+├── Memory/                   # 项目记忆系统
+│   ├── Backend/              # 后端记忆
+│   ├── Frontend/             # 前端记忆
+│   ├── Database/             # 数据库记忆
+│   ├── DevOps/               # 运维记忆
+│   ├── Testing/              # 测试记忆
+│   └── WorkLogs/             # 工作日志
+├── Planning Document/        # 计划文档
 │   ├── Architecture Document.md
 │   ├── Phase One.md
 │   └── 主题设计.md
-├── Front-end testing/         # 前端测试素材（不同步）
-│   ├── Background material/
-│   └── PFP/
+├── Front-end testing/        # 前端测试素材（不同步）
 ├── oc-platform/              # 项目代码仓库（独立管理）
 ├── node_modules/             # Node.js 依赖（不同步）
 ├── package.json              # 根包配置（同步）
 └── package-lock.json         # 依赖锁定文件（不同步）
+```
+
+## Git 配置优化
+
+### 代理环境配置
+```bash
+# 推荐配置（解决 HTTP 408 超时问题）
+git config --global http.version HTTP/1.1
+git config --global http.postBuffer 524288000
+git config --global http.lowSpeedLimit 0
+git config --global http.lowSpeedTime 999999
+```
+
+### 大文件清理
+```bash
+# 从历史中移除大文件
+git filter-branch --force --index-filter 'git rm --cached --ignore-unmatch "大文件路径"' --prune-empty --tag-name-filter cat -- --all
+git gc --aggressive --prune=now
 ```

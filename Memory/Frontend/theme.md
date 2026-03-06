@@ -1,6 +1,6 @@
 # Glassmorphism 主题系统记忆
 
-> 最后更新: 2026-02-27
+> 最后更新: 2026-03-06
 
 ## 主题架构
 
@@ -62,7 +62,7 @@
 - **Sidebar**: 玻璃拟态侧边栏，包含导航菜单，支持收缩展开。
 - **Navbar**: 前台导航条，包含主题设置入口，支持管理后台入口。
 - **AdminSidebar**: 后台管理侧边栏，深色玻璃拟态风格。
-- **Footer**: 页脚组件。
+- **Footer**: 页脚组件，显示ICP备案信息。
 - **ThemeSettings**: 抽屉式主题配置面板，支持背景上传、透明度调节、主色调选择、字体切换。
 
 ## 动态主题 (`src/store/slices/themeSlice.ts`)
@@ -83,7 +83,8 @@ interface ThemeState {
       mode: 'light' | 'dark';
     };
   };
-  // ... systemConfig, userConfig
+  systemConfig: ThemeConfig;
+  userConfig: ThemeConfig | null;
 }
 ```
 
@@ -108,6 +109,18 @@ interface ThemeState {
 - 配置系统默认主题
 - 预设背景库管理
 
+## 字体支持
+
+通过 Google Fonts 加载：
+- Inter (默认)
+- Roboto
+- Ma Shan Zheng (马善政楷书)
+- ZCOOL XiaoWei (站酷小薇)
+- Liu Jian Mao Cao (流建毛草)
+- Zhi Mang Xing (智芒星行书)
+- Long Cang (龙藏体)
+- LXGW WenKai (霞鹜文楷)
+
 ## 资源路径
 - 设计规范: `src/design-system/MASTER.md`
-- 字体文件: Google Fonts (Inter, Roboto 等)
+- 字体文件: Google Fonts CDN

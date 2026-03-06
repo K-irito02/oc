@@ -1,6 +1,6 @@
 # 部署与运维记忆
 
-> 最后更新: 2026-02-28
+> 最后更新: 2026-03-06
 
 ## 开发环境
 
@@ -30,12 +30,12 @@
 ### 开发依赖启动
 
 ```bash
-# 启动 PostgreSQL + Redis
+# 启动 PostgreSQL + Redis + MinIO
 cd oc-platform
 docker compose -f docker-compose.dev.yml up -d
 
 # 验证服务
-docker ps  # 确认 oc-dev-postgres 和 oc-dev-redis 运行中
+docker ps  # 确认 oc-dev-postgres、oc-dev-redis、oc-dev-minio 运行中
 ```
 
 ## Docker 配置
@@ -103,10 +103,10 @@ JWT_ACCESS_EXPIRATION=7200
 JWT_REFRESH_EXPIRATION=604800
 
 # Mail
-MAIL_HOST=smtp.example.com
+MAIL_HOST=smtp.qq.com
 MAIL_PORT=465
-MAIL_USERNAME=
-MAIL_PASSWORD=
+MAIL_USERNAME=your-email@qq.com
+MAIL_PASSWORD=your-smtp-auth-code
 
 # GitHub OAuth
 GITHUB_CLIENT_ID=
@@ -140,11 +140,11 @@ MINIO_BUCKET_AVATARS=oc-avatars
 - **仓库路径**: `E:/oc/`
 - **远程地址**: `https://github.com/K-irito02/oc.git`
 - **主要用途**: 保存 AI 配置、规则、技能、工作流和项目记忆
-- **分支策略**: 简化的单分支或双分支模式
-- **文件大小**: 优化后约 2.64MB
+- **分支策略**: 简化的单分支模式
 
 #### 2. 项目代码仓库 (E:\oc\oc-platform)
 - **仓库路径**: `E:/oc/oc-platform/`
+- **远程地址**: `https://github.com/K-irito02/oc-platform-app.git`
 - **主要用途**: 保存前后端代码、数据库脚本、部署配置
 - **分支策略**: 完整的 GitFlow 工作流
 
@@ -171,3 +171,10 @@ git gc --aggressive --prune=now
 - **阶段一**: 腾讯云 CVM (Docker Compose)
 - **阶段二**: 腾讯云 COS (文件存储) + CDN
 - **阶段三**: Kubernetes 容器编排
+
+## 时区配置
+
+所有组件统一使用 `Asia/Shanghai` (UTC+8)：
+- Docker 容器: `TZ=Asia/Shanghai`
+- PostgreSQL: `timezone='Asia/Shanghai'`
+- Spring Boot Jackson: `spring.jackson.time-zone=Asia/Shanghai`

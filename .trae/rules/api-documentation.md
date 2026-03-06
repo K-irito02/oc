@@ -9,7 +9,7 @@ trigger: always_on
 ## 文档生成
 
 - **Swagger / OpenAPI 3.0**: 自动生成 API 文档
-  - 基于 SpringDoc OpenAPI 2.x
+  - 基于 SpringDoc OpenAPI 2.6.0
   - 自动扫描 Controller 层
   - 根据注解生成文档
   - 支持多种输出格式
@@ -17,6 +17,8 @@ trigger: always_on
 ## 访问地址
 
 - **开发环境**: `http://localhost:8081/swagger-ui.html`
+- **OpenAPI JSON**: `http://localhost:8081/v3/api-docs`
+- **OpenAPI YAML**: `http://localhost:8081/v3/api-docs.yaml`
 - **测试环境**: `/swagger-ui.html`
 - **生产环境**: 关闭 Swagger UI
 
@@ -81,7 +83,9 @@ public class UserRegisterDTO {
    - 403: 禁止访问
    - 404: 资源不存在
    - 409: 资源冲突
+   - 429: 请求频率超限
    - 500: 服务器内部错误
+   - 503: 服务维护中
 
 ### 推荐信息
 
@@ -167,3 +171,19 @@ springdoc:
    - 文档生成不影响接口性能
    - 合理的缓存策略
    - 异步生成大型文档
+
+## API 模块划分
+
+| 模块 | 基础路径 | 说明 |
+|------|---------|------|
+| 认证 | `/api/v1/auth` | 登录、注册、OAuth、密码管理 |
+| 用户 | `/api/v1/users` | 用户信息、头像、主题配置 |
+| 产品 | `/api/v1/products` | 产品列表、详情、版本 |
+| 分类 | `/api/v1/categories` | 产品分类 |
+| 评论 | `/api/v1/comments` | 产品评论、点赞 |
+| 留言 | `/api/v1/feedbacks` | 公开留言、回复 |
+| 文件 | `/api/v1/files` | 文件上传、图片上传 |
+| 系统 | `/api/v1/system` | 系统配置、主题、维护状态 |
+| 下载 | `/api/v1/downloads` | 文件下载、断点续传 |
+| 更新 | `/api/v1/updates` | 客户端更新检查 |
+| 管理 | `/api/v1/admin` | 后台管理接口 |

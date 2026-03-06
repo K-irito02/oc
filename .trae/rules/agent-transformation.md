@@ -46,10 +46,18 @@ trigger: 内置智能体 | 编程助手 | built-in | default_agent
 ## 4. 可用技能
 
 转换后可使用以下技能：
-- `fullstack-developer` - 全栈开发
-- `frontend-design` - 前端设计
+- `fullstack-dev-expert` - 全栈开发专家
+- `frontend-expert` - 前端开发专家
+- `backend-expert` - 后端开发专家
 - `code-reviewer` - 代码审查
-- `webapp-testing` - 测试
+- `testing-expert` - 测试专家
+- `devops-expert` - DevOps专家
+- `ui-ux-pro-max` - UI/UX设计智能助手
+- `oc-platform-manager` - OC Platform项目自动化管理
+- `git-commit-workflow` - Git提交工作流
+- `fix` - 代码修复和格式化
+- `pr-creator` - Pull Request创建
+- `webapp-testing` - Web应用测试
 
 ## 5. 智能体协作网络
 
@@ -84,7 +92,7 @@ trigger: 内置智能体 | 编程助手 | built-in | default_agent
 ```json
 {
   "messageId": "MSG-{number}",
-  "timestamp": "2026-03-03T10:00:00Z",
+  "timestamp": "2026-03-06T10:00:00Z",
   "type": "TASK",
   "from": "PROJECT_MANAGER",
   "to": "FRONTEND_AGENT | BACKEND_AGENT | TESTING_AGENT | CODE_REVIEW_AGENT | DEVOPS_AGENT",
@@ -98,7 +106,7 @@ trigger: 内置智能体 | 编程助手 | built-in | default_agent
     "status": "pending | assigned | in_progress",
     "requirements": [],
     "dependencies": [],
-    "deadline": "2026-03-05T18:00:00Z",
+    "deadline": "2026-03-10T18:00:00Z",
     "estimatedHours": 8
   },
   "context": {
@@ -114,7 +122,7 @@ trigger: 内置智能体 | 编程助手 | built-in | default_agent
 ```json
 {
   "messageId": "MSG-{number}",
-  "timestamp": "2026-03-03T10:00:00Z",
+  "timestamp": "2026-03-06T10:00:00Z",
   "type": "TASK_COMPLETE",
   "from": "FRONTEND_AGENT | BACKEND_AGENT | TESTING_AGENT | CODE_REVIEW_AGENT | DEVOPS_AGENT",
   "to": "PROJECT_MANAGER",
@@ -153,17 +161,28 @@ PENDING → ASSIGNED → IN_PROGRESS → REVIEW → COMPLETED
 
 ### 9.1 技术栈
 
-- **前端**: React 18 + TypeScript + Vite + Ant Design + Redux Toolkit
-- **后端**: Spring Boot 3.2 + Java 17 + MyBatis-Plus + PostgreSQL
-- **基础设施**: Docker + PostgreSQL + Redis + MinIO
+- **前端**: React 18.3.1 + TypeScript 5.6 + Vite 5.4 + Ant Design 6.3 + Redux Toolkit 2.11
+- **后端**: Spring Boot 3.2.12 + Java 17 + MyBatis-Plus 3.5.9 + PostgreSQL 15
+- **基础设施**: Docker + Redis 7 + MinIO
 
 ### 9.2 项目路径
 
 | 路径 | 说明 |
 |------|------|
-| e:/oc/oc-platform | 项目根目录 |
+| e:/oc | 项目环境状态仓库 |
+| e:/oc/oc-platform | 项目代码仓库 |
 | e:/oc/oc-platform/oc-platform-web | 前端项目 |
-| e:/oc/oc-platform/oc-platform-app | 后端项目 |
+| e:/oc/oc-platform/oc-platform-app | 后端启动模块 |
+
+### 9.3 服务端口
+
+| 服务 | 端口 | 说明 |
+|------|------|------|
+| 后端 API | 8081 | Spring Boot |
+| 前端开发 | 5173 | Vite 开发服务器 |
+| PostgreSQL | 5433 | Docker 映射 5433→5432 |
+| Redis | 6380 | Docker 映射 6380→6379 |
+| MinIO | 9000/9001 | 对象存储 |
 
 ## 10. 输出格式
 

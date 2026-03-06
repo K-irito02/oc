@@ -1,6 +1,6 @@
 # 安全体系记忆
 
-> 最后更新: 2026-02-27
+> 最后更新: 2026-03-06
 
 ## 认证方案
 
@@ -39,9 +39,11 @@
 - `GET /api/v1/products/**` — 产品浏览
 - `GET /api/v1/categories/**` — 分类浏览
 - `GET /api/v1/comments/**` — 评论浏览
+- `GET /api/v1/feedbacks` — 留言浏览
 - `/api/v1/updates/check` — 更新检查
 - `/api/v1/downloads/**` — 文件下载
 - `GET /api/v1/system/theme` — 全局主题配置
+- `GET /api/v1/public/**` — 公开配置
 - `/uploads/**` — 静态资源（头像等）
 - Swagger UI + Actuator health/info
 
@@ -65,17 +67,27 @@
 | 注册 | 10次/小时/IP | Redis |
 | 验证码 | 1次/分钟/邮箱, 10次/小时/邮箱 | Redis |
 | 文件上传 | 50次/小时 | Redis |
+| 评论 | 60秒间隔 | Redis |
+| 留言 | 60秒间隔 | Redis |
 
 ## CORS 配置
 
-- 允许来源: `http://localhost:5173`, `http://localhost:3000`
+- 允许来源: `http://localhost:5173`, `http://localhost:3000`, `http://localhost:5174`
 - 允许方法: GET, POST, PUT, DELETE, PATCH, OPTIONS
 - 允许凭证: true
 - 预检缓存: 3600s
 
-## 默认账号
+## 维护模式
 
-| 角色 | 用户名 | 密码 |
+- **拦截器**: `MaintenanceInterceptor.java`
+- **配置项**: `system.maintenance.enabled`
+- **白名单**: 认证接口、公开接口、管理员接口
+- **响应**: 503 Service Unavailable
+
+## 超级管理员账号
+
+| 角色 | 用户名 | 邮箱 |
 |------|--------|------|
-| 超级管理员 | admin@ocplatform.com | Admin@123456 |
-| 普通用户 | zhangsan@example.com | Test@123456 |
+| 超级管理员 | KirLab | 3143285505@qq.com |
+
+> 密码通过 init.sql 创建，首次登录后建议修改

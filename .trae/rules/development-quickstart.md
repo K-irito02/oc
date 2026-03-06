@@ -30,8 +30,8 @@ cd oc-platform-web && npm run dev
 
 ## 测试账号
 
-- **管理员**: admin@ocplatform.com / Admin@123456
-- **普通用户**: user1@example.com / User@123456
+- **超级管理员**: KirLab / 3143285505@qq.com（密码通过init.sql创建）
+- **普通用户**: 需自行注册
 
 ## 常用命令
 
@@ -48,6 +48,10 @@ docker compose -f docker-compose.dev.yml stop
 
 # 查看日志
 docker compose -f docker-compose.dev.yml logs -f
+
+# 重置数据库
+docker compose -f docker-compose.dev.yml down -v
+docker compose -f docker-compose.dev.yml up -d
 ```
 
 ### 后端
@@ -60,6 +64,9 @@ mvn clean package -DskipTests -pl oc-platform-app -am
 
 # 运行应用
 java -jar oc-platform-app/target/oc-platform-app-1.0.0-SNAPSHOT.jar --spring.profiles.active=dev
+
+# Maven 热重载运行（推荐开发时使用）
+mvn spring-boot:run -pl oc-platform-app -Dspring-boot.run.profiles=dev
 ```
 
 ### 前端
@@ -74,7 +81,7 @@ npm run dev
 npm run build
 
 # 类型检查
-npm run type-check
+npx tsc --noEmit
 
 # 代码检查
 npm run lint
@@ -82,10 +89,14 @@ npm run lint
 
 ## 端口说明
 
-- **8081**: 后端 API（避免与 Apache httpd 8080 冲突）
-- **5173**: 前端开发服务器（Vite 默认）
-- **5433**: PostgreSQL（Docker 映射 5433→5432）
-- **6380**: Redis（Docker 映射 6380→6379）
+| 服务 | 端口 | 说明 |
+|------|------|------|
+| 后端 API | 8081 | 避免与 Apache httpd 8080 冲突 |
+| 前端开发 | 5173 | Vite 默认（可能自动切换到5174） |
+| PostgreSQL | 5433 | Docker 映射 5433→5432 |
+| Redis | 6380 | Docker 映射 6380→6379 |
+| MinIO | 9000 | 对象存储 API |
+| MinIO Console | 9001 | 对象存储管理界面 |
 
 ## 故障排查
 
@@ -112,8 +123,11 @@ mvn clean install -DskipTests
 
 ### 数据库重置
 ```bash
-# 重新导入种子数据
-Get-Content sql/seed.sql | docker exec -i oc-dev-postgres psql -U oc_user -d oc_platform
+# 停止并删除数据卷
+docker compose -f docker-compose.dev.yml down -v
+
+# 重新启动（init.sql 会自动执行）
+docker compose -f docker-compose.dev.yml up -d
 ```
 
 ## IDE 配置
@@ -122,12 +136,13 @@ Get-Content sql/seed.sql | docker exec -i oc-dev-postgres psql -U oc_user -d oc_
 - 设置 JDK 17+
 - 启用 Lombok 插件
 - 配置代码风格为 Google Java Style
-- 设置 .mvm 配置目录
+- 设置 .mvn 配置目录
 
 ### VS Code
 - 安装 Java Extension Pack
 - 安装 React/TypeScript 扩展
 - 配置 ESLint 和 Prettier
+- 安装 Tailwind CSS IntelliSense
 
 ## 注意事项
 
@@ -135,3 +150,28 @@ Get-Content sql/seed.sql | docker exec -i oc-dev-postgres psql -U oc_user -d oc_
 2. **数据库密码**: 开发环境使用固定密码，生产环境请使用环境变量
 3. **邮件服务**: 使用 QQ 邮箱 SMTP，需要在 application.yml 中配置授权码
 4. **热重载**: 前端支持热重载，后端修改需重启应用
+5. **Mock 数据**: 可通过 `.env.local` 设置 `VITE_ENABLE_MOCK=false` 禁用 Mock
+
+## 禁用 Mock 数据
+
+前端默认启用 Mock 拦截器（后端未启动时提供模拟数据）。后端运行时，可创建 `.env.local` 禁用 Mock 以使用真实 API：
+
+```bash
+# oc-platform-web/.env.local
+VITE_ENABLE_MOCK=false
+```
+
+## 项目管理技能
+
+使用 `oc-platform-manager` 技能可以一键管理开发环境：
+
+```bash
+# 启动项目
+/start-project
+
+# 停止项目
+/stop-project
+
+# 检查状态
+/check-status
+```

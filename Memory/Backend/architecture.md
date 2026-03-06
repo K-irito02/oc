@@ -8,14 +8,18 @@
 |------|------|------|
 | Spring Boot | 3.2.12 | 后端框架 |
 | Spring Security | 6.2.x | 认证授权（JWT + RBAC） |
-| MyBatis-Plus | 3.5.x | ORM（复杂 SQL） |
+| MyBatis-Plus | 3.5.9 | ORM（复杂 SQL） |
+| jjwt | 0.12.6 | JWT Token 生成验证 |
 | Spring Data JPA | 3.2.x | ORM（简单 CRUD，当前 ddl-auto=none） |
 | PostgreSQL | 15.x | 主数据库 |
 | Redis | 7.x | 缓存 + 限流（单机模式，Docker映射6380→6379） |
-| SpringDoc OpenAPI | 2.x | API 文档（Swagger UI） |
+| SpringDoc OpenAPI | 2.6.0 | API 文档（Swagger UI） |
 | Hibernate Validator | 3.x | 参数校验 |
+| MapStruct | 1.6.3 | DTO/Entity 对象映射 |
 | Lombok | — | 代码简化 |
 | Logback | — | JSON 格式日志 |
+| Guava | 33.4.0-jre | Google 核心库 |
+| Commons IO | 2.18.0 | 文件操作 |
 
 ## 项目路径
 
@@ -57,11 +61,11 @@ oc-platform/
 │
 ├── oc-platform-comment/           # 评论模块
 │   └── src/main/java/com/OcPlatform/comment/
-│       ├── controller/            # CommentController
-│       ├── service/               # CommentService
-│       ├── repository/            # CommentMapper, CommentLikeMapper
-│       ├── entity/                # ProductComment, CommentLike
-│       └── dto/                   # CommentVO 等
+│       ├── controller/            # CommentController, FeedbackController
+│       ├── service/               # CommentService, FeedbackService
+│       ├── repository/            # CommentMapper, CommentLikeMapper, FeedbackMapper, FeedbackLikeMapper
+│       ├── entity/                # ProductComment, CommentLike, Feedback, FeedbackLike
+│       └── dto/                   # CommentVO, FeedbackVO 等
 │
 ├── oc-platform-file/              # 文件模块
 │   └── src/main/java/com/OcPlatform/file/
@@ -74,7 +78,7 @@ oc-platform/
 │   └── src/main/java/com/OcPlatform/admin/
 │       ├── controller/            # AdminDashboardController, AdminUserController, AdminProductController,
 │       │                          # AdminCommentController, AdminCategoryController, AdminFileController,
-│       │                          # AdminStatsController, AdminSystemController
+│       │                          # AdminStatsController, AdminSystemController, AdminFeedbackController
 │       ├── service/               # 管理服务
 │       └── vo/                    # 管理视图对象
 │
@@ -95,12 +99,13 @@ oc-platform/
 |--------|------|------|
 | 服务端口 | 8081 | 本机 8080 被 Apache httpd 占用 |
 | 数据库 | oc_platform / oc_user | PostgreSQL 15（Docker映射5433→5432） |
-| Redis | localhost:6379 | 单机模式（Docker映射6380→6379） |
+| Redis | localhost:6380 | 单机模式（Docker映射6380→6379） |
 | JWT 有效期 | access=2h, refresh=7d | |
 | 文件上传路径 | ./uploads | 本地存储 |
 | 最大文件大小 | 1GB | |
 | Swagger UI | /swagger-ui.html | 开发环境开启（http://localhost:8081/swagger-ui.html） |
 | JPA ddl-auto | none | 使用 SQL 脚本管理表结构 |
+| 时区 | Asia/Shanghai | Docker、PostgreSQL、Jackson 统一 |
 
 ## 包命名规范
 
@@ -112,14 +117,13 @@ oc-platform/
 ```bash
 cd oc-platform
 # 编译全部模块
-./mvnw clean package -DskipTests
+mvn clean package -DskipTests
 
 # 启动应用（开发环境）
-cd oc-platform-app
-../mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+mvn spring-boot:run -pl oc-platform-app -Dspring-boot.run.profiles=dev
 
 # 单独编译某模块
-./mvnw clean package -pl oc-platform-user -am
+mvn clean package -pl oc-platform-user -am
 ```
 
 ## 环境变量
@@ -131,3 +135,4 @@ cd oc-platform-app
 - `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, `MAIL_PASSWORD`
 - `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `GITHUB_REDIRECT_URI`
 - `UPLOAD_PATH`, `MAX_FILE_SIZE`
+- `MINIO_ENDPOINT`, `MINIO_ACCESS_KEY`, `MINIO_SECRET_KEY`

@@ -33,20 +33,22 @@ Memory/
 ## 项目当前状态（2026-03-06）
 
 ### ✅ 已完成功能
-- **用户认证**: JWT + RBAC + OAuth2
+- **用户认证**: JWT + RBAC + OAuth2 (GitHub)
 - **邮箱服务**: QQ SMTP 真实发送验证码
 - **头像上传**: 多格式支持、圆形裁剪
 - **修改邮箱**: 验证码发送到新邮箱
 - **主题系统**: Glassmorphism + 动态主题
 - **国际化**: 中英双语完整支持
-- **管理后台**: 15个管理页面完整CRUD
+- **管理后台**: 8个管理页面完整CRUD
 - **响应式布局**: 移动端适配
 - **ICP备案**: 备案信息管理 + 邮箱验证 + Footer显示
 - **时区配置**: 统一 Asia/Shanghai (UTC+8)
+- **维护模式**: 维护页面 + 后端拦截器
+- **错误页面**: 404/403/500/网络错误页面
 
 ### 🔧 技术栈
-- **前端**: React 18 + Vite 5 + TypeScript + Ant Design 5
-- **后端**: Spring Boot 3.2.12 + Java 17 + MyBatis-Plus
+- **前端**: React 18.3.1 + Vite 5.4.10 + TypeScript 5.6 + Ant Design 6.3
+- **后端**: Spring Boot 3.2.12 + Java 17 + MyBatis-Plus 3.5.9
 - **数据库**: PostgreSQL 15 (28张表) + Redis 7
 - **容器化**: Docker + Docker Compose
 
@@ -55,6 +57,7 @@ Memory/
 - **后端**: 8081（避免Apache httpd冲突）
 - **PostgreSQL**: 5433（Docker映射 5433→5432）
 - **Redis**: 6380（Docker映射 6380→6379）
+- **MinIO**: 9000/9001
 
 ### 📊 数据库
 - **表结构**: 28张表完整设计
@@ -71,7 +74,16 @@ Memory/
 - **架构文档**: `Planning Document/Architecture Document.md`
 - **阶段一设计**: `Planning Document/Phase One.md`
 - **主题设计**: `Planning Document/主题设计.md`
-- **代码规范**: `.windsurf/rules/` (统一端口配置)
-- **快速启动**: `.windsurf/rules/development-quickstart.md`
-- **项目管理**: `.windsurf/skills/project-manager/`
+- **代码规范**: `.trae/rules/` (统一端口配置)
+- **快速启动**: `.trae/rules/development-quickstart.md`
 - **前端测试素材**: `Front-end testing/Background material/`
+
+## AI 技能
+
+| 技能 | 用途 |
+|------|------|
+| `oc-platform-manager` | 项目自动化管理 |
+| `git-commit-workflow` | Git 提交工作流 |
+| `code-reviewer` | 代码审查 |
+| `ui-ux-pro-max` | UI/UX 设计 |
+| `fix` | 代码修复和格式化 |
