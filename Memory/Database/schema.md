@@ -1,6 +1,6 @@
 # 数据库结构记忆
 
-> 最后更新: 2026-03-06
+> 最后更新: 2026-03-08
 
 ## 数据库信息
 
@@ -20,7 +20,7 @@
 |------|------|------|
 | 建表脚本 | `oc-platform/sql/init.sql` | 全部表结构 + 索引 + 触发器 + 初始化数据 |
 
-## 表清单（28 张）
+## 表清单（29 张）
 
 ### 用户相关（7 张）
 | 表名 | 说明 | 关键字段 |
@@ -110,6 +110,28 @@
 | `social.weibo` | 微博链接 |
 | `social.wechat` | 微信链接 |
 | `social.email` | 联系邮箱 |
+
+### 验证码配置
+| config_key | 说明 | 默认值 |
+|------------|------|--------|
+| `captcha.enabled` | 验证码功能开关 | `true` |
+| `captcha.cloudflare.site_key` | Cloudflare Turnstile Site Key | `0x4AAAAAACnWLahpCdkdO4qv` |
+| `captcha.cloudflare.secret_key` | Cloudflare Turnstile Secret Key | `0x4AAAAAACnWLTxjQ17uu88EHQS_cL8ZF1M` |
+
+## 验证码记录表 (`captcha_records`)
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| id | BIGSERIAL | 主键 |
+| user_id | BIGINT | 用户ID（可选） |
+| ip_address | VARCHAR(45) | 客户端IP |
+| scene | VARCHAR(50) | 验证场景（LOGIN/REGISTER/RESET_PASSWORD/CHANGE_PASSWORD/CHANGE_EMAIL/COMMENT/FEEDBACK） |
+| ticket | TEXT | 验证票据 |
+| verify_result | BOOLEAN | 验证结果 |
+| evil_level | INTEGER | 风险等级 |
+| fail_reason | VARCHAR(200) | 失败原因 |
+| verify_service | VARCHAR(50) | 验证服务（cloudflare） |
+| created_at | TIMESTAMP | 创建时间 |
 
 ## 关键索引
 

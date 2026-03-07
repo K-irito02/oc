@@ -48,8 +48,8 @@
 ## 代码清理检查
 
 - [x] TencentCaptcha 组件已删除
-- [x] 腾讯验证码相关导入已移除
-- [x] utils/api.ts 中腾讯验证码相关 API 已移除
+- [x] Cloudflare验证码相关导入已移除
+- [x] utils/api.ts 中Cloudflare验证码相关 API 已移除
 
 ## 功能测试检查
 

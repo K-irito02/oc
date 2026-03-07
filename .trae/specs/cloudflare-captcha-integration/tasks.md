@@ -13,11 +13,11 @@
   - [x] SubTask 2.1: 修改 CaptchaVerifyRequest DTO，将 ticket/randstr 改为 token
   - [x] SubTask 2.2: 修改 CaptchaVerifyResponse DTO，适配 Cloudflare 响应格式
   - [x] SubTask 2.3: 修改 CaptchaConfig 配置类，添加 cloudflare 配置项
-  - [x] SubTask 2.4: 重构 CaptchaService 实现类，替换腾讯验证逻辑为 Cloudflare 验证
+  - [x] SubTask 2.4: 重构 CaptchaService 实现类，替换Cloudflare验证逻辑为 Cloudflare 验证
   - [x] SubTask 2.5: 更新验证记录保存逻辑，添加 verify_service 字段
 
 - [x] Task 3: 更新后端配置
-  - [x] SubTask 3.1: 修改 application.yml，移除腾讯配置，添加 Cloudflare 配置
+  - [x] SubTask 3.1: 修改 application.yml，移除Cloudflare配置，添加 Cloudflare 配置
   - [x] SubTask 3.2: 更新 docker-compose.dev.yml 环境变量
   - [x] SubTask 3.3: 更新 system_configs 表配置项
 
@@ -51,8 +51,8 @@
 
 - [x] Task 8: 清理旧代码
   - [x] SubTask 8.1: 删除 TencentCaptcha 组件
-  - [x] SubTask 8.2: 移除腾讯验证码相关导入
-  - [x] SubTask 8.3: 更新 utils/api.ts，移除腾讯验证码相关 API
+  - [x] SubTask 8.2: 移除Cloudflare验证码相关导入
+  - [x] SubTask 8.3: 更新 utils/api.ts，移除Cloudflare验证码相关 API
 
 ## 测试与验证任务
 

@@ -1,4 +1,4 @@
-# 腾讯验证码集成 Spec
+# Cloudflare 验证码集成 Spec
 
 ## Why
 
@@ -12,13 +12,13 @@
 
 * 账号安全：邮箱重绑、密码修改等敏感操作缺乏二次验证
 
-集成腾讯验证码可以有效区分人类与机器，提升账号安全性，防止自动化攻击。
+集成Cloudflare验证码可以有效区分人类与机器，提升账号安全性，防止自动化攻击。
 
 ## What Changes
 
 ### 新增功能
 
-* **腾讯验证码集成**：支持智能验证（低风险）和滑块验证（中高风险）
+* **Cloudflare验证码集成**：支持智能验证（低风险）和滑块验证（中高风险）
 
 * **阶梯式验证策略**：根据场景风险等级自动选择验证强度
 
@@ -28,9 +28,9 @@
 
 ### 配置项新增
 
-* `captcha.tencent.app_id` - 腾讯验证码 AppID
+* `captcha.tencent.app_id` - Cloudflare验证码 AppID
 
-* `captcha.tencent.app_secret` - 腾讯验证码 AppSecret
+* `captcha.tencent.app_secret` - Cloudflare验证码 AppSecret
 
 * `captcha.enabled` - 验证码功能开关
 
@@ -72,11 +72,11 @@
 
 * `oc-platform-common/src/main/java/com/ocplatform/common/controller/FeedbackController.java` - 留言验证码
 
-* `oc-platform-app/src/main/resources/application.yml` - 添加腾讯验证码配置
+* `oc-platform-app/src/main/resources/application.yml` - 添加Cloudflare验证码配置
 
 **前端新增文件：**
 
-* `oc-platform-web/src/components/TencentCaptcha/index.tsx` - 腾讯验证码组件
+* `oc-platform-web/src/components/TencentCaptcha/index.tsx` - Cloudflare验证码组件
 
 * `oc-platform-web/src/hooks/useCaptcha.ts` - 验证码Hook
 
@@ -110,9 +110,9 @@
 
 ## ADDED Requirements
 
-### Requirement: 腾讯验证码集成
+### Requirement: Cloudflare验证码集成
 
-系统应集成腾讯验证码服务，支持智能验证和滑块验证两种验证方式，防止自动化攻击。
+系统应集成Cloudflare验证码服务，支持智能验证和滑块验证两种验证方式，防止自动化攻击。
 
 #### Scenario: 登录验证码验证
 
@@ -160,9 +160,9 @@
 
 * **AND** 前端根据配置决定是否显示验证码
 
-#### Scenario: 配置腾讯验证码密钥
+#### Scenario: 配置Cloudflare验证码密钥
 
-* **WHEN** 管理员配置腾讯验证码 AppID 和 AppSecret
+* **WHEN** 管理员配置Cloudflare验证码 AppID 和 AppSecret
 
 * **THEN** 系统加密存储密钥
 

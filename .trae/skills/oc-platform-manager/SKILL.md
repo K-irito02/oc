@@ -5,8 +5,8 @@ description: |
   包括 Docker 依赖服务 (PostgreSQL + Redis + MinIO)、Spring Boot 后端服务、Vite 前端开发服务器
   支持智能端口检测、自动编译判断和故障排查
   自动记录各服务启动和运行状态到日志文件，便于调试和问题排查
-version: 1.5.0
-last_updated: 2026-03-04
+version: 1.5.1
+last_updated: 2026-03-07
 ---
 
 # OC Platform 项目管理技能
@@ -161,16 +161,16 @@ if ($unhealthyServices.Count -gt 0) {
 
 // turbo
 ```powershell
-$count = docker exec oc-dev-postgres psql -U oc_user -d oc_platform -t -c "SELECT count(*) FROM categories;" 2>$null; if ([int]$count.Trim() -eq 0) { Write-Output "NEED_SEED" } else { Write-Output "SEED_EXISTS: $($count.Trim()) categories" }
+$userCount = docker exec oc-dev-postgres psql -U oc_user -d oc_platform -t -c "SELECT count(*) FROM users;" 2>$null
+if ([int]$userCount.Trim() -eq 0) {
+    "[$timestamp] INFO: 数据库为空，开始导入初始数据..." | Out-File -FilePath $dockerLog -Append
+    Get-Content sql/init.sql | docker exec -i oc-dev-postgres psql -U oc_user -d oc_platform
+    "[$timestamp] INFO: 初始数据导入完成" | Out-File -FilePath $dockerLog -Append
+} else {
+    $catCount = docker exec oc-dev-postgres psql -U oc_user -d oc_platform -t -c "SELECT count(*) FROM categories;" 2>$null
+    Write-Output "数据库已有数据: $($userCount.Trim()) users, $($catCount.Trim()) categories"
+}
 ```
-
-如果输出 `NEED_SEED`，执行种子数据导入：
-
-```powershell
-Get-Content sql/seed.sql | docker exec -i oc-dev-postgres psql -U oc_user -d oc_platform
-```
-
-工作目录：`e:\oc\oc-platform`
 
 ### 4. 停止已有 Java 进程
 
@@ -596,11 +596,6 @@ Write-Output "项目停止状态已记录到: e:/oc/logs/"
 | Redis | 6380 | 缓存 |
 | MinIO API | 9000 | 对象存储服务 |
 | MinIO Console | 9001 | 对象存储管理界面 |
-
-## 测试账号
-
-- 管理员: admin@ocplatform.com / Admin@123456
-- 普通用户: zhangsan@example.com / Test@123456
 
 ## 故障排查
 
