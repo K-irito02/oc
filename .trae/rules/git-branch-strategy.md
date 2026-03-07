@@ -182,6 +182,19 @@ E:/oc/
 
 ### 代理环境配置
 ```bash
+# 配置 HTTP/HTTPS 代理（解决网络连接问题）
+git config --global http.proxy http://127.0.0.1:7890
+git config --global https.proxy http://127.0.0.1:7890
+
+# 验证代理配置
+git config --global --list | Select-String proxy
+
+# 移除特定域名代理覆盖（如果需要）
+git config --global --unset http.https://github.com.proxy
+```
+
+### HTTP 性能优化
+```bash
 # 推荐配置（解决 HTTP 408 超时问题）
 git config --global http.version HTTP/1.1
 git config --global http.postBuffer 524288000

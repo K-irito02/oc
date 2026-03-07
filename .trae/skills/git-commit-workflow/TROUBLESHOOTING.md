@@ -85,10 +85,60 @@
    - 在 .gitignore 中添加大文件或目录
    - 例如：`*.exe`, `*.zip`, `node_modules/`
 
-### 1.4 认证失败
+### 1.5 代理网络连接问题
 
 **症状：**
-- 推送时出现认证错误
+- 推送时出现 "Failed to connect to github.com port 443" 错误
+- 提示 "Connection was reset" 或 "Connection timed out"
+- ping 可以连通 GitHub 但 HTTPS/SSH 连接失败
+
+**可能原因：**
+- 网络环境需要代理才能访问 GitHub
+- 本地代理服务未运行或端口错误
+
+**解决方案：**
+1. **配置 Git HTTP/HTTPS 代理**：
+   ```powershell
+   # 设置 HTTP 代理
+   git config --global http.proxy http://127.0.0.1:7890
+   git config --global https.proxy http://127.0.0.1:7890
+   ```
+
+2. **验证代理配置**：
+   ```powershell
+   git config --global --list | Select-String proxy
+   ```
+
+3. **检查特定域名代理配置**：
+   ```powershell
+   # 移除特定域名的代理覆盖（如果有）
+   git config --global --unset http.https://github.com.proxy
+   ```
+
+4. **使用 SSH 协议（如果代理不支持 HTTPS）**：
+   ```powershell
+   # 切换到 SSH 协议
+   git remote set-url origin git@github.com:K-irito02/oc-platform-app.git
+   ```
+
+5. **测试连接**：
+   ```powershell
+   # 测试 HTTPS 连接
+   curl -I --connect-timeout 10 https://github.com
+   
+   # 测试 SSH 连接
+   ssh -T git@github.com
+   
+   # 测试 TCP 端口
+   Test-NetConnection -ComputerName github.com -Port 22
+   ```
+
+**预防措施：**
+- 记录正确的代理端口号
+- 在网络环境变化后验证代理配置
+- 保持代理服务稳定运行
+
+## 1.5 认证失败
 - 提示 "remote: Invalid username or password"
 
 **可能原因：**
