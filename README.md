@@ -194,8 +194,8 @@ cd oc-platform-web && npm run dev
 
 ## 超级管理员账号
 
-- **用户名**: KirLab
-- **邮箱**: 3143285505@qq.com
+- **用户名**: xxxx
+- **邮箱**: xxxxxxxxx
 
 ---
 
